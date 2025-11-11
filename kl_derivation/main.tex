@@ -1,0 +1,236 @@
+\documentclass{article}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{Locally Conditioned KL Approximation for Multivariate Gaussian Variational Inference}
+\date{September 2025}
+
+\begin{document}
+
+\maketitle
+
+
+
+\section{Locally Conditioned Factorization}
+
+
+We approximate the KL divergence between the variational distribution \( q(U) \) and the prior \( p(U) \) using a locally conditional chain rule factorization. Let \( U = [U_1, \dots, U_M] \) be the collection of inducing variables.
+
+
+
+
+
+
+We begin by expanding the $p(U)$ prior using the chain rule:
+\begin{align*}
+p(U) &= p(U_M | U_{1, \dots, M-1}) p(U_{1, \dots, M-1}) \\
+&= p(U_M | U_{1, \dots, M-1}) p(U_{M-1} | U_{1, \dots, M-2}) p(U_{1, \dots, M-2}) \\
+&= p(U_1) \prod_{j=2}^{M} p(U_j | U_{1, \dots, j-1}).
+\end{align*}
+
+Under the local conditional approximation, this becomes:
+\[
+p(U) \approx \prod_{j=1}^{M} p(U_j | U_{n(j)}).
+\]
+
+Then, the variational distribution $q(U)$ can be expanded similarly:
+
+\begin{align*}
+q(U) &= q(U_1) \prod_{j=2}^{M} q(U_j | U_{1, \dots, j-1})\\
+&\approx  \prod_{j=1}^{M} q(U_j | U_{n(j)})
+\end{align*}
+
+
+
+The KL divergence between $q(U)$ and $p(U)$ is given by:
+
+\[
+\mathrm{KL}(q(U) \| p(U)) = \mathbb{E}_{q(U)} \left[ \log \frac{q(U)}{p(U)} \right]
+\]
+
+Next, the log ratio can be expanded and approximated as the product of $M$ terms:
+
+\[
+\mathbb{E}_{q(U)} \left[ \log \frac{q(U)}{p(U)} \right] \approx \mathbb{E}_{q(U)} \left[ \log \prod_{j=1}^{M} \frac{q(U_j | U_{n(j)})}{p(U_j | U_{n(j)})} \right]
+\]
+
+Becoming a linear sum of expectations:
+
+\[
+= \mathbb{E}_{q(U)} \left[ \sum_{j=1}^{M} \log \frac{q(U_j | U_{n(j)})}{p(U_j | U_{n(j)})} \right]
+\]
+
+\[
+= \sum_{j=1}^{M} \mathbb{E}_{q(U)} \left[ \log \frac{q(U_j | U_{n(j)})}{p(U_j | U_{n(j)})} \right]
+\]
+
+We then apply \textbf{Law of total expectation} which gives:
+
+\[
+= \sum_{j=1}^{M} \mathbb{E}_{q(U_{n(j)})} \left[ \mathbb{E}_{q(U_j| U_{n(j)})} \left[ \log \frac{q(U_j | U_{n(j)})}{p(U_j | U_{n(j)})} \right] \right]
+\]
+
+\section{Gaussian Conditional Forms}
+
+We assume that both the prior and variational posterior distributions over
+\(U = [U_1, \dots, U_M]\) are multivariate Gaussian. In particular, we write
+
+\[
+p(U) = \mathcal{N}(U \mid 0,\, K),
+\qquad
+q(U) = \mathcal{N}(U \mid m,\, S),
+\]
+
+where \(K\) and \(S\) denote the prior and variational covariance matrices, and
+\(m = [m_1, \dots, m_M]\) is the variational mean. Here we assume a zero-mean prior.
+
+The conditional prior is given by:
+
+\[
+p(U_j | U_{n(j)}) = \mathcal{N}\left( K_{jn(j)} K_{n(j)n(j)}^{-1} U_{n(j)}, \; k_{jj} - K_{jn(j)} K_{n(j)n(j)}^{-1} K_{n(j)j} \right)
+\]
+
+The conditional variational distribution is given by:
+
+\[
+q(U_j | U_{n(j)}) = \mathcal{N}\left( m_j + S_{jn(j)} S_{n(j)n(j)}^{-1} (U_{n(j)} - m_{n(j)}), \; s_{jj} - S_{jn(j)} S_{n(j)n(j)}^{-1} S_{n(j)j} \right)
+\]
+
+\text{This reduces to }
+$q(U_j) = \mathcal{N}(m_j, s_{jj})$ if  $s_{jj}$ is diagonal.\\ 
+
+For notational compactness in subsequent expressions, we define these conditionals:
+
+\begin{align*}
+p(U_j | U_{n(j)}) &= \mathcal{N}\left( \beta_j^\top U_{n(j)}, \; \tau_j^2 \right) \\
+q(U_j | U_{n(j)}) &= \mathcal{N}\left( m_j + \alpha_j^\top (U_{n(j)} - m_{n(j)}), \; \tilde{\tau}_j^2 \right)
+\end{align*}
+
+Where:
+
+\begin{align*}
+\beta_j^\top &= K_{jn(j)} K_{n(j)n(j)}^{-1}, \quad
+\tau_j^2 = k_{jj} - K_{jn(j)} K_{n(j)n(j)}^{-1} K_{n(j)j} \\
+\alpha_j^\top &= S_{jn(j)} S_{n(j)n(j)}^{-1}, \quad
+\tilde{\tau}_j^2 = s_{jj} - S_{jn(j)} S_{n(j)n(j)}^{-1} S_{n(j)j}
+\end{align*}
+
+The KL divergence between two univariate Gaussians is:
+
+\begin{align*}
+\mathrm{KL}(q \,\|\, p)
+&= \frac{1}{2} \left[
+\log \frac{s_p^2}{s_q^2}
++ \frac{s_q^2}{s_p^2}
++ \frac{(\mu_q - \mu_p)^2}{s_p^2}
+- 1
+\right].
+\end{align*}
+
+
+The KL between $q(U_j | U_{n(j)})$ and $p(U_j | U_{n(j)})$ is given by:
+
+\begin{align*}
+\mathrm{KL}\!\left(q(U_j \mid U_{n(j)}) \,\|\, p(U_j \mid U_{n(j)})\right)
+&= \frac{1}{2} \Bigg[
+\log \frac{\tau_j^2}{\tilde{\tau}_j^2}
++ \frac{\tilde{\tau}_j^2}{\tau_j^2}
++ \frac{\big(m_j + \alpha_j^\top (U_{n(j)} - m_{n(j)}) - \beta_j^\top U_{n(j)}\big)^2}{\tau_j^2}
+- 1 \Bigg].
+\end{align*}
+
+
+Then we calculate the expectation of this KL under $q(U_{n(j)})$:
+
+\[
+\Rightarrow \mathbb{E}_{q(U_{n(j)})} \left[ \mathrm{KL} \left( q(U_j | U_{n(j)}) \| p(U_j | U_{n(j)}) \right) \right]
+\]
+
+\begin{align*}
+= \frac{1}{2} \left[
+\log \frac{\tau_j^2}{\tilde{\tau}_j^2}
++ \frac{\tilde{\tau}_j^2}{\tau_j^2}
++ \frac{\mathbb{E}_{q(U_{n(j)})}\!\left[
+\left(m_j + \alpha_j^\top (U_{n(j)} - m_{n(j)}) - \beta_j^\top U_{n(j)}\right)^2
+\right]}{\tau_j^2}
+- 1 \right].
+\end{align*}
+
+
+
+We treat the mean term:
+\[
+\left(m_j + \alpha_j^\top (U_{n(j)} - m_{n(j)}) - \beta_j^\top U_{n(j)}\right)^2
+\]
+
+This is rewritten as:
+\[
+= \left((\alpha_j - \beta_j)^\top U_{n(j)} + (m_j - \alpha_j^\top m_{n(j)})\right)^2
+\]
+
+Using the following identity:
+\[
+\mathbb{E}_{x \sim \mathcal{N}(\mu, \Sigma)} \left[(a^\top x + b)^2\right] = a^\top \Sigma a + (a^\top \mu + b)^2
+\]
+
+Applying this gives:
+
+\begin{align*}
+\mathbb{E}_{q(U_{n(j)})}\!\left[
+\left(m_j + \alpha_j^\top (U_{n(j)} - m_{n(j)}) - \beta_j^\top U_{n(j)}\right)^2
+\right]
+=
+(\alpha_j - \beta_j)^\top S_{n(j)n(j)} (\alpha_j - \beta_j)
+\\
+\quad + \left[\,(\alpha_j - \beta_j)^\top m_{n(j)} + \left(m_j - \alpha_j^\top m_{n(j)}\right)\right]^2.
+\end{align*}
+
+
+This expectation can be expanded further and simplified as:
+
+\[
+= \alpha_j^\top S_{n(j)n(j)} \alpha_j + \beta_j^\top S_{n(j)n(j)} \beta_j - 2 \alpha_j^\top S_{n(j)n(j)} \beta_j + (\beta_j^\top m_{n(j)} - m_j)^2
+\]
+
+Substituting this into the KL formula yields the final approximation:
+
+
+
+\begin{align*}
+   \mathrm{KL}(q(U) \| p(U)) \approx \sum_{j=1}^{M} \mathbb{E}_{q(U_{n(j)})} \left[ \mathbb{E}_{q(U_j| U_{n(j)})} \left[ \log \frac{q(U_j | U_{n(j)})}{p(U_j | U_{n(j)})} \right] \right]
+\end{align*}
+
+
+\begin{align*}
+= \sum_{j=1}^{M} \frac{1}{2} \Bigg[
+&\log \frac{\tau_j^2}{\tilde{\tau}_j^2}
++ \frac{\tilde{\tau}_j^2}{\tau_j^2}
++ \frac{\left(m_j - \beta_j^\top m_{n(j)}\right)^2}{\tau_j^2} \\
+&\quad + \frac{\beta_j^\top S_{n(j)n(j)} \beta_j}{\tau_j^2}
++ \frac{\alpha_j^\top S_{n(j)n(j)} \alpha_j}{\tau_j^2}
+- \frac{2 \alpha_j^\top S_{n(j)n(j)} \beta_j}{\tau_j^2}
+- 1
+\Bigg].
+\end{align*}
+
+
+
+% \[
+% = \frac{1}{2} \Bigg[ \log \frac{k_{jj} - K_{jn(j)} K_{n(j)n(j)}^{-1} K_{n(j)j}}{s_{jj} - S_{jn(j)} S_{n(j)n(j)}^{-1} S_{n(j)j}} 
+% + \frac{s_{jj} - S_{jn(j)} S_{n(j)n(j)}^{-1} S_{n(j)j}}{k_{jj} - K_{jn(j)} K_{n(j)n(j)}^{-1} K_{n(j)j}} 
+% + \frac{\left(m_j - K_{jn(j)} K_{n(j)n(j)}^{-1} m_{n(j)}\right)^2}{k_{jj} - K_{jn(j)} K_{n(j)n(j)}^{-1} K_{n(j)j}} 
+% \]
+
+% \[
+% + \frac{K_{jn(j)} K_{n(j)n(j)}^{-1} S_{n(j)n(j)} K_{n(j)n(j)}^{-1} K_{n(j)j}}{k_{jj} - K_{jn(j)} K_{n(j)n(j)}^{-1} K_{n(j)j}}
+% + \frac{S_{jn(j)} S_{n(j)n(j)}^{-1} S_{n(j)n(j)} S_{n(j)n(j)}^{-1} S_{n(j)j}}{k_{jj} - K_{jn(j)} K_{n(j)n(j)}^{-1} K_{n(j)j}} \]
+
+% \[- 2\frac{S_{jn(j)} S_{n(j)n(j)}^{-1} S_{n(j)n(j)} K_{n(j)n(j)}^{-1} K_{n(j)j}}{k_{jj} - K_{jn(j)} K_{n(j)n(j)}^{-1} K_{n(j)j}}- 1 \Bigg]
+% \]
+
+
+
+
+
+\end{document}

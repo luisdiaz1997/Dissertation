@@ -1,0 +1,272 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb}
+\usepackage{bm}
+
+\title{Stochastic Variational Gaussian Processes}
+\author{Luis F. Chumpitaz Diaz}
+\date{September 2025}
+
+\begin{document}
+
+\maketitle
+
+\section{Evidence Lower Bound}
+The variational lower bound (ELBO) for the SVGP is:
+\begin{align}
+\log p(y;\theta) 
+&\geq \mathcal{L}(q) \\
+&= \mathbb{E}_{q(f)}\!\left[\log p(y \mid f)\right]
+  - \mathrm{KL}\!\big[q(u)\,\|\, p(u)\big].
+\end{align}
+
+Here, \(q(u)\) is the variational distribution over inducing variables, 
+\(p(u)\) is their GP prior, and the expectation is with respect to the 
+induced marginal \(q(f)\).
+In general the first expectation term can be calculated using Monte Carlo sampling.
+
+\paragraph{SVGP-implied moments and notation.}
+Let \(X=\{x_i\}_{i=1}^N\) be inputs, \(Z=\{z_m\}_{m=1}^M\) inducing locations,
+\(K_{ff} \in \mathbb{R}^{N\times N}\), \(K_{uu}\in\mathbb{R}^{M\times M}\),
+\(K_{fu}\in\mathbb{R}^{N\times M}\) and \(K_{uf}=K_{fu}^\top\).
+Assume \(q(u)=\mathcal{N}(m_u,S_u)\) with \(m_u\in\mathbb{R}^{M}\), \(S_u\in\mathbb{R}^{M\times M}\).
+For standard SVGP,
+\begin{align}
+m_f &= K_{fu}K_{uu}^{-1} m_u,\\
+\Sigma_f &= K_{ff} - Q_{ff} + K_{fu}K_{uu}^{-1} S_u K_{uu}^{-1}K_{uf},
+\qquad
+Q_{ff} := K_{fu}K_{uu}^{-1}K_{uf}.
+\end{align}
+The (one-point) predictive marginal at a test input \(x_i\) is
+\(q(f;x_i)=\mathcal{N}\!\big(m_f(x_i),\, \Sigma_f(x_i,x_i)\big)\).
+This is the \emph{marginal} at \(x_i\); jointly, the vector \(f=(f_1,\ldots,f_N)\) is
+\(\mathcal{N}(m_f,\Sigma_f)\) and is generally \emph{not} factorized across inputs.
+
+The samples can be reparameterized as
+\[
+\hat{f}_i = m_f(x_i) + \Sigma_f(x_i,x_i)^{1/2}\,\epsilon,\quad \epsilon \sim \mathcal{N}(0,1).
+\]
+
+\section{Closed-Form Expected Log-Likelihood}
+When the likelihood is Gaussian noise,
+\(y = f + \sigma \epsilon\) with \(\epsilon\sim\mathcal{N}(0,I)\),
+so \(p(y\mid f) = \mathcal{N}(f, \sigma^2 I)\).
+Then
+\begin{align*}
+\mathbb{E}_{q(f)}\!\left[\log p(y \mid f)\right]  
+&= \mathbb{E}_{q(f)}\!\left[ - \tfrac{1}{2\sigma^2}(y-f)^\top(y-f) \right] 
+    - \tfrac{N}{2}\log(2\pi\sigma^2).
+\end{align*}
+For the quadratic term,
+\begin{align*}
+    \mathbb{E}\!\left[ (y-f)^\top(y-f)\right] 
+    &= y^\top y - 2 \mathbb{E}[f]^\top y + \mathbb{E}[f^\top f]\\
+    &= y^\top y - 2 \mathbb{E}[f]^\top y + \mathbb{E}\!\big[(f-\mathbb{E}[f])^\top(f-\mathbb{E}[f])\big] + \mathbb{E}[f]^\top\mathbb{E}[f]\\
+    &=  \big(y-\mathbb{E}[f]\big)^\top\!\big(y-\mathbb{E}[f]\big) + \mathrm{Tr}\!\big(\mathrm{Cov}(f)\big)\\
+    &=   (y-m_f)^\top(y-m_f) + \mathrm{Tr}(\Sigma_f).
+\end{align*}
+Therefore,
+\begin{align*}
+\mathbb{E}_{q(f)}\!\left[\log p(y \mid f)\right]  
+&= - \frac{1}{2\sigma^2}\Big[(y-m_f)^\top(y-m_f) + \mathrm{Tr}(\Sigma_f)\Big]
+   - \frac{N}{2}\log(2\pi\sigma^2)\\
+&= \log \mathcal{N}\!\big(y \,;\, m_f, \sigma^2 I\big) \; - \; \frac{1}{2\sigma^2}\mathrm{Tr}(\Sigma_f),
+\end{align*}
+i.e.,
+\begin{align}
+\mathbb{E}_{q(f)}[\log p(y \mid f)]
+= -\tfrac{N}{2}\log(2\pi\sigma^2)
+-\tfrac{1}{2\sigma^2}\Big[ (y-m_f)^\top(y-m_f) + \mathrm{tr}(\Sigma_f)\Big].
+\end{align}
+The trace term sums the marginal variances contributed by uncertainty under \(q(f)\).
+
+\section{Closed-Form KL Term}
+With \(q(u)=\mathcal{N}(m_u,S_u)\) and the GP prior \(p(u)=\mathcal{N}(0,K_{uu})\),
+\begin{align}
+\mathrm{KL}\!\big[q(u)\,\|\,p(u)\big]
+= \tfrac{1}{2}\Big(
+\log\tfrac{|K_{uu}|}{|S_u|}
+ - M
+ + \mathrm{tr}\big(K_{uu}^{-1} S_u\big)
+ + m_u^\top K_{uu}^{-1} m_u
+\Big),
+\end{align}
+where $M=\dim(u)$.
+This term is exact and independent of the data \(y\).
+
+\section{Effect of $X=Z$ and diagonal vs.\ full $S_u$ on the ELBO}
+
+\paragraph{When $X=Z$, the variational marginal matches $q(u)$.}
+If $X=Z$ (and we use the same kernel for $f$ and $u$), then
+\[
+K_{ff}=K_{uu},\qquad K_{fu}=K_{uu},\qquad Q_{ff}=K_{uu}.
+\]
+Hence, from the standard SVGP moments,
+\[
+m_f \;=\; K_{fu}K_{uu}^{-1}m_u \;=\; m_u,\qquad
+\Sigma_f \;=\; K_{ff}-Q_{ff}+K_{fu}K_{uu}^{-1}S_uK_{uu}^{-1}K_{uf} \;=\; S_u.
+\]
+Therefore, under $X=Z$ the induced marginal over $f$ is exactly $q(f)=\mathcal{N}(m_u,S_u)$.
+
+\paragraph{Isolating the $S_u$-dependent part of the ELBO (Gaussian likelihood).}
+For isotropic Gaussian noise $p(y\mid f)=\mathcal{N}(f,\sigma^2 I)$, the expected log-likelihood
+contributes $-\tfrac{1}{2\sigma^2}\operatorname{tr}(\Sigma_f)$, cf.\ Eq.\ (5).
+With $X=Z$ we have $\Sigma_f=S_u$, so the $S_u$-dependent part of the ELBO is
+\[
+\mathcal{L}(S_u) \;=\; \underbrace{\tfrac{1}{2}\log|S_u| - \tfrac{1}{2}\operatorname{tr}(K_{uu}^{-1}S_u)}_{\textstyle -\mathrm{KL}[q(u)\|p(u)]~\text{terms in }S_u}
+\;-\; \underbrace{\tfrac{1}{2\sigma^2}\operatorname{tr}(S_u)}_{\textstyle 
+\mathbb{E}\left[\log p(y\!\mid\! f)\right]
+~\text{term}}
+\;+\; \text{const},
+\]
+and we maximize $\mathcal{L}(S_u)$ w.r.t.\ $S_u\succ 0$.
+
+\paragraph{Full-covariance optimum.}
+Taking the derivative and setting it to zero gives
+\[
+\frac{\partial \mathcal{L}}{\partial S_u}
+\;=\; \tfrac{1}{2}S_u^{-1} - \tfrac{1}{2}K_{uu}^{-1} - \tfrac{1}{2\sigma^2}I \;=\; 0
+\;\Longrightarrow\;
+S_u^\star \;=\; \big(K_{uu}^{-1} + \sigma^{-2}I\big)^{-1}.
+\]
+This is exactly the posterior covariance of $u$ for the GP regression model with $X=Z$ and Gaussian noise, as expected for an unconstrained (full-rank) Gaussian variational family.
+
+\paragraph{Diagonal-constrained optimum.}
+If we constrain $S_u=\mathrm{diag}(s_1,\dots,s_M)$, the objective separates:
+\[
+\mathcal{L}(S_u)
+= \sum_{i=1}^M \left[ \tfrac{1}{2}\log s_i - \tfrac{1}{2}(K_{uu}^{-1})_{ii}s_i - \tfrac{1}{2\sigma^2}s_i \right] + \text{const}.
+\]
+Differentiating each term and setting to zero yields
+\[
+\frac{1}{2s_i} - \tfrac{1}{2}(K_{uu}^{-1})_{ii} - \tfrac{1}{2\sigma^2} = 0
+\quad\Longrightarrow\quad
+s_i^\star \;=\; \frac{1}{(K_{uu}^{-1})_{ii} + \sigma^{-2}},\qquad i=1,\dots,M.
+\]
+Hence
+\[
+S_{u,\mathrm{diag}}^\star \;=\; \mathrm{diag}\!\left(\frac{1}{(K_{uu}^{-1})_{11} + \sigma^{-2}},\dots,\frac{1}{(K_{uu}^{-1})_{MM} + \sigma^{-2}}\right).
+\]
+
+\paragraph{Diagonal variances are \emph{shrunk} relative to the full optimum.}
+Let $A := K_{uu}^{-1} + \sigma^{-2}I \succ 0$. The full-covariance optimum has
+$S_u^\star = A^{-1}$, while the diagonal optimum has
+$S_{u,\mathrm{diag}}^\star = \mathrm{diag}\!\big( 1/A_{11},\dots,1/A_{MM}\big)$.
+
+A standard matrix inequality for $A\succ 0$ states
+\[
+\big(A^{-1}\big)_{ii} \;\ge\; \frac{1}{A_{ii}}\qquad\text{for all }i,
+\]
+with strict inequality whenever $A$ has any nonzero off-diagonal entries (equivalently, whenever the prior couples different inducing variables). Thus, the diagonal variational solution \emph{underestimates} the true posterior marginal variances elementwise; informally, it ``pushes'' $S_u$ \emph{toward zero} compared to the full-rank optimum.
+
+\paragraph{Limits and intuition.}
+\begin{itemize}
+\item As $\sigma^2\!\downarrow 0$, both optima shrink:
+\(
+S_u^\star = (K_{uu}^{-1}+\sigma^{-2}I)^{-1} \to 0
+\)
+and
+\(
+S_{u,\mathrm{diag}}^\star \to 0
+\),
+becoming a noiseless GP.
+\item For any fixed $\sigma^2>0$, the diagonal constraint removes the ability to encode posterior \emph{correlations}; maximizing the ELBO trades off the concave $\tfrac{1}{2}\log|S_u|$ barrier against the linear penalties
+$\tfrac{1}{2}\operatorname{tr}(K_{uu}^{-1}S_u)+\tfrac{1}{2\sigma^2}\operatorname{tr}(S_u)$.
+Without access to off-diagonal entries, the optimizer can only increase $\log|S_u|$ by inflating the $s_i$, which is outweighed (coordinatewise) by the linear penalties; hence the elementwise shrinkage.
+\end{itemize}
+
+\paragraph{Beyond Gaussian likelihoods.}
+For general log-concave likelihoods, the same qualitative effect persists:
+the expected log-likelihood penalizes marginal variances via a (typically) negativeterm, while the KL contributes the $\tfrac{1}{2}\log|S_u|$ barrier and linear trace penalties. Constraining $S_u$ to be diagonal eliminates covariance degrees of freedom that would otherwise share variance across dimensions, and the maximizer again exhibits elementwise underestimation relative to the unconstrained optimum.
+
+
+\section{Diagonal $S_u$, jitter, and variance collapse}
+\label{sec:diag-collapse}
+
+Throughout this section we keep the SVGP notation above and take $X=Z$ so that
+$q(f)=\mathcal{N}(m_u,S_u)$ at the data locations. We analyze the effect of
+enforcing a \emph{diagonal} variational covariance $S_u=\mathrm{diag}(s_1,\dots,s_M)$
+under the common practice of adding a small jitter to the prior kernel
+$K_{uu}\leftarrow K_{uu}+\varepsilon I$ with $\varepsilon>0$.
+
+\paragraph{Optimizing only the KL part (likelihood neglected).}
+If we ignore the dependence of $\mathbb{E}_{q(f)}[\log p(y\mid f)]$ on the variational
+covariance (e.g., $\sigma^2\to\infty$ for a Gaussian likelihood, or simply as an
+analytic probe), the $S_u$–dependent objective reduces to
+\[
+\max_{S_u\succ 0}\quad \tfrac{1}{2}\log|S_u| - \tfrac{1}{2}\mathrm{tr}(K_{uu}^{-1}S_u).
+\]
+The unconstrained (full) optimum is $S_u^\star=K_{uu}$. Under the \emph{diagonal}
+constraint $S_u=\mathrm{diag}(s_1,\ldots,s_M)$, the objective separates and the
+stationary conditions are
+\begin{align}
+\frac{\partial}{\partial s_i}\Big(\tfrac{1}{2}\log s_i - \tfrac{1}{2}(K_{uu}^{-1})_{ii}s_i\Big)=0
+\quad\Longrightarrow\quad
+s_i^\star=\frac{1}{(K_{uu}^{-1})_{ii}},\qquad i=1,\dots,M.
+\label{eq:diag-opt-no-like}
+\end{align}
+
+\paragraph{Effect of jitter and near-singularity.}
+Write the (jittered) eigendecomposition
+\(
+K_{uu}=U\,\mathrm{diag}(\lambda_1+\varepsilon,\ldots,\lambda_M+\varepsilon)\,U^\top
+\),
+so that
+\[
+(K_{uu}^{-1})_{ii}
+=\sum_{j=1}^M \frac{u_{ij}^2}{\lambda_j+\varepsilon},
+\qquad \sum_{j=1}^M u_{ij}^2=1.
+\]
+If $K_{uu}$ (before jitter) has small eigenvalues ($\lambda_j\approx 0$; e.g., long lengthscale
+over a wide domain), then for any coordinate $i$ with nonzero weight $u_{ij}^2$ on such
+directions,
+\[
+(K_{uu}^{-1})_{ii}\approx \frac{c_i}{\varepsilon}
+\quad\Longrightarrow\quad
+s_i^\star=\frac{1}{(K_{uu}^{-1})_{ii}}\approx c_i^{-1}\,\varepsilon \;\;\downarrow\; 0
+\quad\text{as }\varepsilon\to 0.
+\]
+Thus, even \emph{without} any likelihood contribution, the diagonal optimum
+\eqref{eq:diag-opt-no-like} drives marginal variances to the order of the jitter.
+By contrast, the full-covariance optimum remains $S_u^\star=K_{uu}$ (order one).
+
+\paragraph{Including Gaussian noise (sanity check of extremes).}
+For homoscedastic Gaussian noise, the $S_u$–dependent terms are
+\[
+\tfrac{1}{2}\log|S_u| - \tfrac{1}{2}\mathrm{tr}(K_{uu}^{-1}S_u)
+\;-\; \tfrac{1}{2\sigma^2}\mathrm{tr}(S_u).
+\]
+The unconstrained optimum is $(K_{uu}^{-1}+\sigma^{-2}I)^{-1}$; under the diagonal
+constraint one obtains
+\[
+s_i^\star=\frac{1}{(K_{uu}^{-1})_{ii}+\sigma^{-2}}.
+\]
+\emph{Extremes:} as $\sigma^2\to\infty$ this reduces to \eqref{eq:diag-opt-no-like} and
+inherits the jitter–driven collapse $s_i^\star=O(\varepsilon)$; as $\sigma^2\to 0$
+one has $s_i^\star\to 0$ for every $i$ (even more shrinkage).
+
+\paragraph{Consequences.}
+\begin{itemize}
+\item Diagonal $S_u$ cannot represent posterior \emph{correlations}. When $K_{uu}$
+is strongly correlated (the usual case), forcing $S_u$ to be diagonal replaces
+the correct full solution by the elementwise surrogate $s_i^\star=1/(K_{uu}^{-1})_{ii}$,
+which collapses to $O(\varepsilon)$ in near-null directions created by small jitter.
+\item This collapse occurs \emph{even if} the likelihood contribution to the ELBO is
+ignored (or negligible); any nonzero curvature from the likelihood only shrinks the
+diagonal solution further. The only two degenerate limits are:
+\begin{enumerate}
+\item $\sigma^2\to\infty$: likelihood has no effect, diagonal still collapses to $O(\varepsilon)$;
+\item $\sigma^2\to 0$: the correct posterior itself has zero variance; both full and diagonal
+solutions go to $0$.
+\end{enumerate}
+
+
+\item
+Diagonal inducing covariances systematically underestimate marginal variances and, under standard jittering of
+$K_{uu}$, can drive the variational variances to zero, regardless of the data and likelihood. 
+Use a full (or at least low-rank plus diagonal) parameterization for $S_u$.
+
+\end{itemize}
+
+
+
+\end{document}

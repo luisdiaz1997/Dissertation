@@ -1,0 +1,23 @@
+\begin{thebibliography}{1}
+
+\bibitem{Hensman2013-xr}
+James Hensman, Nicolo Fusi, and Neil~D Lawrence.
+\newblock Gaussian processes for big data.
+\newblock {\em arXiv [cs.LG]}, September 2013.
+
+\bibitem{Matthews2017-hy}
+Alexander Graeme de~Garis Matthews.
+\newblock Scalable gaussian process inference using variational methods.
+\newblock March 2017.
+
+\bibitem{Salimbeni2017-ds}
+Hugh Salimbeni and Marc Deisenroth.
+\newblock Doubly stochastic variational inference for deep gaussian processes.
+\newblock {\em Adv. Neural Inf. Process. Syst.}, 30, 2017.
+
+\bibitem{Townes2023-it}
+F~William Townes and Barbara~E Engelhardt.
+\newblock Nonnegative spatial factorization applied to spatial genomics.
+\newblock {\em Nat. Methods}, 20(2):229--238, February 2023.
+
+\end{thebibliography}

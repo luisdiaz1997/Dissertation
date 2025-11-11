@@ -1,0 +1,2346 @@
+@ARTICLE{Matthews2017-hy,
+  title    = "Scalable Gaussian process inference using variational methods",
+  author   = "Matthews, Alexander Graeme de Garis",
+  abstract = "Gaussian processes can be used as priors on functions. The need
+              for a flexible, principled, probabilistic model of functional
+              relations is common in practice. Consequently, such an approach
+              is demonstrably useful in a large variety of applications. Two
+              challenges of Gaussian process modelling are often encountered.
+              These are dealing with the adverse scaling with the number of
+              data points and the lack of closed form posteriors when the
+              likelihood is non-Gaussian. In this thesis, we study variational
+              inference as a framework for meeting these challenges. An
+              introductory chapter motivates the use of stochastic processes as
+              priors, with a particular focus on Gaussian process modelling. A
+              section on variational inference reviews the general definition
+              of Kullback-Leibler divergence. The concept of prior conditional
+              matching that is used throughout the thesis is contrasted to
+              classical approaches to obtaining tractable variational
+              approximating families. Various theoretical issues arising from
+              the application of variational inference to the infinite
+              dimensional Gaussian process setting are settled decisively. From
+              this theory we are able to give a new argument for existing
+              approaches to variational regression that settles debate about
+              their applicability. This view on these methods justifies the
+              principled extensions found in the rest of the work. The case of
+              scalable Gaussian process classification is studied, both for its
+              own merits and as a case study for non-Gaussian likelihoods in
+              general. Using the resulting algorithms we find credible results
+              on datasets of a scale and complexity that was not possible
+              before our work. An extension to include Bayesian priors on model
+              hyperparameters is studied alongside a new inference method that
+              combines the benefits of variational sparsity and MCMC methods.
+              The utility of such an approach is shown on a variety of example
+              modelling tasks. We describe GPflow, a new Gaussian process
+              software library that uses TensorFlow. Implementations of the
+              variational algorithms discussed in the rest of the thesis are
+              included as part of the software. We discuss the benefits of
+              GPflow when compared to other similar software. Increased
+              computational speed is demonstrated in relevant, timed,
+              experimental comparisons.",
+  month    =  mar,
+  year     =  2017,
+  keywords = "Gaussian process; Variational inference; Machine learning;
+              Statistics; Bayesian inference",
+  language = "en"
+}
+
+@INCOLLECTION{Quinonero-Candela2007-un,
+  title     = "Approximation Methods for Gaussian process regression",
+  booktitle = "{Large-Scale} Kernel Machines",
+  author    = "Qui{\~n}onero-Candela, J and Rasmussen, C E and Williams, C K I",
+  abstract  = "Autor: Qui{\~n}onero-Candela, J et al.; Genre: Buchkapitel; Im
+               Druck ver{\"o}ffentlicht: 2007-08; Open Access; Titel:
+               Approximation Methods for Gaussian Process Regression",
+  publisher = "MIT Press",
+  pages     = "203--223",
+  month     =  aug,
+  year      =  2007,
+  address   = "London, England"
+}
+
+@ARTICLE{Sun2019-kj,
+  title    = "Accuracy, robustness and scalability of dimensionality reduction
+              methods for single-cell {RNA-seq} analysis",
+  author   = "Sun, Shiquan and Zhu, Jiaqiang and Ma, Ying and Zhou, Xiang",
+  abstract = "BACKGROUND: Dimensionality reduction is an indispensable analytic
+              component for many areas of single-cell RNA sequencing
+              (scRNA-seq) data analysis. Proper dimensionality reduction can
+              allow for effective noise removal and facilitate many downstream
+              analyses that include cell clustering and lineage reconstruction.
+              Unfortunately, despite the critical importance of dimensionality
+              reduction in scRNA-seq analysis and the vast number of
+              dimensionality reduction methods developed for scRNA-seq studies,
+              few comprehensive comparison studies have been performed to
+              evaluate the effectiveness of different dimensionality reduction
+              methods in scRNA-seq. RESULTS: We aim to fill this critical
+              knowledge gap by providing a comparative evaluation of a variety
+              of commonly used dimensionality reduction methods for scRNA-seq
+              studies. Specifically, we compare 18 different dimensionality
+              reduction methods on 30 publicly available scRNA-seq datasets
+              that cover a range of sequencing techniques and sample sizes. We
+              evaluate the performance of different dimensionality reduction
+              methods for neighborhood preserving in terms of their ability to
+              recover features of the original expression matrix, and for cell
+              clustering and lineage reconstruction in terms of their accuracy
+              and robustness. We also evaluate the computational scalability of
+              different dimensionality reduction methods by recording their
+              computational cost. CONCLUSIONS: Based on the comprehensive
+              evaluation results, we provide important guidelines for choosing
+              dimensionality reduction methods for scRNA-seq data analysis. We
+              also provide all analysis scripts used in the present study at
+              www.xzlab.org/reproduce.html.",
+  journal  = "Genome Biol.",
+  volume   =  20,
+  number   =  1,
+  pages    = "269",
+  month    =  dec,
+  year     =  2019,
+  language = "en"
+}
+
+@INPROCEEDINGS{Turk1991-hp,
+  title       = "Face recognition using eigenfaces",
+  booktitle   = "Proceedings. 1991 {IEEE} computer society conference on
+                 computer vision and pattern recognition",
+  author      = "Turk, Matthew A and Pentland, Alex P",
+  pages       = "586--587",
+  institution = "IEEE Computer Society",
+  year        =  1991
+}
+
+@ARTICLE{Uhrenholt2020-ty,
+  title         = "Probabilistic selection of inducing points in sparse
+                   Gaussian processes",
+  author        = "Uhrenholt, Anders Kirk and Charvet, Valentin and Jensen,
+                   Bj{\o}rn Sand",
+  abstract      = "Sparse Gaussian processes and various extensions thereof are
+                   enabled through inducing points, that simultaneously
+                   bottleneck the predictive capacity and act as the main
+                   contributor towards model complexity. However, the number of
+                   inducing points is generally not associated with uncertainty
+                   which prevents us from applying the apparatus of Bayesian
+                   reasoning for identifying an appropriate trade-off. In this
+                   work we place a point process prior on the inducing points
+                   and approximate the associated posterior through stochastic
+                   variational inference. By letting the prior encourage a
+                   moderate number of inducing points, we enable the model to
+                   learn which and how many points to utilise. We
+                   experimentally show that fewer inducing points are preferred
+                   by the model as the points become less informative, and
+                   further demonstrate how the method can be employed in deep
+                   Gaussian processes and latent variable modelling.",
+  month         =  oct,
+  year          =  2020,
+  archivePrefix = "arXiv",
+  primaryClass  = "cs.LG",
+  eprint        = "2010.09370"
+}
+
+@ARTICLE{William_Townes2021-tm,
+  title         = "Nonnegative spatial factorization",
+  author        = "William Townes, F and Engelhardt, Barbara E",
+  abstract      = "Gaussian processes are widely used for the analysis of
+                   spatial data due to their nonparametric flexibility and
+                   ability to quantify uncertainty, and recently developed
+                   scalable approximations have facilitated application to
+                   massive datasets. For multivariate outcomes, linear models
+                   of coregionalization combine dimension reduction with
+                   spatial correlation. However, their real-valued latent
+                   factors and loadings are difficult to interpret because,
+                   unlike nonnegative models, they do not recover a parts-based
+                   representation. We present nonnegative spatial factorization
+                   (NSF), a spatially-aware probabilistic dimension reduction
+                   model that naturally encourages sparsity. We compare NSF to
+                   real-valued spatial factorizations such as MEFISTO and
+                   nonspatial dimension reduction methods using simulations and
+                   high-dimensional spatial transcriptomics data. NSF
+                   identifies generalizable spatial patterns of gene
+                   expression. Since not all patterns of gene expression are
+                   spatial, we also propose a hybrid extension of NSF that
+                   combines spatial and nonspatial components, enabling
+                   quantification of spatial importance for both observations
+                   and features. A TensorFlow implementation of NSF is
+                   available from https://github.com/willtownes/nsf-paper .",
+  month         =  oct,
+  year          =  2021,
+  archivePrefix = "arXiv",
+  primaryClass  = "stat.ME",
+  eprint        = "2110.06122"
+}
+
+@ARTICLE{Blei2017-zr,
+  title     = "Variational Inference: A Review for Statisticians",
+  author    = "Blei, David M and Kucukelbir, Alp and McAuliffe, Jon D",
+  abstract  = "ABSTRACTOne of the core problems of modern statistics is to
+               approximate difficult-to-compute probability densities. This
+               problem is especially important in Bayesian statistics, which
+               frames all inference about unknown quantities as a calculation
+               involving the posterior density. In this article, we review
+               variational inference (VI), a method from machine learning that
+               approximates probability densities through optimization. VI has
+               been used in many applications and tends to be faster than
+               classical methods, such as Markov chain Monte Carlo sampling.
+               The idea behind VI is to first posit a family of densities and
+               then to find a member of that family which is close to the
+               target density. Closeness is measured by Kullback?Leibler
+               divergence. We review the ideas behind mean-field variational
+               inference, discuss the special case of VI applied to exponential
+               family models, present a full example with a Bayesian mixture of
+               Gaussians, and derive a variant that uses stochastic
+               optimization to scale up to massive data. We discuss modern
+               research in VI and highlight important open problems. VI is
+               powerful, but it is not yet well understood. Our hope in writing
+               this article is to catalyze statistical research on this class
+               of algorithms. Supplementary materials for this article are
+               available online.",
+  journal   = "J. Am. Stat. Assoc.",
+  publisher = "Taylor \& Francis",
+  volume    =  112,
+  number    =  518,
+  pages     = "859--877",
+  month     =  apr,
+  year      =  2017
+}
+
+@ARTICLE{Lee1999-lo,
+  title    = "Learning the parts of objects by non-negative matrix
+              factorization",
+  author   = "Lee, D D and Seung, H S",
+  abstract = "Is perception of the whole based on perception of its parts?
+              There is psychological and physiological evidence for parts-based
+              representations in the brain, and certain computational theories
+              of object recognition rely on such representations. But little is
+              known about how brains or computers might learn the parts of
+              objects. Here we demonstrate an algorithm for non-negative matrix
+              factorization that is able to learn parts of faces and semantic
+              features of text. This is in contrast to other methods, such as
+              principal components analysis and vector quantization, that learn
+              holistic, not parts-based, representations. Non-negative matrix
+              factorization is distinguished from the other methods by its use
+              of non-negativity constraints. These constraints lead to a
+              parts-based representation because they allow only additive, not
+              subtractive, combinations. When non-negative matrix factorization
+              is implemented as a neural network, parts-based representations
+              emerge by virtue of two properties: the firing rates of neurons
+              are never negative and synaptic strengths do not change sign.",
+  journal  = "Nature",
+  volume   =  401,
+  number   =  6755,
+  pages    = "788--791",
+  month    =  oct,
+  year     =  1999,
+  language = "en"
+}
+
+@ARTICLE{Lee1999-au,
+  title    = "Learning the parts of objects by non-negative matrix
+              factorization",
+  author   = "Lee, D D and Seung, H S",
+  abstract = "Is perception of the whole based on perception of its parts?
+              There is psychological and physiological evidence for parts-based
+              representations in the brain, and certain computational theories
+              of object recognition rely on such representations. But little is
+              known about how brains or computers might learn the parts of
+              objects. Here we demonstrate an algorithm for non-negative matrix
+              factorization that is able to learn parts of faces and semantic
+              features of text. This is in contrast to other methods, such as
+              principal components analysis and vector quantization, that learn
+              holistic, not parts-based, representations. Non-negative matrix
+              factorization is distinguished from the other methods by its use
+              of non-negativity constraints. These constraints lead to a
+              parts-based representation because they allow only additive, not
+              subtractive, combinations. When non-negative matrix factorization
+              is implemented as a neural network, parts-based representations
+              emerge by virtue of two properties: the firing rates of neurons
+              are never negative and synaptic strengths do not change sign.",
+  journal  = "Nature",
+  volume   =  401,
+  number   =  6755,
+  pages    = "788--791",
+  month    =  oct,
+  year     =  1999,
+  language = "en"
+}
+
+@ARTICLE{Abadi2016-lb,
+  title         = "{TensorFlow}: {Large-Scale} Machine Learning on
+                   Heterogeneous Distributed Systems",
+  author        = "Abadi, Mart{\'\i}n and Agarwal, Ashish and Barham, Paul and
+                   Brevdo, Eugene and Chen, Zhifeng and Citro, Craig and
+                   Corrado, Greg S and Davis, Andy and Dean, Jeffrey and Devin,
+                   Matthieu and Ghemawat, Sanjay and Goodfellow, Ian and Harp,
+                   Andrew and Irving, Geoffrey and Isard, Michael and Jia,
+                   Yangqing and Jozefowicz, Rafal and Kaiser, Lukasz and
+                   Kudlur, Manjunath and Levenberg, Josh and Mane, Dan and
+                   Monga, Rajat and Moore, Sherry and Murray, Derek and Olah,
+                   Chris and Schuster, Mike and Shlens, Jonathon and Steiner,
+                   Benoit and Sutskever, Ilya and Talwar, Kunal and Tucker,
+                   Paul and Vanhoucke, Vincent and Vasudevan, Vijay and Viegas,
+                   Fernanda and Vinyals, Oriol and Warden, Pete and Wattenberg,
+                   Martin and Wicke, Martin and Yu, Yuan and Zheng, Xiaoqiang",
+  abstract      = "TensorFlow is an interface for expressing machine learning
+                   algorithms, and an implementation for executing such
+                   algorithms. A computation expressed using TensorFlow can be
+                   executed with little or no change on a wide variety of
+                   heterogeneous systems, ranging from mobile devices such as
+                   phones and tablets up to large-scale distributed systems of
+                   hundreds of machines and thousands of computational devices
+                   such as GPU cards. The system is flexible and can be used to
+                   express a wide variety of algorithms, including training and
+                   inference algorithms for deep neural network models, and it
+                   has been used for conducting research and for deploying
+                   machine learning systems into production across more than a
+                   dozen areas of computer science and other fields, including
+                   speech recognition, computer vision, robotics, information
+                   retrieval, natural language processing, geographic
+                   information extraction, and computational drug discovery.
+                   This paper describes the TensorFlow interface and an
+                   implementation of that interface that we have built at
+                   Google. The TensorFlow API and a reference implementation
+                   were released as an open-source package under the Apache 2.0
+                   license in November, 2015 and are available at
+                   www.tensorflow.org.",
+  month         =  mar,
+  year          =  2016,
+  archivePrefix = "arXiv",
+  primaryClass  = "cs.DC",
+  eprint        = "1603.04467"
+}
+
+@ARTICLE{Velten2022-ci,
+  title    = "Identifying temporal and spatial patterns of variation from
+              multimodal data using {MEFISTO}",
+  author   = "Velten, Britta and Braunger, Jana M and Argelaguet, Ricard and
+              Arnol, Damien and Wirbel, Jakob and Bredikhin, Danila and Zeller,
+              Georg and Stegle, Oliver",
+  abstract = "Factor analysis is a widely used method for dimensionality
+              reduction in genome biology, with applications from personalized
+              health to single-cell biology. Existing factor analysis models
+              assume independence of the observed samples, an assumption that
+              fails in spatio-temporal profiling studies. Here we present
+              MEFISTO, a flexible and versatile toolbox for modeling
+              high-dimensional data when spatial or temporal dependencies
+              between the samples are known. MEFISTO maintains the established
+              benefits of factor analysis for multimodal data, but enables the
+              performance of spatio-temporally informed dimensionality
+              reduction, interpolation, and separation of smooth from
+              non-smooth patterns of variation. Moreover, MEFISTO can integrate
+              multiple related datasets by simultaneously identifying and
+              aligning the underlying patterns of variation in a data-driven
+              manner. To illustrate MEFISTO, we apply the model to different
+              datasets with spatial or temporal resolution, including an
+              evolutionary atlas of organ development, a longitudinal
+              microbiome study, a single-cell multi-omics atlas of mouse
+              gastrulation and spatially resolved transcriptomics.",
+  journal  = "Nat. Methods",
+  volume   =  19,
+  number   =  2,
+  pages    = "179--186",
+  month    =  feb,
+  year     =  2022,
+  language = "en"
+}
+
+@ARTICLE{Stickels2021-go,
+  title    = "Highly sensitive spatial transcriptomics at near-cellular
+              resolution with {Slide-seqV2}",
+  author   = "Stickels, Robert R and Murray, Evan and Kumar, Pawan and Li,
+              Jilong and Marshall, Jamie L and Di Bella, Daniela J and Arlotta,
+              Paola and Macosko, Evan Z and Chen, Fei",
+  abstract = "Measurement of the location of molecules in tissues is essential
+              for understanding tissue formation and function. Previously, we
+              developed Slide-seq, a technology that enables transcriptome-wide
+              detection of RNAs with a spatial resolution of 10 $\mu$m. Here we
+              report Slide-seqV2, which combines improvements in library
+              generation, bead synthesis and array indexing to reach an RNA
+              capture efficiency ~50\% that of single-cell RNA-seq data
+              (~10-fold greater than Slide-seq), approaching the detection
+              efficiency of droplet-based single-cell RNA-seq techniques.
+              First, we leverage the detection efficiency of Slide-seqV2 to
+              identify dendritically localized mRNAs in neurons of the mouse
+              hippocampus. Second, we integrate the spatial information of
+              Slide-seqV2 data with single-cell trajectory analysis tools to
+              characterize the spatiotemporal development of the mouse
+              neocortex, identifying underlying genetic programs that were
+              poorly sampled with Slide-seq. The combination of near-cellular
+              resolution and high transcript detection efficiency makes
+              Slide-seqV2 useful across many experimental contexts.",
+  journal  = "Nat. Biotechnol.",
+  volume   =  39,
+  number   =  3,
+  pages    = "313--319",
+  month    =  mar,
+  year     =  2021,
+  language = "en"
+}
+
+@ARTICLE{Palla2022-xf,
+  title    = "Squidpy: a scalable framework for spatial omics analysis",
+  author   = "Palla, Giovanni and Spitzer, Hannah and Klein, Michal and
+              Fischer, David and Schaar, Anna Christina and Kuemmerle, Louis
+              Benedikt and Rybakov, Sergei and Ibarra, Ignacio L and Holmberg,
+              Olle and Virshup, Isaac and Lotfollahi, Mohammad and Richter,
+              Sabrina and Theis, Fabian J",
+  abstract = "Spatial omics data are advancing the study of tissue organization
+              and cellular communication at an unprecedented scale. Flexible
+              tools are required to store, integrate and visualize the large
+              diversity of spatial omics data. Here, we present Squidpy, a
+              Python framework that brings together tools from omics and image
+              analysis to enable scalable description of spatial molecular
+              data, such as transcriptome or multivariate proteins. Squidpy
+              provides efficient infrastructure and numerous analysis methods
+              that allow to efficiently store, manipulate and interactively
+              visualize spatial omics data. Squidpy is extensible and can be
+              interfaced with a variety of already existing libraries for the
+              scalable analysis of spatial omics data.",
+  journal  = "Nat. Methods",
+  volume   =  19,
+  number   =  2,
+  pages    = "171--178",
+  month    =  feb,
+  year     =  2022,
+  language = "en"
+}
+
+@ARTICLE{Kingma2014-wg,
+  title         = "Adam: A Method for Stochastic Optimization",
+  author        = "Kingma, Diederik P and Ba, Jimmy",
+  abstract      = "We introduce Adam, an algorithm for first-order
+                   gradient-based optimization of stochastic objective
+                   functions, based on adaptive estimates of lower-order
+                   moments. The method is straightforward to implement, is
+                   computationally efficient, has little memory requirements,
+                   is invariant to diagonal rescaling of the gradients, and is
+                   well suited for problems that are large in terms of data
+                   and/or parameters. The method is also appropriate for
+                   non-stationary objectives and problems with very noisy
+                   and/or sparse gradients. The hyper-parameters have intuitive
+                   interpretations and typically require little tuning. Some
+                   connections to related algorithms, on which Adam was
+                   inspired, are discussed. We also analyze the theoretical
+                   convergence properties of the algorithm and provide a regret
+                   bound on the convergence rate that is comparable to the best
+                   known results under the online convex optimization
+                   framework. Empirical results demonstrate that Adam works
+                   well in practice and compares favorably to other stochastic
+                   optimization methods. Finally, we discuss AdaMax, a variant
+                   of Adam based on the infinity norm.",
+  month         =  dec,
+  year          =  2014,
+  archivePrefix = "arXiv",
+  primaryClass  = "cs.LG",
+  eprint        = "1412.6980"
+}
+
+@ARTICLE{Elosua-Bayes2021-aw,
+  title    = "{SPOTlight}: seeded {NMF} regression to deconvolute spatial
+              transcriptomics spots with single-cell transcriptomes",
+  author   = "Elosua-Bayes, Marc and Nieto, Paula and Mereu, Elisabetta and
+              Gut, Ivo and Heyn, Holger",
+  abstract = "Spatially resolved gene expression profiles are key to understand
+              tissue organization and function. However, spatial
+              transcriptomics (ST) profiling techniques lack single-cell
+              resolution and require a combination with single-cell RNA
+              sequencing (scRNA-seq) information to deconvolute the spatially
+              indexed datasets. Leveraging the strengths of both data types, we
+              developed SPOTlight, a computational tool that enables the
+              integration of ST with scRNA-seq data to infer the location of
+              cell types and states within a complex tissue. SPOTlight is
+              centered around a seeded non-negative matrix factorization (NMF)
+              regression, initialized using cell-type marker genes and
+              non-negative least squares (NNLS) to subsequently deconvolute ST
+              capture locations (spots). Simulating varying reference
+              quantities and qualities, we confirmed high prediction accuracy
+              also with shallowly sequenced or small-sized scRNA-seq reference
+              datasets. SPOTlight deconvolution of the mouse brain correctly
+              mapped subtle neuronal cell states of the cortical layers and the
+              defined architecture of the hippocampus. In human pancreatic
+              cancer, we successfully segmented patient sections and further
+              fine-mapped normal and neoplastic cell states. Trained on an
+              external single-cell pancreatic tumor references, we further
+              charted the localization of clinical-relevant and tumor-specific
+              immune cell states, an illustrative example of its flexible
+              application spectrum and future potential in digital pathology.",
+  journal  = "Nucleic Acids Res.",
+  volume   =  49,
+  number   =  9,
+  pages    = "e50",
+  month    =  may,
+  year     =  2021,
+  language = "en"
+}
+
+@ARTICLE{Salimbeni2017-gl,
+  title         = "Doubly Stochastic Variational Inference for Deep Gaussian
+                   Processes",
+  author        = "Salimbeni, Hugh and Deisenroth, Marc",
+  abstract      = "Gaussian processes (GPs) are a good choice for function
+                   approximation as they are flexible, robust to over-fitting,
+                   and provide well-calibrated predictive uncertainty. Deep
+                   Gaussian processes (DGPs) are multi-layer generalisations of
+                   GPs, but inference in these models has proved challenging.
+                   Existing approaches to inference in DGP models assume
+                   approximate posteriors that force independence between the
+                   layers, and do not work well in practice. We present a
+                   doubly stochastic variational inference algorithm, which
+                   does not force independence between layers. With our method
+                   of inference we demonstrate that a DGP model can be used
+                   effectively on data ranging in size from hundreds to a
+                   billion points. We provide strong empirical evidence that
+                   our inference scheme for DGPs works well in practice in both
+                   classification and regression.",
+  month         =  may,
+  year          =  2017,
+  archivePrefix = "arXiv",
+  primaryClass  = "stat.ML",
+  eprint        = "1705.08933"
+}
+
+@ARTICLE{Lieberman-Aiden2009-cu,
+  title    = "Comprehensive mapping of long-range interactions reveals folding
+              principles of the human genome",
+  author   = "Lieberman-Aiden, Erez and van Berkum, Nynke L and Williams,
+              Louise and Imakaev, Maxim and Ragoczy, Tobias and Telling, Agnes
+              and Amit, Ido and Lajoie, Bryan R and Sabo, Peter J and
+              Dorschner, Michael O and Sandstrom, Richard and Bernstein,
+              Bradley and Bender, M A and Groudine, Mark and Gnirke, Andreas
+              and Stamatoyannopoulos, John and Mirny, Leonid A and Lander, Eric
+              S and Dekker, Job",
+  abstract = "We describe Hi-C, a method that probes the three-dimensional
+              architecture of whole genomes by coupling proximity-based
+              ligation with massively parallel sequencing. We constructed
+              spatial proximity maps of the human genome with Hi-C at a
+              resolution of 1 megabase. These maps confirm the presence of
+              chromosome territories and the spatial proximity of small,
+              gene-rich chromosomes. We identified an additional level of
+              genome organization that is characterized by the spatial
+              segregation of open and closed chromatin to form two genome-wide
+              compartments. At the megabase scale, the chromatin conformation
+              is consistent with a fractal globule, a knot-free, polymer
+              conformation that enables maximally dense packing while
+              preserving the ability to easily fold and unfold any genomic
+              locus. The fractal globule is distinct from the more commonly
+              used globular equilibrium model. Our results demonstrate the
+              power of Hi-C to map the dynamic conformations of whole genomes.",
+  journal  = "Science",
+  volume   =  326,
+  number   =  5950,
+  pages    = "289--293",
+  month    =  oct,
+  year     =  2009,
+  language = "en"
+}
+
+% The entry below contains non-ASCII chars that could not be converted
+% to a LaTeX equivalent.
+@ARTICLE{Rao2014-uc,
+  title    = "A {3D} map of the human genome at kilobase resolution reveals
+              principles of chromatin looping",
+  author   = "Rao, Suhas S P and Huntley, Miriam H and Durand, Neva C and
+              Stamenova, Elena K and Bochkov, Ivan D and Robinson, James T and
+              Sanborn, Adrian L and Machol, Ido and Omer, Arina D and Lander,
+              Eric S and Aiden, Erez Lieberman",
+  abstract = "We use in situ Hi-C to probe the 3D architecture of genomes,
+              constructing haploid and diploid maps of nine cell types. The
+              densest, in human lymphoblastoid cells, contains 4.9 billion
+              contacts, achieving 1 kb resolution. We find that genomes are
+              partitioned into contact domains (median length, 185 kb), which
+              are associated with distinct patterns of histone marks and
+              segregate into six subcompartments. We identify ∼10,000 loops.
+              These loops frequently link promoters and enhancers, correlate
+              with gene activation, and show conservation across cell types and
+              species. Loop anchors typically occur at domain boundaries and
+              bind CTCF. CTCF sites at loop anchors occur predominantly (>90\%)
+              in a convergent orientation, with the asymmetric motifs
+              ``facing'' one another. The inactive X chromosome splits into two
+              massive domains and contains large loops anchored at CTCF-binding
+              repeats.",
+  journal  = "Cell",
+  volume   =  159,
+  number   =  7,
+  pages    = "1665--1680",
+  month    =  dec,
+  year     =  2014,
+  language = "en"
+}
+
+@ARTICLE{Xiong2019-fd,
+  title    = "Revealing {Hi-C} subcompartments by imputing inter-chromosomal
+              chromatin interactions",
+  author   = "Xiong, Kyle and Ma, Jian",
+  abstract = "Higher-order genome organization and its variation in different
+              cellular conditions remain poorly understood. Recent
+              high-coverage genome-wide chromatin interaction mapping using
+              Hi-C has revealed spatial segregation of chromosomes in the human
+              genome into distinct subcompartments. However, subcompartment
+              annotation, which requires Hi-C data with high sequencing
+              coverage, is currently only available in the GM12878 cell line,
+              making it impractical to compare subcompartment patterns across
+              cell types. Here we develop a computational approach, SNIPER
+              (Subcompartment iNference using Imputed Probabilistic
+              ExpRessions), based on denoising autoencoder and multilayer
+              perceptron classifier to infer subcompartments using typical Hi-C
+              datasets with moderate coverage. SNIPER accurately reveals
+              subcompartments using moderate coverage Hi-C datasets and
+              outperforms an existing method that uses epigenomic features in
+              GM12878. We apply SNIPER to eight additional cell lines and find
+              that chromosomal regions with conserved and cell-type specific
+              subcompartment annotations have different patterns of functional
+              genomic features. SNIPER enables the identification of
+              subcompartments without high-coverage Hi-C data and provides
+              insights into the function and mechanisms of spatial genome
+              organization variation across cell types.",
+  journal  = "Nat. Commun.",
+  volume   =  10,
+  number   =  1,
+  pages    = "5069",
+  month    =  nov,
+  year     =  2019,
+  language = "en"
+}
+
+@ARTICLE{Lieberman-Aiden2009-nf,
+  title    = "Comprehensive mapping of long-range interactions reveals folding
+              principles of the human genome",
+  author   = "Lieberman-Aiden, Erez and van Berkum, Nynke L and Williams,
+              Louise and Imakaev, Maxim and Ragoczy, Tobias and Telling, Agnes
+              and Amit, Ido and Lajoie, Bryan R and Sabo, Peter J and
+              Dorschner, Michael O and Sandstrom, Richard and Bernstein,
+              Bradley and Bender, M A and Groudine, Mark and Gnirke, Andreas
+              and Stamatoyannopoulos, John and Mirny, Leonid A and Lander, Eric
+              S and Dekker, Job",
+  abstract = "We describe Hi-C, a method that probes the three-dimensional
+              architecture of whole genomes by coupling proximity-based
+              ligation with massively parallel sequencing. We constructed
+              spatial proximity maps of the human genome with Hi-C at a
+              resolution of 1 megabase. These maps confirm the presence of
+              chromosome territories and the spatial proximity of small,
+              gene-rich chromosomes. We identified an additional level of
+              genome organization that is characterized by the spatial
+              segregation of open and closed chromatin to form two genome-wide
+              compartments. At the megabase scale, the chromatin conformation
+              is consistent with a fractal globule, a knot-free, polymer
+              conformation that enables maximally dense packing while
+              preserving the ability to easily fold and unfold any genomic
+              locus. The fractal globule is distinct from the more commonly
+              used globular equilibrium model. Our results demonstrate the
+              power of Hi-C to map the dynamic conformations of whole genomes.",
+  journal  = "Science",
+  volume   =  326,
+  number   =  5950,
+  pages    = "289--293",
+  month    =  oct,
+  year     =  2009,
+  language = "en"
+}
+
+@ARTICLE{Liu2021-nc,
+  title    = "Systematic inference and comparison of multi-scale chromatin
+              sub-compartments connects spatial organization to cell phenotypes",
+  author   = "Liu, Yuanlong and Nanni, Luca and Sungalee, Stephanie and
+              Zufferey, Marie and Tavernari, Daniele and Mina, Marco and Ceri,
+              Stefano and Oricchio, Elisa and Ciriello, Giovanni",
+  abstract = "Chromatin compartmentalization reflects biological activity.
+              However, inference of chromatin sub-compartments and compartment
+              domains from chromosome conformation capture (Hi-C) experiments
+              is limited by data resolution. As a result, these have been
+              characterized only in a few cell types and systematic comparisons
+              across multiple tissues and conditions are missing. Here, we
+              present Calder, an algorithmic approach that enables the
+              identification of multi-scale sub-compartments at variable data
+              resolution. Calder allows to infer and compare chromatin
+              sub-compartments and compartment domains in >100 cell lines. Our
+              results reveal sub-compartments enriched for poised chromatin
+              states and undergoing spatial repositioning during lineage
+              differentiation and oncogenic transformation.",
+  journal  = "Nat. Commun.",
+  volume   =  12,
+  number   =  1,
+  pages    = "2439",
+  month    =  may,
+  year     =  2021,
+  language = "en"
+}
+
+@ARTICLE{Wang2021-sz,
+  title    = "{SPIN} reveals genome-wide landscape of nuclear
+              compartmentalization",
+  author   = "Wang, Yuchuan and Zhang, Yang and Zhang, Ruochi and van Schaik,
+              Tom and Zhang, Liguo and Sasaki, Takayo and Peric-Hupkes, Daniel
+              and Chen, Yu and Gilbert, David M and van Steensel, Bas and
+              Belmont, Andrew S and Ma, Jian",
+  abstract = "We report SPIN, an integrative computational method to reveal
+              genome-wide intranuclear chromosome positioning and nuclear
+              compartmentalization relative to multiple nuclear structures,
+              which are pivotal for modulating genome function. As a
+              proof-of-principle, we use SPIN to integrate nuclear compartment
+              mapping (TSA-seq and DamID) and chromatin interaction data (Hi-C)
+              from K562 cells to identify 10 spatial compartmentalization
+              states genome-wide relative to nuclear speckles, lamina, and
+              putative associations with nucleoli. These SPIN states show novel
+              patterns of genome spatial organization and their relation to
+              other 3D genome features and genome function (transcription and
+              replication timing). SPIN provides critical insights into nuclear
+              spatial and functional compartmentalization.",
+  journal  = "Genome Biol.",
+  volume   =  22,
+  number   =  1,
+  pages    = "36",
+  month    =  jan,
+  year     =  2021,
+  keywords = "3D genome organization; Nuclear bodies; Nuclear
+              compartmentalization; Probabilistic graphical model",
+  language = "en"
+}
+
+@ARTICLE{Imakaev2012-ih,
+  title    = "Iterative correction of {Hi-C} data reveals hallmarks of
+              chromosome organization",
+  author   = "Imakaev, Maxim and Fudenberg, Geoffrey and McCord, Rachel Patton
+              and Naumova, Natalia and Goloborodko, Anton and Lajoie, Bryan R
+              and Dekker, Job and Mirny, Leonid A",
+  abstract = "Extracting biologically meaningful information from chromosomal
+              interactions obtained with genome-wide chromosome conformation
+              capture (3C) analyses requires the elimination of systematic
+              biases. We present a computational pipeline that integrates a
+              strategy to map sequencing reads with a data-driven method for
+              iterative correction of biases, yielding genome-wide maps of
+              relative contact probabilities. We validate this ICE (iterative
+              correction and eigenvector decomposition) technique on published
+              data obtained by the high-throughput 3C method Hi-C, and we
+              demonstrate that eigenvector decomposition of the obtained maps
+              provides insights into local chromatin states, global patterns of
+              chromosomal interactions, and the conserved organization of human
+              and mouse chromosomes.",
+  journal  = "Nat. Methods",
+  volume   =  9,
+  number   =  10,
+  pages    = "999--1003",
+  month    =  oct,
+  year     =  2012,
+  language = "en"
+}
+
+@ARTICLE{Lajoie2015-mh,
+  title    = "The Hitchhiker's guide to {Hi-C} analysis: practical guidelines",
+  author   = "Lajoie, Bryan R and Dekker, Job and Kaplan, Noam",
+  abstract = "Over the last decade, development and application of a set of
+              molecular genomic approaches based on the chromosome conformation
+              capture method (3C), combined with increasingly powerful imaging
+              approaches, have enabled high resolution and genome-wide analysis
+              of the spatial organization of chromosomes. The aim of this paper
+              is to provide guidelines for analyzing and interpreting data
+              obtained with genome-wide 3C methods such as Hi-C and 3C-seq that
+              rely on deep sequencing to detect and quantify pairwise chromatin
+              interactions.",
+  journal  = "Methods",
+  volume   =  72,
+  pages    = "65--75",
+  month    =  jan,
+  year     =  2015,
+  keywords = "Bioinformatics; Chromatin structure; Chromosome conformation
+              capture; Deep sequencing; Hi-C",
+  language = "en"
+}
+
+@ARTICLE{Fudenberg2016-gu,
+  title    = "Formation of Chromosomal Domains by Loop Extrusion",
+  author   = "Fudenberg, Geoffrey and Imakaev, Maxim and Lu, Carolyn and
+              Goloborodko, Anton and Abdennur, Nezar and Mirny, Leonid A",
+  abstract = "Topologically associating domains (TADs) are fundamental
+              structural and functional building blocks of human interphase
+              chromosomes, yet the mechanisms of TAD formation remain unclear.
+              Here, we propose that loop extrusion underlies TAD formation. In
+              this process, cis-acting loop-extruding factors, likely cohesins,
+              form progressively larger loops but stall at TAD boundaries due
+              to interactions with boundary proteins, including CTCF. Using
+              polymer simulations, we show that this model produces TADs and
+              finer-scale features of Hi-C data. Each TAD emerges from multiple
+              loops dynamically formed through extrusion, contrary to typical
+              illustrations of single static loops. Loop extrusion both
+              explains diverse experimental observations-including the
+              preferential orientation of CTCF motifs, enrichments of
+              architectural proteins at TAD boundaries, and boundary deletion
+              experiments-and makes specific predictions for the depletion of
+              CTCF versus cohesin. Finally, loop extrusion has potentially
+              far-ranging consequences for processes such as enhancer-promoter
+              interactions, orientation-specific chromosomal looping, and
+              compaction of mitotic chromosomes.",
+  journal  = "Cell Rep.",
+  volume   =  15,
+  number   =  9,
+  pages    = "2038--2049",
+  month    =  may,
+  year     =  2016,
+  language = "en"
+}
+
+@ARTICLE{Schwarzer2017-as,
+  title    = "Two independent modes of chromatin organization revealed by
+              cohesin removal",
+  author   = "Schwarzer, Wibke and Abdennur, Nezar and Goloborodko, Anton and
+              Pekowska, Aleksandra and Fudenberg, Geoffrey and Loe-Mie, Yann
+              and Fonseca, Nuno A and Huber, Wolfgang and Haering, Christian H
+              and Mirny, Leonid and Spitz, Francois",
+  abstract = "Imaging and chromosome conformation capture studies have revealed
+              several layers of chromosome organization, including segregation
+              into megabase-sized active and inactive compartments, and
+              partitioning into sub-megabase domains (TADs). It remains
+              unclear, however, how these layers of organization form, interact
+              with one another and influence genome function. Here we show that
+              deletion of the cohesin-loading factor Nipbl in mouse liver leads
+              to a marked reorganization of chromosomal folding. TADs and
+              associated Hi-C peaks vanish globally, even in the absence of
+              transcriptional changes. By contrast, compartmental segregation
+              is preserved and even reinforced. Strikingly, the disappearance
+              of TADs unmasks a finer compartment structure that accurately
+              reflects the underlying epigenetic landscape. These observations
+              demonstrate that the three-dimensional organization of the genome
+              results from the interplay of two independent mechanisms:
+              cohesin-independent segregation of the genome into fine-scale
+              compartments, defined by chromatin state; and cohesin-dependent
+              formation of TADs, possibly by loop extrusion, which helps to
+              guide distant enhancers to their target genes.",
+  journal  = "Nature",
+  volume   =  551,
+  number   =  7678,
+  pages    = "51--56",
+  month    =  nov,
+  year     =  2017,
+  language = "en"
+}
+
+@ARTICLE{Nuebler2018-mz,
+  title    = "Chromatin organization by an interplay of loop extrusion and
+              compartmental segregation",
+  author   = "Nuebler, Johannes and Fudenberg, Geoffrey and Imakaev, Maxim and
+              Abdennur, Nezar and Mirny, Leonid A",
+  abstract = "Mammalian chromatin is spatially organized at many scales showing
+              two prominent features in interphase: (i) alternating regions
+              (1-10 Mb) of active and inactive chromatin that spatially
+              segregate into different compartments, and (ii) domains (<1 Mb),
+              that is, regions that preferentially interact internally
+              [topologically associating domains (TADs)] and are central to
+              gene regulation. There is growing evidence that TADs are formed
+              by active extrusion of chromatin loops by cohesin, whereas
+              compartmentalization is established according to local chromatin
+              states. Here, we use polymer simulations to examine how loop
+              extrusion and compartmental segregation work collectively and
+              potentially interfere in shaping global chromosome organization.
+              A model with differential attraction between euchromatin and
+              heterochromatin leads to phase separation and reproduces
+              compartmentalization as observed in Hi-C. Loop extrusion,
+              essential for TAD formation, in turn, interferes with
+              compartmentalization. Our integrated model faithfully reproduces
+              Hi-C data from puzzling experimental observations where altering
+              loop extrusion also led to changes in compartmentalization.
+              Specifically, depletion of chromatin-associated cohesin reduced
+              TADs and revealed finer compartments, while increased
+              processivity of cohesin strengthened large TADs and reduced
+              compartmentalization; and depletion of the TAD boundary protein
+              CTCF weakened TADs while leaving compartments unaffected. We
+              reveal that these experimental perturbations are special cases of
+              a general polymer phenomenon of active mixing by loop extrusion.
+              Our results suggest that chromatin organization on the megabase
+              scale emerges from competition of nonequilibrium active loop
+              extrusion and epigenetically defined compartment structure.",
+  journal  = "Proc. Natl. Acad. Sci. U. S. A.",
+  volume   =  115,
+  number   =  29,
+  pages    = "E6697--E6706",
+  month    =  jul,
+  year     =  2018,
+  keywords = "Hi-C; active matter; chromatin; genome architecture; polymer
+              physics",
+  language = "en"
+}
+
+% The entry below contains non-ASCII chars that could not be converted
+% to a LaTeX equivalent.
+@ARTICLE{Lawrence2005-il,
+  title     = "Probabilistic non-linear principal component analysis with
+               Gaussian process latent variable models",
+  author    = "Lawrence, N and Hyv{\"a}rinen, A",
+  abstract  = "Summarising a high dimensional data set with a low dimensional
+               embedding is a standard approach for exploring its structure. In
+               this paper we provide an overview of some existing techniques
+               for discovering such embeddings. We then introduce a novel
+               probabilistic interpretation of principal component analysis
+               (PCA) that we term dual probabilistic PCA (DPPCA). The DPPCA
+               model has the additional advantage that the linear mappings from
+               the embedded space can easily be nonlinearised through Gaussian
+               processes. We refer to …",
+  journal   = "J. Mach. Learn. Res.",
+  publisher = "jmlr.org",
+  year      =  2005
+}
+
+@ARTICLE{Gal2014-mp,
+  title         = "Variational Inference in Sparse Gaussian Process Regression
+                   and Latent Variable Models - a Gentle Tutorial",
+  author        = "Gal, Yarin and van der Wilk, Mark",
+  abstract      = "In this tutorial we explain the inference procedures
+                   developed for the sparse Gaussian process (GP) regression
+                   and Gaussian process latent variable model (GPLVM). Due to
+                   page limit the derivation given in Titsias (2009) and
+                   Titsias \& Lawrence (2010) is brief, hence getting a full
+                   picture of it requires collecting results from several
+                   different sources and a substantial amount of algebra to
+                   fill-in the gaps. Our main goal is thus to collect all the
+                   results and full derivations into one place to help speed up
+                   understanding this work. In doing so we present a
+                   re-parametrisation of the inference that allows it to be
+                   carried out in parallel. A secondary goal for this document
+                   is, therefore, to accompany our paper and open-source
+                   implementation of the parallel inference scheme for the
+                   models. We hope that this document will bridge the gap
+                   between the equations as implemented in code and those
+                   published in the original papers, in order to make it easier
+                   to extend existing work. We assume prior knowledge of
+                   Gaussian processes and variational inference, but we also
+                   include references for further reading where appropriate.",
+  month         =  feb,
+  year          =  2014,
+  archivePrefix = "arXiv",
+  primaryClass  = "stat.ML",
+  eprint        = "1402.1412"
+}
+
+@ARTICLE{Lalchand2022-kv,
+  title         = "Generalised Gaussian Process Latent Variable Models
+                   ({GPLVM}) with Stochastic Variational Inference",
+  author        = "Lalchand, Vidhi and Ravuri, Aditya and Lawrence, Neil D",
+  abstract      = "Gaussian process latent variable models (GPLVM) are a
+                   flexible and non-linear approach to dimensionality
+                   reduction, extending classical Gaussian processes to an
+                   unsupervised learning context. The Bayesian incarnation of
+                   the GPLVM Titsias and Lawrence, 2010] uses a variational
+                   framework, where the posterior over latent variables is
+                   approximated by a well-behaved variational family, a
+                   factorized Gaussian yielding a tractable lower bound.
+                   However, the non-factories ability of the lower bound
+                   prevents truly scalable inference. In this work, we study
+                   the doubly stochastic formulation of the Bayesian GPLVM
+                   model amenable with minibatch training. We show how this
+                   framework is compatible with different latent variable
+                   formulations and perform experiments to compare a suite of
+                   models. Further, we demonstrate how we can train in the
+                   presence of massively missing data and obtain high-fidelity
+                   reconstructions. We demonstrate the model's performance by
+                   benchmarking against the canonical sparse GPLVM for
+                   high-dimensional data examples.",
+  month         =  feb,
+  year          =  2022,
+  archivePrefix = "arXiv",
+  primaryClass  = "cs.LG",
+  eprint        = "2202.12979"
+}
+
+@ARTICLE{Lalchand2022-qr,
+  title         = "Generalised Gaussian Process Latent Variable Models
+                   ({GPLVM}) with Stochastic Variational Inference",
+  author        = "Lalchand, Vidhi and Ravuri, Aditya and Lawrence, Neil D",
+  abstract      = "Gaussian process latent variable models (GPLVM) are a
+                   flexible and non-linear approach to dimensionality
+                   reduction, extending classical Gaussian processes to an
+                   unsupervised learning context. The Bayesian incarnation of
+                   the GPLVM Titsias and Lawrence, 2010] uses a variational
+                   framework, where the posterior over latent variables is
+                   approximated by a well-behaved variational family, a
+                   factorized Gaussian yielding a tractable lower bound.
+                   However, the non-factories ability of the lower bound
+                   prevents truly scalable inference. In this work, we study
+                   the doubly stochastic formulation of the Bayesian GPLVM
+                   model amenable with minibatch training. We show how this
+                   framework is compatible with different latent variable
+                   formulations and perform experiments to compare a suite of
+                   models. Further, we demonstrate how we can train in the
+                   presence of massively missing data and obtain high-fidelity
+                   reconstructions. We demonstrate the model's performance by
+                   benchmarking against the canonical sparse GPLVM for
+                   high-dimensional data examples.",
+  month         =  feb,
+  year          =  2022,
+  archivePrefix = "arXiv",
+  primaryClass  = "cs.LG",
+  eprint        = "2202.12979"
+}
+
+@ARTICLE{Gal2014-ph,
+  title         = "Variational Inference in Sparse Gaussian Process Regression
+                   and Latent Variable Models - a Gentle Tutorial",
+  author        = "Gal, Yarin and van der Wilk, Mark",
+  abstract      = "In this tutorial we explain the inference procedures
+                   developed for the sparse Gaussian process (GP) regression
+                   and Gaussian process latent variable model (GPLVM). Due to
+                   page limit the derivation given in Titsias (2009) and
+                   Titsias \& Lawrence (2010) is brief, hence getting a full
+                   picture of it requires collecting results from several
+                   different sources and a substantial amount of algebra to
+                   fill-in the gaps. Our main goal is thus to collect all the
+                   results and full derivations into one place to help speed up
+                   understanding this work. In doing so we present a
+                   re-parametrisation of the inference that allows it to be
+                   carried out in parallel. A secondary goal for this document
+                   is, therefore, to accompany our paper and open-source
+                   implementation of the parallel inference scheme for the
+                   models. We hope that this document will bridge the gap
+                   between the equations as implemented in code and those
+                   published in the original papers, in order to make it easier
+                   to extend existing work. We assume prior knowledge of
+                   Gaussian processes and variational inference, but we also
+                   include references for further reading where appropriate.",
+  month         =  feb,
+  year          =  2014,
+  archivePrefix = "arXiv",
+  primaryClass  = "stat.ML",
+  eprint        = "1402.1412"
+}
+
+% The entry below contains non-ASCII chars that could not be converted
+% to a LaTeX equivalent.
+@ARTICLE{Lawrence2005-uu,
+  title     = "Probabilistic non-linear principal component analysis with
+               Gaussian process latent variable models",
+  author    = "Lawrence, N and Hyv{\"a}rinen, A",
+  abstract  = "Summarising a high dimensional data set with a low dimensional
+               embedding is a standard approach for exploring its structure. In
+               this paper we provide an overview of some existing techniques
+               for discovering such embeddings. We then introduce a novel
+               probabilistic interpretation of principal component analysis
+               (PCA) that we term dual probabilistic PCA (DPPCA). The DPPCA
+               model has the additional advantage that the linear mappings from
+               the embedded space can easily be nonlinearised through Gaussian
+               processes. We refer to …",
+  journal   = "J. Mach. Learn. Res.",
+  publisher = "jmlr.org",
+  year      =  2005
+}
+
+@ARTICLE{Wakim2021-mb,
+  title    = "Impact of chromosomal organization on epigenetic drift and domain
+              stability revealed by physics-based simulations",
+  author   = "Wakim, Joseph G and Sandholtz, Sarah H and Spakowitz, Andrew J",
+  abstract = "We examine the relationship between the size of domains of
+              epigenetic marks and the stability of those domains using our
+              theoretical model that captures the physical mechanisms governing
+              the maintenance of epigenetic modifications. We focus our study
+              on histone H3 lysine-9 trimethylation, one of the most common and
+              consequential epigenetic marks with roles in chromatin compaction
+              and gene repression. Our model combines the effects of methyl
+              spreading by methyltransferases and chromatin segregation into
+              heterochromatin and euchromatin because of preferential
+              heterochromatin protein 1 (HP1) binding. Our model indicates
+              that, although large methylated domains are passed successfully
+              from one chromatin generation to the next, small alterations to
+              the methylation sequence are not maintained during chromatin
+              replication. Using our predictive model, we investigate the size
+              required for an epigenetic domain to persist over chromatin
+              generations while surrounded by a much larger domain of opposite
+              methylation and compaction state. We find that there is a
+              critical size threshold in the hundreds-of-nucleosomes scale
+              above which an epigenetic domain will be reliably maintained over
+              generations. The precise size of the threshold differs for
+              heterochromatic and euchromatic domains. Our results are
+              consistent with natural alterations to the epigenetic sequence
+              occurring during embryonic development and due to age-related
+              epigenetic drift.",
+  journal  = "Biophys. J.",
+  volume   =  120,
+  number   =  22,
+  pages    = "4932--4943",
+  month    =  nov,
+  year     =  2021,
+  language = "en"
+}
+
+@ARTICLE{Sandholtz2020-vk,
+  title    = "Physical modeling of the heritability and maintenance of
+              epigenetic modifications",
+  author   = "Sandholtz, Sarah H and MacPherson, Quinn and Spakowitz, Andrew J",
+  abstract = "We develop a predictive theoretical model of the physical
+              mechanisms that govern the heritability and maintenance of
+              epigenetic modifications. This model focuses on a particular
+              modification, methylation of lysine-9 of histone H3 (H3K9), which
+              is one of the most representative and critical epigenetic marks
+              that affects chromatin organization and gene expression. Our
+              model combines the effect of segregation and compaction on
+              chromosomal organization with the effect of the interaction
+              between proteins that compact the chromatin (heterochromatin
+              protein 1) and the methyltransferases that affect methyl
+              spreading. Our chromatin model demonstrates that a block of H3K9
+              methylations in the epigenetic sequence determines the compaction
+              state at any particular location in the chromatin. Using our
+              predictive model for chromatin compaction, we develop a
+              methylation model to address the reestablishment of the
+              methylation sequence following DNA replication. Our model
+              reliably maintains methylation over generations, thereby
+              establishing the robustness of the epigenetic code.",
+  journal  = "Proc. Natl. Acad. Sci. U. S. A.",
+  volume   =  117,
+  number   =  34,
+  pages    = "20423--20429",
+  month    =  aug,
+  year     =  2020,
+  keywords = "Monte Carlo simulations; chromosome modeling; epigenetics; genome
+              organization; heritability",
+  language = "en"
+}
+
+@ARTICLE{Nichols2021-km,
+  title    = "Principles of {3D} compartmentalization of the human genome",
+  author   = "Nichols, Michael H and Corces, Victor G",
+  abstract = "Chromatin is organized in the nucleus via CTCF loops and
+              compartmental domains. Here, we compare different cell types to
+              identify distinct paradigms of compartmental domain formation in
+              human tissues. We identify and quantify compartmental forces
+              correlated with histone modifications characteristic of
+              transcriptional activity and previously underappreciated roles
+              for distinct compartmental domains correlated with the presence
+              of H3K27me3 and H3K9me3, respectively. We present a computer
+              simulation model capable of predicting compartmental organization
+              based on the biochemical characteristics of independent chromatin
+              features. Using this model, we show that the underlying forces
+              responsible for compartmental domain formation in human cells are
+              conserved and that the diverse compartmentalization patterns seen
+              across cell types are due to differences in chromatin features.
+              We extend these findings to Drosophila to suggest that the same
+              principles are at work beyond humans. These results offer
+              mechanistic insights into the fundamental forces driving the 3D
+              organization of the genome.",
+  journal  = "Cell Rep.",
+  volume   =  35,
+  number   =  13,
+  pages    = "109330",
+  month    =  jun,
+  year     =  2021,
+  keywords = "3D organization; CTCF; chromatin; cohesin; enhancer; nucleus;
+              transcription",
+  language = "en"
+}
+
+@ARTICLE{Buckle2018-lf,
+  title    = "Polymer Simulations of Heteromorphic Chromatin Predict the {3D}
+              Folding of Complex Genomic Loci",
+  author   = "Buckle, Adam and Brackley, Chris A and Boyle, Shelagh and
+              Marenduzzo, Davide and Gilbert, Nick",
+  abstract = "Chromatin folded into 3D macromolecular structures is often
+              analyzed by chromosome conformation capture (3C) and fluorescence
+              in situ hybridization (FISH) techniques, but these frequently
+              provide contradictory results. Chromatin can be modeled as a
+              simple polymer composed of a connected chain of units. By
+              embedding data for epigenetic marks (H3K27ac), chromatin
+              accessibility (assay for transposase-accessible chromatin using
+              sequencing [ATAC-seq]), and structural anchors (CCCTC-binding
+              factor [CTCF]), we developed a highly predictive heteromorphic
+              polymer (HiP-HoP) model, where the chromatin fiber varied along
+              its length; combined with diffusing protein bridges and loop
+              extrusion, this model predicted the 3D organization of genomic
+              loci at a population and single-cell level. The model was
+              validated at several gene loci, including the complex Pax6 gene,
+              and was able to determine locus conformations across cell types
+              with varying levels of transcriptional activity and explain
+              different mechanisms of enhancer use. Minimal a priori knowledge
+              of epigenetic marks is sufficient to recapitulate complex genomic
+              loci in 3D and enable predictions of chromatin folding paths.",
+  journal  = "Mol. Cell",
+  volume   =  72,
+  number   =  4,
+  pages    = "786--797.e11",
+  month    =  nov,
+  year     =  2018,
+  keywords = "3C; Capture-C; FISH; chromatin; enhancer; genome organization;
+              histone modifications; polymer modeling; transcription",
+  language = "en"
+}
+
+@ARTICLE{Blei2017-ed,
+  title     = "Variational Inference: A Review for Statisticians",
+  author    = "Blei, David M and Kucukelbir, Alp and McAuliffe, Jon D",
+  abstract  = "ABSTRACTOne of the core problems of modern statistics is to
+               approximate difficult-to-compute probability densities. This
+               problem is especially important in Bayesian statistics, which
+               frames all inference about unknown quantities as a calculation
+               involving the posterior density. In this article, we review
+               variational inference (VI), a method from machine learning that
+               approximates probability densities through optimization. VI has
+               been used in many applications and tends to be faster than
+               classical methods, such as Markov chain Monte Carlo sampling.
+               The idea behind VI is to first posit a family of densities and
+               then to find a member of that family which is close to the
+               target density. Closeness is measured by Kullback?Leibler
+               divergence. We review the ideas behind mean-field variational
+               inference, discuss the special case of VI applied to exponential
+               family models, present a full example with a Bayesian mixture of
+               Gaussians, and derive a variant that uses stochastic
+               optimization to scale up to massive data. We discuss modern
+               research in VI and highlight important open problems. VI is
+               powerful, but it is not yet well understood. Our hope in writing
+               this article is to catalyze statistical research on this class
+               of algorithms. Supplementary materials for this article are
+               available online.",
+  journal   = "J. Am. Stat. Assoc.",
+  publisher = "Taylor \& Francis",
+  volume    =  112,
+  number    =  518,
+  pages     = "859--877",
+  month     =  apr,
+  year      =  2017
+}
+
+@ARTICLE{Dixon2012-bg,
+  title    = "Topological domains in mammalian genomes identified by analysis
+              of chromatin interactions",
+  author   = "Dixon, Jesse R and Selvaraj, Siddarth and Yue, Feng and Kim,
+              Audrey and Li, Yan and Shen, Yin and Hu, Ming and Liu, Jun S and
+              Ren, Bing",
+  abstract = "The spatial organization of the genome is intimately linked to
+              its biological function, yet our understanding of higher order
+              genomic structure is coarse, fragmented and incomplete. In the
+              nucleus of eukaryotic cells, interphase chromosomes occupy
+              distinct chromosome territories, and numerous models have been
+              proposed for how chromosomes fold within chromosome territories.
+              These models, however, provide only few mechanistic details about
+              the relationship between higher order chromatin structure and
+              genome function. Recent advances in genomic technologies have led
+              to rapid advances in the study of three-dimensional genome
+              organization. In particular, Hi-C has been introduced as a method
+              for identifying higher order chromatin interactions genome wide.
+              Here we investigate the three-dimensional organization of the
+              human and mouse genomes in embryonic stem cells and terminally
+              differentiated cell types at unprecedented resolution. We
+              identify large, megabase-sized local chromatin interaction
+              domains, which we term 'topological domains', as a pervasive
+              structural feature of the genome organization. These domains
+              correlate with regions of the genome that constrain the spread of
+              heterochromatin. The domains are stable across different cell
+              types and highly conserved across species, indicating that
+              topological domains are an inherent property of mammalian
+              genomes. Finally, we find that the boundaries of topological
+              domains are enriched for the insulator binding protein CTCF,
+              housekeeping genes, transfer RNAs and short interspersed element
+              (SINE) retrotransposons, indicating that these factors may have a
+              role in establishing the topological domain structure of the
+              genome.",
+  journal  = "Nature",
+  volume   =  485,
+  number   =  7398,
+  pages    = "376--380",
+  month    =  apr,
+  year     =  2012,
+  language = "en"
+}
+
+% The entry below contains non-ASCII chars that could not be converted
+% to a LaTeX equivalent.
+@ARTICLE{Crane2015-xf,
+  title    = "Condensin-driven remodelling of {X} chromosome topology during
+              dosage compensation",
+  author   = "Crane, Emily and Bian, Qian and McCord, Rachel Patton and Lajoie,
+              Bryan R and Wheeler, Bayly S and Ralston, Edward J and Uzawa,
+              Satoru and Dekker, Job and Meyer, Barbara J",
+  abstract = "The three-dimensional organization of a genome plays a critical
+              role in regulating gene expression, yet little is known about the
+              machinery and mechanisms that determine higher-order chromosome
+              structure. Here we perform genome-wide chromosome conformation
+              capture analysis, fluorescent in situ hybridization (FISH), and
+              RNA-seq to obtain comprehensive three-dimensional (3D) maps of
+              the Caenorhabditis elegans genome and to dissect X chromosome
+              dosage compensation, which balances gene expression between XX
+              hermaphrodites and XO males. The dosage compensation complex
+              (DCC), a condensin complex, binds to both hermaphrodite X
+              chromosomes via sequence-specific recruitment elements on X (rex
+              sites) to reduce chromosome-wide gene expression by half. Most
+              DCC condensin subunits also act in other condensin complexes to
+              control the compaction and resolution of all mitotic and meiotic
+              chromosomes. By comparing chromosome structure in wild-type and
+              DCC-defective embryos, we show that the DCC remodels
+              hermaphrodite X chromosomes into a sex-specific spatial
+              conformation distinct from autosomes. Dosage-compensated X
+              chromosomes consist of self-interacting domains (∼1 Mb)
+              resembling mammalian topologically associating domains (TADs).
+              TADs on X chromosomes have stronger boundaries and more regular
+              spacing than on autosomes. Many TAD boundaries on X chromosomes
+              coincide with the highest-affinity rex sites and become
+              diminished or lost in DCC-defective mutants, thereby converting
+              the topology of X to a conformation resembling autosomes. rex
+              sites engage in DCC-dependent long-range interactions, with the
+              most frequent interactions occurring between rex sites at
+              DCC-dependent TAD boundaries. These results imply that the DCC
+              reshapes the topology of X chromosomes by forming new TAD
+              boundaries and reinforcing weak boundaries through interactions
+              between its highest-affinity binding sites. As this model
+              predicts, deletion of an endogenous rex site at a DCC-dependent
+              TAD boundary using CRISPR/Cas9 greatly diminished the boundary.
+              Thus, the DCC imposes a distinct higher-order structure onto X
+              chromosomes while regulating gene expression chromosome-wide.",
+  journal  = "Nature",
+  volume   =  523,
+  number   =  7559,
+  pages    = "240--244",
+  month    =  jul,
+  year     =  2015,
+  language = "en"
+}
+
+@ARTICLE{Serra2017-xd,
+  title    = "Automatic analysis and 3D-modelling of {Hi-C} data using {TADbit}
+              reveals structural features of the fly chromatin colors",
+  author   = "Serra, Fran{\c c}ois and Ba{\`u}, Davide and Goodstadt, Mike and
+              Castillo, David and Filion, Guillaume J and Marti-Renom, Marc A",
+  abstract = "The sequence of a genome is insufficient to understand all
+              genomic processes carried out in the cell nucleus. To achieve
+              this, the knowledge of its three-dimensional architecture is
+              necessary. Advances in genomic technologies and the development
+              of new analytical methods, such as Chromosome Conformation
+              Capture (3C) and its derivatives, provide unprecedented insights
+              in the spatial organization of genomes. Here we present TADbit, a
+              computational framework to analyze and model the chromatin fiber
+              in three dimensions. Our package takes as input the sequencing
+              reads of 3C-based experiments and performs the following main
+              tasks: (i) pre-process the reads, (ii) map the reads to a
+              reference genome, (iii) filter and normalize the interaction
+              data, (iv) analyze the resulting interaction matrices, (v) build
+              3D models of selected genomic domains, and (vi) analyze the
+              resulting models to characterize their structural properties. To
+              illustrate the use of TADbit, we automatically modeled 50 genomic
+              domains from the fly genome revealing differential structural
+              features of the previously defined chromatin colors, establishing
+              a link between the conformation of the genome and the local
+              chromatin composition. TADbit provides three-dimensional models
+              built from 3C-based experiments, which are ready for
+              visualization and for characterizing their relation to gene
+              expression and epigenetic states. TADbit is an open-source Python
+              library available for download from
+              https://github.com/3DGenomes/tadbit.",
+  journal  = "PLoS Comput. Biol.",
+  volume   =  13,
+  number   =  7,
+  pages    = "e1005665",
+  month    =  jul,
+  year     =  2017,
+  language = "en"
+}
+
+% The entry below contains non-ASCII chars that could not be converted
+% to a LaTeX equivalent.
+@ARTICLE{Rao2014-or,
+  title    = "A {3D} map of the human genome at kilobase resolution reveals
+              principles of chromatin looping",
+  author   = "Rao, Suhas S P and Huntley, Miriam H and Durand, Neva C and
+              Stamenova, Elena K and Bochkov, Ivan D and Robinson, James T and
+              Sanborn, Adrian L and Machol, Ido and Omer, Arina D and Lander,
+              Eric S and Aiden, Erez Lieberman",
+  abstract = "We use in situ Hi-C to probe the 3D architecture of genomes,
+              constructing haploid and diploid maps of nine cell types. The
+              densest, in human lymphoblastoid cells, contains 4.9 billion
+              contacts, achieving 1 kb resolution. We find that genomes are
+              partitioned into contact domains (median length, 185 kb), which
+              are associated with distinct patterns of histone marks and
+              segregate into six subcompartments. We identify ∼10,000 loops.
+              These loops frequently link promoters and enhancers, correlate
+              with gene activation, and show conservation across cell types and
+              species. Loop anchors typically occur at domain boundaries and
+              bind CTCF. CTCF sites at loop anchors occur predominantly (>90\%)
+              in a convergent orientation, with the asymmetric motifs
+              ``facing'' one another. The inactive X chromosome splits into two
+              massive domains and contains large loops anchored at CTCF-binding
+              repeats.",
+  journal  = "Cell",
+  volume   =  159,
+  number   =  7,
+  pages    = "1665--1680",
+  month    =  dec,
+  year     =  2014,
+  language = "en"
+}
+
+@ARTICLE{Weinreb2016-gn,
+  title    = "Identification of hierarchical chromatin domains",
+  author   = "Weinreb, Caleb and Raphael, Benjamin J",
+  abstract = "MOTIVATION: The three-dimensional structure of the genome is an
+              important regulator of many cellular processes including
+              differentiation and gene regulation. Recently, technologies such
+              as Hi-C that combine proximity ligation with high-throughput
+              sequencing have revealed domains of self-interacting chromatin,
+              called topologically associating domains (TADs), in many
+              organisms. Current methods for identifying TADs using Hi-C data
+              assume that TADs are non-overlapping, despite evidence for a
+              nested structure in which TADs and sub-TADs form a complex
+              hierarchy. RESULTS: We introduce a model for decomposition of
+              contact frequencies into a hierarchy of nested TADs. This model
+              is based on empirical distributions of contact frequencies within
+              TADs, where positions that are far apart have a greater
+              enrichment of contacts than positions that are close together. We
+              find that the increase in contact enrichment with distance is
+              stronger for the inner TAD than for the outer TAD in a
+              TAD/sub-TAD pair. Using this model, we develop the TADtree
+              algorithm for detecting hierarchies of nested TADs. TADtree
+              compares favorably with previous methods, finding TADs with a
+              greater enrichment of chromatin marks such as CTCF at their
+              boundaries. AVAILABILITY AND IMPLEMENTATION: A python
+              implementation of TADtree is available at
+              http://compbio.cs.brown.edu/software/ CONTACT:
+              braphael@cs.brown.edu SUPPLEMENTARY INFORMATION: Supplementary
+              data are available at Bioinformatics online.",
+  journal  = "Bioinformatics",
+  volume   =  32,
+  number   =  11,
+  pages    = "1601--1609",
+  month    =  jun,
+  year     =  2016,
+  language = "en"
+}
+
+@ARTICLE{Szabo2019-nu,
+  title    = "Principles of genome folding into topologically associating
+              domains",
+  author   = "Szabo, Quentin and Bantignies, Fr{\'e}d{\'e}ric and Cavalli,
+              Giacomo",
+  abstract = "Understanding the mechanisms that underlie chromosome folding
+              within cell nuclei is essential to determine the relationship
+              between genome structure and function. The recent application of
+              ``chromosome conformation capture'' techniques has revealed that
+              the genome of many species is organized into domains of
+              preferential internal chromatin interactions called
+              ``topologically associating domains'' (TADs). This chromosome
+              chromosome folding has emerged as a key feature of higher-order
+              genome organization and function through evolution. Although TADs
+              have now been described in a wide range of organisms, they appear
+              to have specific characteristics in terms of size, structure, and
+              proteins involved in their formation. Here, we depict the main
+              features of these domains across species and discuss the relation
+              between chromatin structure, genome activity, and epigenome,
+              highlighting mechanistic principles of TAD formation. We also
+              consider the potential influence of TADs in genome evolution.",
+  journal  = "Sci Adv",
+  volume   =  5,
+  number   =  4,
+  pages    = "eaaw1668",
+  month    =  apr,
+  year     =  2019,
+  language = "en"
+}
+
+@ARTICLE{Tipping1999-gd,
+  title     = "Probabilistic principal component analysis",
+  author    = "Tipping, Michael E and Bishop, Christopher M",
+  abstract  = "Principal component analysis (PCA) is a ubiquitous technique for
+               data analysis and processing, but one which is not based upon a
+               probability model. In this paper we demonstrate how the
+               principal axes of a set of observed data vectors may be
+               determined through maximum-likelihood estimation of parameters
+               in a latent variable model closely related to factor analysis.
+               We consider the properties of the associated likelihood
+               function, giving an EM algorithm for estimating the principal
+               subspace iteratively, and discuss the advantages conveyed by the
+               definition of a probability density function for PCA.",
+  journal   = "J. R. Stat. Soc. Series B Stat. Methodol.",
+  publisher = "Oxford University Press (OUP)",
+  volume    =  61,
+  number    =  3,
+  pages     = "611--622",
+  month     =  aug,
+  year      =  1999,
+  language  = "en"
+}
+
+@ARTICLE{Salimbeni2017-ds,
+  title   = "Doubly stochastic variational inference for deep Gaussian
+             processes",
+  author  = "Salimbeni, Hugh and Deisenroth, Marc",
+  journal = "Adv. Neural Inf. Process. Syst.",
+  volume  =  30,
+  year    =  2017
+}
+
+@ARTICLE{Johnstone2020-qe,
+  title    = "{Large-Scale} Topological Changes Restrain Malignant Progression
+              in Colorectal Cancer",
+  author   = "Johnstone, Sarah E and Reyes, Alejandro and Qi, Yifeng and
+              Adriaens, Carmen and Hegazi, Esmat and Pelka, Karin and Chen,
+              Jonathan H and Zou, Luli S and Drier, Yotam and Hecht, Vivian and
+              Shoresh, Noam and Selig, Martin K and Lareau, Caleb A and Iyer,
+              Sowmya and Nguyen, Son C and Joyce, Eric F and Hacohen, Nir and
+              Irizarry, Rafael A and Zhang, Bin and Aryee, Martin J and
+              Bernstein, Bradley E",
+  abstract = "Widespread changes to DNA methylation and chromatin are well
+              documented in cancer, but the fate of higher-order chromosomal
+              structure remains obscure. Here we integrated topological maps
+              for colon tumors and normal colons with epigenetic,
+              transcriptional, and imaging data to characterize alterations to
+              chromatin loops, topologically associated domains, and
+              large-scale compartments. We found that spatial partitioning of
+              the open and closed genome compartments is profoundly compromised
+              in tumors. This reorganization is accompanied by
+              compartment-specific hypomethylation and chromatin changes.
+              Additionally, we identify a compartment at the interface between
+              the canonical A and B compartments that is reorganized in tumors.
+              Remarkably, similar shifts were evident in non-malignant cells
+              that have accumulated excess divisions. Our analyses suggest that
+              these topological changes repress stemness and invasion programs
+              while inducing anti-tumor immunity genes and may therefore
+              restrain malignant progression. Our findings call into question
+              the conventional view that tumor-associated epigenomic
+              alterations are primarily oncogenic.",
+  journal  = "Cell",
+  volume   =  182,
+  number   =  6,
+  pages    = "1474--1489.e23",
+  month    =  sep,
+  year     =  2020,
+  keywords = "DNA methylation; chromatin; colon cancer; compartment;
+              epigenetics; genome topology; nuclear architecture",
+  language = "en"
+}
+
+@ARTICLE{Ernst2017-vl,
+  title    = "Chromatin-state discovery and genome annotation with {ChromHMM}",
+  author   = "Ernst, Jason and Kellis, Manolis",
+  abstract = "Noncoding DNA regions have central roles in human biology,
+              evolution, and disease. ChromHMM helps to annotate the noncoding
+              genome using epigenomic information across one or multiple cell
+              types. It combines multiple genome-wide epigenomic maps, and uses
+              combinatorial and spatial mark patterns to infer a complete
+              annotation for each cell type. ChromHMM learns chromatin-state
+              signatures using a multivariate hidden Markov model (HMM) that
+              explicitly models the combinatorial presence or absence of each
+              mark. ChromHMM uses these signatures to generate a genome-wide
+              annotation for each cell type by calculating the most probable
+              state for each genomic segment. ChromHMM provides an automated
+              enrichment analysis of the resulting annotations to facilitate
+              the functional interpretations of each chromatin state. ChromHMM
+              is distinguished by its modeling emphasis on combinations of
+              marks, its tight integration with downstream functional
+              enrichment analyses, its speed, and its ease of use. Chromatin
+              states are learned, annotations are produced, and enrichments are
+              computed within 1 d.",
+  journal  = "Nat. Protoc.",
+  volume   =  12,
+  number   =  12,
+  pages    = "2478--2492",
+  month    =  dec,
+  year     =  2017,
+  language = "en"
+}
+
+@MISC{Rasmussen_undated-ft,
+  title        = "Gaussian processes for machine learning",
+  author       = "Rasmussen, C E and Williams, C K I",
+  howpublished = "\url{ftp://nozdr.ru/biblio/kolxoz/Cs/CsAi/Rasmussen%20C.,%20Williams%20C.%20Gaussian%20Processes%20for%20Machine%20Learning(MIT,%202006)(ISBN%20026218253X)(266s)_CsAi_.pdf}",
+  note         = "Accessed: 2023-2-28"
+}
+
+@UNPUBLISHED{Holt2023-yf,
+  title    = "Essential Aspects of Bayesian Data Imputation",
+  author   = "Holt, William and Nguyen, Duy",
+  abstract = "Data imputation holds significant importance in a variety of
+              fields including risk management. Incomplete or missing data can
+              hinder a thorough analysis of risks, making accurate
+              decision-making challenging. By employing imputation techniques
+              to fill in the gaps, risk managers can obtain a more
+              comprehensive and reliable understanding of the underlying risk
+              factors. This, in turn, enables them to make informed decisions
+              and develop effective strategies for risk mitigation. This note
+              introduces the concept Bayesian data imputation. We collect and
+              provide backgrounds needed for Bayesian data imputation when
+              missing data are missing at random. Numerical examples are
+              provided for demonstration.",
+  month    =  jun,
+  year     =  2023
+}
+
+@PHDTHESIS{Damianou2015-dy,
+  title     = "Deep Gaussian Processes and Variational Propagation of
+               Uncertainty",
+  author    = "Damianou, Andreas",
+  abstract  = "Uncertainty propagation across components of complex
+               probabilistic models is vital for improving regularisation.
+               Unfortunately, for many interesting models based on non-linear
+               Gaussian processes (GPs), straightforward propagation of
+               uncertainty is computationally and mathematically intractable.
+               This thesis is concerned with solving this problem through
+               developing novel variational inference approaches. From a
+               modelling perspective, a key contribution of the thesis is the
+               development of deep Gaussian processes (deep GPs). Deep GPs
+               generalise several interesting GP-based models and, hence,
+               motivate the development of uncertainty propagation techniques.
+               In a deep GP, each layer is modelled as the output of a
+               multivariate GP, whose inputs are governed by another GP. The
+               resulting model is no longer a GP but, instead, can learn much
+               more complex interactions between data. In contrast to other
+               deep models, all the uncertainty in parameters and latent
+               variables is marginalised out and both supervised and
+               unsupervised learning is handled. Two important special cases of
+               a deep GP can equivalently be seen as its building components
+               and, historically, were developed as such. Firstly, the
+               variational GP-LVM is concerned with propagating uncertainty in
+               Gaussian process latent variable models. Any observed inputs
+               (e.g. temporal) can also be used to correlate the latent space
+               posteriors. Secondly, this thesis develops manifold relevance
+               determination (MRD) which considers a common latent space for
+               multiple views. An adapted variational framework allows for
+               strong model regularisation, resulting in rich latent space
+               representations to be learned. The developed models are also
+               equipped with algorithms that maximise the information
+               communicated between their different stages using uncertainty
+               propagation, to achieve improved learning when partially
+               observed values are present. The developed methods are
+               demonstrated in experiments with simulated and real data. The
+               results show that the developed variational methodologies
+               improve practical applicability by enabling automatic capacity
+               control in the models, even when data are scarce.",
+  publisher = "University of Sheffield",
+  month     =  jul,
+  year      =  2015,
+  school    = "University of Sheffield",
+  language  = "en"
+}
+
+@ARTICLE{Moses2022-sw,
+  title    = "Museum of spatial transcriptomics",
+  author   = "Moses, Lambda and Pachter, Lior",
+  abstract = "The function of many biological systems, such as embryos, liver
+              lobules, intestinal villi, and tumors, depends on the spatial
+              organization of their cells. In the past decade, high-throughput
+              technologies have been developed to quantify gene expression in
+              space, and computational methods have been developed that
+              leverage spatial gene expression data to identify genes with
+              spatial patterns and to delineate neighborhoods within tissues.
+              To comprehensively document spatial gene expression technologies
+              and data-analysis methods, we present a curated review of
+              literature on spatial transcriptomics dating back to 1987, along
+              with a thorough analysis of trends in the field, such as usage of
+              experimental techniques, species, tissues studied, and
+              computational approaches used. Our Review places current methods
+              in a historical context, and we derive insights about the field
+              that can guide current research strategies. A companion
+              supplement offers a more detailed look at the technologies and
+              methods analyzed: https://pachterlab.github.io/LP\_2021/ .",
+  journal  = "Nat. Methods",
+  volume   =  19,
+  number   =  5,
+  pages    = "534--546",
+  month    =  may,
+  year     =  2022,
+  language = "en"
+}
+
+@ARTICLE{Verma2021-sj,
+  title    = "A self-exciting point process to study multicellular spatial
+              signaling patterns",
+  author   = "Verma, Archit and Jena, Siddhartha G and Isakov, Danielle R and
+              Aoki, Kazuhiro and Toettcher, Jared E and Engelhardt, Barbara E",
+  abstract = "Multicellular organisms rely on spatial signaling among cells to
+              drive their organization, development, and response to stimuli.
+              Several models have been proposed to capture the behavior of
+              spatial signaling in multicellular systems, but existing
+              approaches fail to capture both the autonomous behavior of single
+              cells and the interactions of a cell with its neighbors
+              simultaneously. We propose a spatiotemporal model of dynamic cell
+              signaling based on Hawkes processes-self-exciting point
+              processes-that model the signaling processes within a cell and
+              spatial couplings between cells. With this cellular point process
+              (CPP), we capture both the single-cell pathway activation rate
+              and the magnitude and duration of signaling between cells
+              relative to their spatial location. Furthermore, our model
+              captures tissues composed of heterogeneous cell types with
+              different bursting rates and signaling behaviors across multiple
+              signaling proteins. We apply our model to epithelial cell systems
+              that exhibit a range of autonomous and spatial signaling
+              behaviors basally and under pharmacological exposure. Our model
+              identifies known drug-induced signaling deficits, characterizes
+              signaling changes across a wound front, and generalizes to
+              multichannel observations.",
+  journal  = "Proc. Natl. Acad. Sci. U. S. A.",
+  volume   =  118,
+  number   =  32,
+  month    =  aug,
+  year     =  2021,
+  keywords = "Hawkes process; cell signaling; keratinocytes; kinase networks;
+              point process",
+  language = "en"
+}
+
+@ARTICLE{McCord2020-gq,
+  title    = "Chromosome Conformation Capture and Beyond: Toward an Integrative
+              View of Chromosome Structure and Function",
+  author   = "McCord, Rachel Patton and Kaplan, Noam and Giorgetti, Luca",
+  abstract = "Rapidly developing technologies have recently fueled an exciting
+              era of discovery in the field of chromosome structure and nuclear
+              organization. In addition to chromosome conformation capture (3C)
+              methods, new alternative techniques have emerged to study genome
+              architecture and biological processes in the nucleus, often in
+              single or living cells. This sets an unprecedented stage for
+              exploring the mechanisms that link chromosome structure and
+              biological function. Here we review popular as well as emerging
+              approaches to study chromosome organization, focusing on the
+              contribution of complementary methodologies to our understanding
+              of structures revealed by 3C methods and their biological
+              implications, and discuss the next technical and conceptual
+              frontiers.",
+  journal  = "Mol. Cell",
+  volume   =  77,
+  number   =  4,
+  pages    = "688--708",
+  month    =  feb,
+  year     =  2020,
+  language = "en"
+}
+
+@ARTICLE{Matthey-Doret2020-ly,
+  title    = "Computer vision for pattern detection in chromosome contact maps",
+  author   = "Matthey-Doret, Cyril and Baudry, Lyam and Breuer, Axel and
+              Montagne, R{\'e}mi and Guiglielmoni, Nad{\`e}ge and Scolari,
+              Vittore and Jean, Etienne and Campeas, Arnaud and Chanut,
+              Philippe Henri and Oriol, Edgar and M{\'e}ot, Adrien and Politis,
+              Laurent and Vigouroux, Antoine and Moreau, Pierrick and Koszul,
+              Romain and Cournac, Axel",
+  abstract = "Chromosomes of all species studied so far display a variety of
+              higher-order organisational features, such as self-interacting
+              domains or loops. These structures, which are often associated to
+              biological functions, form distinct, visible patterns on
+              genome-wide contact maps generated by chromosome conformation
+              capture approaches such as Hi-C. Here we present Chromosight, an
+              algorithm inspired from computer vision that can detect patterns
+              in contact maps. Chromosight has greater sensitivity than
+              existing methods on synthetic simulated data, while being faster
+              and applicable to any type of genomes, including bacteria,
+              viruses, yeasts and mammals. Our method does not require any
+              prior training dataset and works well with default parameters on
+              data generated with various protocols.",
+  journal  = "Nat. Commun.",
+  volume   =  11,
+  number   =  1,
+  pages    = "5795",
+  month    =  nov,
+  year     =  2020,
+  language = "en"
+}
+
+@ARTICLE{Sahin2021-gy,
+  title    = "{HiC-DC+} enables systematic {3D} interaction calls and
+              differential analysis for {Hi-C} and {HiChIP}",
+  author   = "Sahin, Merve and Wong, Wilfred and Zhan, Yingqian and Van Deynze,
+              Kinsey and Koche, Richard and Leslie, Christina S",
+  abstract = "Recent genome-wide chromosome conformation capture assays such as
+              Hi-C and HiChIP have vastly expanded the resolution and
+              throughput with which we can study 3D genomic architecture and
+              function. Here, we present HiC-DC+, a software tool for
+              Hi-C/HiChIP interaction calling and differential analysis using
+              an efficient implementation of the HiC-DC statistical framework.
+              HiC-DC+ integrates with popular preprocessing and visualization
+              tools and includes topologically associating domain (TAD) and A/B
+              compartment callers. We found that HiC-DC+ can more accurately
+              identify enhancer-promoter interactions in H3K27ac HiChIP, as
+              validated by CRISPRi-FlowFISH experiments, compared to existing
+              methods. Differential HiC-DC+ analyses of published HiChIP and
+              Hi-C data sets in settings of cellular differentiation and
+              cohesin perturbation systematically and quantitatively recovers
+              biological findings, including enhancer hubs, TAD aggregation,
+              and the relationship between promoter-enhancer loop dynamics and
+              gene expression changes. HiC-DC+ therefore provides a principled
+              statistical analysis tool to empower genome-wide studies of 3D
+              chromatin architecture and function.",
+  journal  = "Nat. Commun.",
+  volume   =  12,
+  number   =  1,
+  pages    = "3366",
+  month    =  jun,
+  year     =  2021,
+  language = "en"
+}
+
+@ARTICLE{Butler2018-ej,
+  title    = "Integrating single-cell transcriptomic data across different
+              conditions, technologies, and species",
+  author   = "Butler, Andrew and Hoffman, Paul and Smibert, Peter and Papalexi,
+              Efthymia and Satija, Rahul",
+  abstract = "Computational single-cell RNA-seq (scRNA-seq) methods have been
+              successfully applied to experiments representing a single
+              condition, technology, or species to discover and define cellular
+              phenotypes. However, identifying subpopulations of cells that are
+              present across multiple data sets remains challenging. Here, we
+              introduce an analytical strategy for integrating scRNA-seq data
+              sets based on common sources of variation, enabling the
+              identification of shared populations across data sets and
+              downstream comparative analysis. We apply this approach,
+              implemented in our R toolkit Seurat
+              (http://satijalab.org/seurat/), to align scRNA-seq data sets of
+              peripheral blood mononuclear cells under resting and stimulated
+              conditions, hematopoietic progenitors sequenced using two
+              profiling technologies, and pancreatic cell 'atlases' generated
+              from human and mouse islets. In each case, we learn distinct or
+              transitional cell states jointly across data sets, while boosting
+              statistical power through integrated analysis. Our approach
+              facilitates general comparisons of scRNA-seq data sets,
+              potentially deepening our understanding of how distinct cell
+              states respond to perturbation, disease, and evolution.",
+  journal  = "Nat. Biotechnol.",
+  volume   =  36,
+  number   =  5,
+  pages    = "411--420",
+  month    =  jun,
+  year     =  2018,
+  language = "en"
+}
+
+@ARTICLE{Wolf2018-sz,
+  title    = "{SCANPY}: large-scale single-cell gene expression data analysis",
+  author   = "Wolf, F Alexander and Angerer, Philipp and Theis, Fabian J",
+  abstract = "SCANPY is a scalable toolkit for analyzing single-cell gene
+              expression data. It includes methods for preprocessing,
+              visualization, clustering, pseudotime and trajectory inference,
+              differential expression testing, and simulation of gene
+              regulatory networks. Its Python-based implementation efficiently
+              deals with data sets of more than one million cells (
+              https://github.com/theislab/Scanpy ). Along with SCANPY, we
+              present ANNDATA, a generic class for handling annotated data
+              matrices ( https://github.com/theislab/anndata ).",
+  journal  = "Genome Biol.",
+  volume   =  19,
+  number   =  1,
+  pages    = "15",
+  month    =  feb,
+  year     =  2018,
+  keywords = "Bioinformatics; Clustering; Differential expression testing;
+              Graph analysis; Machine learning; Pseudotemporal ordering;
+              Scalability; Single-cell transcriptomics; Trajectory inference;
+              Visualization",
+  language = "en"
+}
+
+@ARTICLE{Velten2022-ws,
+  title    = "Identifying temporal and spatial patterns of variation from
+              multimodal data using {MEFISTO}",
+  author   = "Velten, Britta and Braunger, Jana M and Argelaguet, Ricard and
+              Arnol, Damien and Wirbel, Jakob and Bredikhin, Danila and Zeller,
+              Georg and Stegle, Oliver",
+  abstract = "Factor analysis is a widely used method for dimensionality
+              reduction in genome biology, with applications from personalized
+              health to single-cell biology. Existing factor analysis models
+              assume independence of the observed samples, an assumption that
+              fails in spatio-temporal profiling studies. Here we present
+              MEFISTO, a flexible and versatile toolbox for modeling
+              high-dimensional data when spatial or temporal dependencies
+              between the samples are known. MEFISTO maintains the established
+              benefits of factor analysis for multimodal data, but enables the
+              performance of spatio-temporally informed dimensionality
+              reduction, interpolation, and separation of smooth from
+              non-smooth patterns of variation. Moreover, MEFISTO can integrate
+              multiple related datasets by simultaneously identifying and
+              aligning the underlying patterns of variation in a data-driven
+              manner. To illustrate MEFISTO, we apply the model to different
+              datasets with spatial or temporal resolution, including an
+              evolutionary atlas of organ development, a longitudinal
+              microbiome study, a single-cell multi-omics atlas of mouse
+              gastrulation and spatially resolved transcriptomics.",
+  journal  = "Nat. Methods",
+  volume   =  19,
+  number   =  2,
+  pages    = "179--186",
+  month    =  feb,
+  year     =  2022,
+  language = "en"
+}
+
+@ARTICLE{Velten2022-rc,
+  title    = "Identifying temporal and spatial patterns of variation from
+              multimodal data using {MEFISTO}",
+  author   = "Velten, Britta and Braunger, Jana M and Argelaguet, Ricard and
+              Arnol, Damien and Wirbel, Jakob and Bredikhin, Danila and Zeller,
+              Georg and Stegle, Oliver",
+  abstract = "Factor analysis is a widely used method for dimensionality
+              reduction in genome biology, with applications from personalized
+              health to single-cell biology. Existing factor analysis models
+              assume independence of the observed samples, an assumption that
+              fails in spatio-temporal profiling studies. Here we present
+              MEFISTO, a flexible and versatile toolbox for modeling
+              high-dimensional data when spatial or temporal dependencies
+              between the samples are known. MEFISTO maintains the established
+              benefits of factor analysis for multimodal data, but enables the
+              performance of spatio-temporally informed dimensionality
+              reduction, interpolation, and separation of smooth from
+              non-smooth patterns of variation. Moreover, MEFISTO can integrate
+              multiple related datasets by simultaneously identifying and
+              aligning the underlying patterns of variation in a data-driven
+              manner. To illustrate MEFISTO, we apply the model to different
+              datasets with spatial or temporal resolution, including an
+              evolutionary atlas of organ development, a longitudinal
+              microbiome study, a single-cell multi-omics atlas of mouse
+              gastrulation and spatially resolved transcriptomics.",
+  journal  = "Nat. Methods",
+  volume   =  19,
+  number   =  2,
+  pages    = "179--186",
+  month    =  feb,
+  year     =  2022,
+  language = "en"
+}
+
+@ARTICLE{Townes2023-it,
+  title    = "Nonnegative spatial factorization applied to spatial genomics",
+  author   = "Townes, F William and Engelhardt, Barbara E",
+  abstract = "Nonnegative matrix factorization (NMF) is widely used to analyze
+              high-dimensional count data because, in contrast to real-valued
+              alternatives such as factor analysis, it produces an
+              interpretable parts-based representation. However, in
+              applications such as spatial transcriptomics, NMF fails to
+              incorporate known structure between observations. Here, we
+              present nonnegative spatial factorization (NSF), a
+              spatially-aware probabilistic dimension reduction model based on
+              transformed Gaussian processes that naturally encourages sparsity
+              and scales to tens of thousands of observations. NSF recovers
+              ground truth factors more accurately than real-valued
+              alternatives such as MEFISTO in simulations, and has lower
+              out-of-sample prediction error than probabilistic NMF on three
+              spatial transcriptomics datasets from mouse brain and liver.
+              Since not all patterns of gene expression have spatial
+              correlations, we also propose a hybrid extension of NSF that
+              combines spatial and nonspatial components, enabling
+              quantification of spatial importance for both observations and
+              features. A TensorFlow implementation of NSF is available from
+              https://github.com/willtownes/nsf-paper .",
+  journal  = "Nat. Methods",
+  volume   =  20,
+  number   =  2,
+  pages    = "229--238",
+  month    =  feb,
+  year     =  2023,
+  language = "en"
+}
+
+@ARTICLE{Seeger2004-gw,
+  title    = "Gaussian processes for machine learning",
+  author   = "Seeger, Matthias W",
+  abstract = "Gaussian processes (GPs) are natural generalisations of
+              multivariate Gaussian random variables to infinite (countably or
+              continuous) index sets. GPs have been applied in a large number
+              of fields to a diverse range of ends, and very many deep
+              theoretical analyses of various properties are available. This
+              paper gives an introduction to Gaussian processes on a fairly
+              elementary level with special emphasis on characteristics
+              relevant in machine learning. It draws explicit connections to
+              branches such as spline smoothing models and support vector
+              machines in which similar ideas have been investigated. Gaussian
+              process models are routinely used to solve hard machine learning
+              problems. They are attractive because of their flexible
+              non-parametric nature and computational simplicity. Treated
+              within a Bayesian framework, very powerful statistical methods
+              can be implemented which offer valid estimates of uncertainties
+              in our predictions and generic model selection procedures cast as
+              nonlinear optimization problems. Their main drawback of heavy
+              computational scaling has recently been alleviated by the
+              introduction of generic sparse approximations.13,78,31 The
+              mathematical literature on GPs is large and often uses deep
+              concepts which are not required to fully understand most machine
+              learning applications. In this tutorial paper, we aim to present
+              characteristics of GPs relevant to machine learning and to show
+              up precise connections to other ``kernel machines'' popular in
+              the community. Our focus is on a simple presentation, but
+              references to more detailed sources are provided.",
+  journal  = "Int. J. Neural Syst.",
+  volume   =  14,
+  number   =  2,
+  pages    = "69--106",
+  month    =  apr,
+  year     =  2004
+}
+
+@BOOK{Bartholomew2011-vg,
+  title     = "Latent Variable Models and Factor Analysis: A Unified Approach",
+  author    = "Bartholomew, David J and Knott, Martin and Moustaki, Irini",
+  abstract  = "Latent Variable Models and Factor Analysis provides a
+               comprehensive and unified approach to factor analysis and latent
+               variable modeling from a statistical perspective. This book
+               presents a general framework to enable the derivation of the
+               commonly used models, along with updated numerical examples.
+               Nature and interpretation of a latent variable is also
+               introduced along with related techniques for investigating
+               dependency. This book: Provides a unified approach showing how
+               such apparently diverse methods as Latent Class Analysis and
+               Factor Analysis are actually members of the same family.
+               Presents new material on ordered manifest variables, MCMC
+               methods, non-linear models as well as a new chapter on related
+               techniques for investigating dependency. Includes new sections
+               on structural equation models (SEM) and Markov Chain Monte Carlo
+               methods for parameter estimation, along with new illustrative
+               examples. Looks at recent developments on goodness-of-fit test
+               statistics and on non-linear models and models with mixed latent
+               variables, both categorical and continuous. No prior
+               acquaintance with latent variable modelling is pre-supposed but
+               a broad understanding of statistical theory will make it easier
+               to see the approach in its proper perspective. Applied
+               statisticians, psychometricians, medical statisticians,
+               biostatisticians, economists and social science researchers will
+               benefit from this book.",
+  publisher = "John Wiley \& Sons",
+  month     =  jun,
+  year      =  2011,
+  language  = "en"
+}
+
+@ARTICLE{Lee1999-su,
+  title    = "Learning the parts of objects by non-negative matrix
+              factorization",
+  author   = "Lee, D D and Seung, H S",
+  abstract = "Is perception of the whole based on perception of its parts?
+              There is psychological and physiological evidence for parts-based
+              representations in the brain, and certain computational theories
+              of object recognition rely on such representations. But little is
+              known about how brains or computers might learn the parts of
+              objects. Here we demonstrate an algorithm for non-negative matrix
+              factorization that is able to learn parts of faces and semantic
+              features of text. This is in contrast to other methods, such as
+              principal components analysis and vector quantization, that learn
+              holistic, not parts-based, representations. Non-negative matrix
+              factorization is distinguished from the other methods by its use
+              of non-negativity constraints. These constraints lead to a
+              parts-based representation because they allow only additive, not
+              subtractive, combinations. When non-negative matrix factorization
+              is implemented as a neural network, parts-based representations
+              emerge by virtue of two properties: the firing rates of neurons
+              are never negative and synaptic strengths do not change sign.",
+  journal  = "Nature",
+  volume   =  401,
+  number   =  6755,
+  pages    = "788--791",
+  month    =  oct,
+  year     =  1999,
+  language = "en"
+}
+
+@ARTICLE{Cable2022-cv,
+  title    = "Robust decomposition of cell type mixtures in spatial
+              transcriptomics",
+  author   = "Cable, Dylan M and Murray, Evan and Zou, Luli S and Goeva,
+              Aleksandrina and Macosko, Evan Z and Chen, Fei and Irizarry,
+              Rafael A",
+  abstract = "A limitation of spatial transcriptomics technologies is that
+              individual measurements may contain contributions from multiple
+              cells, hindering the discovery of cell-type-specific spatial
+              patterns of localization and expression. Here, we develop robust
+              cell type decomposition (RCTD), a computational method that
+              leverages cell type profiles learned from single-cell RNA-seq to
+              decompose cell type mixtures while correcting for differences
+              across sequencing technologies. We demonstrate the ability of
+              RCTD to detect mixtures and identify cell types on simulated
+              datasets. Furthermore, RCTD accurately reproduces known cell type
+              and subtype localization patterns in Slide-seq and Visium
+              datasets of the mouse brain. Finally, we show how RCTD's recovery
+              of cell type localization enables the discovery of genes within a
+              cell type whose expression depends on spatial environment.
+              Spatial mapping of cell types with RCTD enables the spatial
+              components of cellular identity to be defined, uncovering new
+              principles of cellular organization in biological tissue. RCTD is
+              publicly available as an open-source R package at
+              https://github.com/dmcable/RCTD .",
+  journal  = "Nat. Biotechnol.",
+  volume   =  40,
+  number   =  4,
+  pages    = "517--526",
+  month    =  apr,
+  year     =  2022,
+  language = "en"
+}
+
+@ARTICLE{Li2021-mu,
+  title         = "Multi-group Gaussian Processes",
+  author        = "Li, Didong and Jones, Andrew and Banerjee, Sudipto and
+                   Engelhardt, Barbara E",
+  abstract      = "Gaussian processes (GPs) are pervasive in functional data
+                   analysis, machine learning, and spatial statistics for
+                   modeling complex dependencies. Modern scientific data sets
+                   are typically heterogeneous and often contain multiple known
+                   discrete subgroups of samples. For example, in genomics
+                   applications samples may be grouped according to tissue type
+                   or drug exposure. In the modeling process it is desirable to
+                   leverage the similarity among groups while accounting for
+                   differences between them. While a substantial literature
+                   exists for GPs over Euclidean domains $\mathbb\{R\}^p$, GPs
+                   on domains suitable for multi-group data remain less
+                   explored. Here, we develop a multi-group Gaussian process
+                   (MGGP), which we define on $\mathbb\{R\}^p\times
+                   \mathscr\{C\}$, where $\mathscr\{C\}$ is a finite set
+                   representing the group label. We provide general methods to
+                   construct valid (positive definite) covariance functions on
+                   this domain, and we describe algorithms for inference,
+                   estimation, and prediction. We perform simulation
+                   experiments and apply MGGP to gene expression data to
+                   illustrate the behavior and advantages of the MGGP in the
+                   joint modeling of continuous and categorical variables.",
+  month         =  oct,
+  year          =  2021,
+  archivePrefix = "arXiv",
+  primaryClass  = "stat.ME",
+  eprint        = "2110.08411"
+}
+
+@ARTICLE{Bonilla2007-gw,
+  title   = "Multi-task Gaussian Process Prediction",
+  author  = "Bonilla, Edwin V and Chai, Kian and Williams, Christopher",
+  journal = "Advances in neural information processing systems",
+  year    =  2007
+}
+
+@ARTICLE{Hensman2013-xr,
+  title         = "Gaussian Processes for Big Data",
+  author        = "Hensman, James and Fusi, Nicolo and Lawrence, Neil D",
+  abstract      = "We introduce stochastic variational inference for Gaussian
+                   process models. This enables the application of Gaussian
+                   process (GP) models to data sets containing millions of data
+                   points. We show how GPs can be vari- ationally decomposed to
+                   depend on a set of globally relevant inducing variables
+                   which factorize the model in the necessary manner to perform
+                   variational inference. Our ap- proach is readily extended to
+                   models with non-Gaussian likelihoods and latent variable
+                   models based around Gaussian processes. We demonstrate the
+                   approach on a simple toy problem and two real world data
+                   sets.",
+  month         =  sep,
+  year          =  2013,
+  archivePrefix = "arXiv",
+  primaryClass  = "cs.LG",
+  eprint        = "1309.6835"
+}
+
+@ARTICLE{Stein2005-af,
+  title     = "{Space--Time} Covariance Functions",
+  author    = "Stein, Michael L",
+  abstract  = "This work considers a number of properties of space?time
+               covariance functions and how these relate to the
+               spatial-temporal interactions of the process. First, it examines
+               how the smoothness away from the origin of a space?time
+               covariance function affects, for example, temporal correlations
+               of spatial differences. Models that are not smoother away from
+               the origin than they are at the origin, such as separable
+               models, have a kind of discontinuity to certain correlations
+               that one might wish to avoid in some circumstances. Smoothness
+               away from the origin of a covariance function is shown to follow
+               from the corresponding spectral density having derivatives with
+               finite moments. These results are used to obtain a parametric
+               class of spectral densities whose corresponding space?time
+               covariance functions are infinitely differentiable away from the
+               origin and that allows for essentially arbitrary and possibly
+               different degrees of smoothness for the process in space and
+               time. Second, this work considers models that are asymmetric in
+               space?time; the covariance between site x at time t and site y
+               at time s is different than the covariance between site x at
+               time s and site y at time t. A general approach is described for
+               generating asymmetric models from symmetric models by taking
+               derivatives. Finally, the implications of a Markov assumption in
+               time on space?time covariance functions for Gaussian processes
+               are examined, and an explicit characterization of all such
+               continuous covariance functions is given. Several of the new
+               models described in this work are applied to wind data from
+               Ireland.",
+  journal   = "J. Am. Stat. Assoc.",
+  publisher = "Taylor \& Francis",
+  volume    =  100,
+  number    =  469,
+  pages     = "310--321",
+  month     =  mar,
+  year      =  2005
+}
+
+@INPROCEEDINGS{Wu2022-fd,
+  title     = "Variational nearest neighbor Gaussian process",
+  booktitle = "Proceedings of the 39th International Conference on Machine
+               Learning",
+  author    = "Wu, Luhuan and Pleiss, Geoff and Cunningham, John P",
+  editor    = "Chaudhuri, Kamalika and Jegelka, Stefanie and Song, Le and
+               Szepesvari, Csaba and Niu, Gang and Sabato, Sivan",
+  abstract  = "Variational approximations to Gaussian processes (GPs) typically
+               use a small set of inducing points to form a low-rank
+               approximation to the covariance matrix. In this work, we instead
+               exploit a sparse approximation of the precision matrix. We
+               propose variational nearest neighbor Gaussian process (VNNGP),
+               which introduces a prior that only retains correlations within
+               $K$ nearest-neighboring observations, thereby inducing sparse
+               precision structure. Using the variational framework, VNNGP's
+               objective can be factorized over both observations and inducing
+               points, enabling stochastic optimization with a time complexity
+               of $O(K^3)$. Hence, we can arbitrarily scale the inducing point
+               size, even to the point of putting inducing points at every
+               observed location. We compare VNNGP to other scalable GPs
+               through various experiments, and demonstrate that VNNGP (1) can
+               dramatically outperform low-rank methods, and (2) is less prone
+               to overfitting than other nearest neighbor methods.",
+  publisher = "PMLR",
+  volume    =  162,
+  pages     = "24114--24130",
+  series    = "Proceedings of Machine Learning Research",
+  year      =  2022
+}
+
+@ARTICLE{Li2021-fv,
+  title         = "Multi-group Gaussian Processes",
+  author        = "Li, Didong and Jones, Andrew and Banerjee, Sudipto and
+                   Engelhardt, Barbara E",
+  abstract      = "Gaussian processes (GPs) are pervasive in functional data
+                   analysis, machine learning, and spatial statistics for
+                   modeling complex dependencies. Modern scientific data sets
+                   are typically heterogeneous and often contain multiple known
+                   discrete subgroups of samples. For example, in genomics
+                   applications samples may be grouped according to tissue type
+                   or drug exposure. In the modeling process it is desirable to
+                   leverage the similarity among groups while accounting for
+                   differences between them. While a substantial literature
+                   exists for GPs over Euclidean domains $\mathbb\{R\}^p$, GPs
+                   on domains suitable for multi-group data remain less
+                   explored. Here, we develop a multi-group Gaussian process
+                   (MGGP), which we define on $\mathbb\{R\}^p\times
+                   \mathscr\{C\}$, where $\mathscr\{C\}$ is a finite set
+                   representing the group label. We provide general methods to
+                   construct valid (positive definite) covariance functions on
+                   this domain, and we describe algorithms for inference,
+                   estimation, and prediction. We perform simulation
+                   experiments and apply MGGP to gene expression data to
+                   illustrate the behavior and advantages of the MGGP in the
+                   joint modeling of continuous and categorical variables.",
+  month         =  oct,
+  year          =  2021,
+  archivePrefix = "arXiv",
+  primaryClass  = "stat.ME",
+  eprint        = "2110.08411"
+}
+
+@ARTICLE{Spracklin2023-br,
+  title    = "Diverse silent chromatin states modulate genome
+              compartmentalization and loop extrusion barriers",
+  author   = "Spracklin, George and Abdennur, Nezar and Imakaev, Maxim and
+              Chowdhury, Neil and Pradhan, Sriharsa and Mirny, Leonid A and
+              Dekker, Job",
+  abstract = "The relationships between chromosomal compartmentalization,
+              chromatin state and function are poorly understood. Here by
+              profiling long-range contact frequencies in HCT116 colon cancer
+              cells, we distinguish three silent chromatin states, comprising
+              two types of heterochromatin and a state enriched for H3K9me2 and
+              H2A.Z that exhibits neutral three-dimensional interaction
+              preferences and which, to our knowledge, has not previously been
+              characterized. We find that heterochromatin marked by H3K9me3,
+              HP1$\alpha$ and HP1$\beta$ correlates with strong
+              compartmentalization. We demonstrate that disruption of DNA
+              methyltransferase activity greatly remodels genome
+              compartmentalization whereby domains lose
+              H3K9me3-HP1$\alpha$/$\beta$ binding and acquire the neutrally
+              interacting state while retaining late replication timing.
+              Furthermore, we show that H3K9me3-HP1$\alpha$/$\beta$
+              heterochromatin is permissive to loop extrusion by cohesin but
+              refractory to CTCF binding. Together, our work reveals a dynamic
+              structural and organizational diversity of the silent portion of
+              the genome and establishes connections between the regulation of
+              chromatin state and chromosome organization, including an
+              interplay between DNA methylation, compartmentalization and loop
+              extrusion.",
+  journal  = "Nat. Struct. Mol. Biol.",
+  volume   =  30,
+  number   =  1,
+  pages    = "38--51",
+  month    =  jan,
+  year     =  2023,
+  language = "en"
+}
+
+@UNPUBLISHED{Costacurta2022-nn,
+  title    = "Distinguishing discrete and continuous behavioral variability
+              using warped autoregressive {HMMs}",
+  author   = "Costacurta, Julia C and Duncker, Lea and Sheffer, Blue and
+              Gillis, Winthrop and Weinreb, Caleb and Markowitz, Jeffrey E and
+              Datta, Sandeep R and Williams, Alex H and Linderman, Scott W",
+  abstract = "AbstractA core goal in systems neuroscience and neuroethology is
+              to understand how neural circuits generate naturalistic behavior.
+              One foundational idea is that complex naturalistic behavior may
+              be composed of sequences of stereotyped behavioral syllables,
+              which combine to generate rich sequences of actions. To
+              investigate this, a common approach is to use autoregressive
+              hidden Markov models (ARHMMs) to segment video into discrete
+              behavioral syllables. While these approaches have been successful
+              in extracting syllables that are interpretable, they fail to
+              account for other forms of behavioral variability, such as
+              differences in speed, which may be better described as continuous
+              in nature. To overcome these limitations, we introduce a class of
+              warped ARHMMs (WARHMM). As is the case in the ARHMM, behavior is
+              modeled as a mixture of autoregressive dynamics. However, the
+              dynamics under each discrete latent state (i.e. each behavioral
+              syllable) are additionally modulated by a continuous latent
+              ``warping variable.'' We present two versions of warped ARHMM in
+              which the warping variable affects the dynamics of each syllable
+              either linearly or nonlinearly. Using depth-camera recordings of
+              freely moving mice, we demonstrate that the failure of ARHMMs to
+              account for continuous behavioral variability results in
+              duplicate cluster assignments. WARHMM achieves similar
+              performance to the standard ARHMM while using fewer behavioral
+              syllables. Further analysis of behavioral measurements in mice
+              demonstrates that WARHMM identifies structure relating to
+              response vigor.",
+  journal  = "bioRxiv",
+  month    =  jun,
+  year     =  2022
+}
+
+@ARTICLE{Wiltschko2015-my,
+  title    = "Mapping {Sub-Second} Structure in Mouse Behavior",
+  author   = "Wiltschko, Alexander B and Johnson, Matthew J and Iurilli,
+              Giuliano and Peterson, Ralph E and Katon, Jesse M and Pashkovski,
+              Stan L and Abraira, Victoria E and Adams, Ryan P and Datta,
+              Sandeep Robert",
+  abstract = "Complex animal behaviors are likely built from simpler modules,
+              but their systematic identification in mammals remains a
+              significant challenge. Here we use depth imaging to show that 3D
+              mouse pose dynamics are structured at the sub-second timescale.
+              Computational modeling of these fast dynamics effectively
+              describes mouse behavior as a series of reused and stereotyped
+              modules with defined transition probabilities. We demonstrate
+              this combined 3D imaging and machine learning method can be used
+              to unmask potential strategies employed by the brain to adapt to
+              the environment, to capture both predicted and previously hidden
+              phenotypes caused by genetic or neural manipulations, and to
+              systematically expose the global structure of behavior within an
+              experiment. This work reveals that mouse body language is built
+              from identifiable components and is organized in a predictable
+              fashion; deciphering this language establishes an objective
+              framework for characterizing the influence of environmental cues,
+              genes and neural activity on behavior.",
+  journal  = "Neuron",
+  volume   =  88,
+  number   =  6,
+  pages    = "1121--1135",
+  month    =  dec,
+  year     =  2015,
+  language = "en"
+}
+
+@ARTICLE{Wiltschko2020-ge,
+  title    = "Revealing the structure of pharmacobehavioral space through
+              motion sequencing",
+  author   = "Wiltschko, Alexander B and Tsukahara, Tatsuya and Zeine, Ayman
+              and Anyoha, Rockwell and Gillis, Winthrop F and Markowitz,
+              Jeffrey E and Peterson, Ralph E and Katon, Jesse and Johnson,
+              Matthew J and Datta, Sandeep Robert",
+  abstract = "Understanding how genes, drugs and neural circuits influence
+              behavior requires the ability to effectively organize information
+              about similarities and differences within complex behavioral
+              datasets. Motion Sequencing (MoSeq) is an ethologically inspired
+              behavioral analysis method that identifies modular components of
+              three-dimensional mouse body language called 'syllables'. Here,
+              we show that MoSeq effectively parses behavioral differences and
+              captures similarities elicited by a panel of neuroactive and
+              psychoactive drugs administered to a cohort of nearly 700 mice.
+              MoSeq identifies syllables that are characteristic of individual
+              drugs, a finding we leverage to reveal specific on- and
+              off-target effects of both established and candidate therapeutics
+              in a mouse model of autism spectrum disorder. These results
+              demonstrate that MoSeq can meaningfully organize large-scale
+              behavioral data, illustrate the power of a fundamentally modular
+              description of behavior and suggest that behavioral syllables
+              represent a new class of druggable target.",
+  journal  = "Nat. Neurosci.",
+  volume   =  23,
+  number   =  11,
+  pages    = "1433--1443",
+  month    =  nov,
+  year     =  2020,
+  language = "en"
+}

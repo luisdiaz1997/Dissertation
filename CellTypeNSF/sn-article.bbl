@@ -1,0 +1,355 @@
+%% BioMed_Central_Bib_Style_v1.01
+
+\begin{thebibliography}{21}
+% BibTex style file: bmc-mathphys.bst (version 2.1), 2014-07-24
+\ifx \bisbn   \undefined \def \bisbn  #1{ISBN #1}\fi
+\ifx \binits  \undefined \def \binits#1{#1}\fi
+\ifx \bauthor  \undefined \def \bauthor#1{#1}\fi
+\ifx \batitle  \undefined \def \batitle#1{#1}\fi
+\ifx \bjtitle  \undefined \def \bjtitle#1{#1}\fi
+\ifx \bvolume  \undefined \def \bvolume#1{\textbf{#1}}\fi
+\ifx \byear  \undefined \def \byear#1{#1}\fi
+\ifx \bissue  \undefined \def \bissue#1{#1}\fi
+\ifx \bfpage  \undefined \def \bfpage#1{#1}\fi
+\ifx \blpage  \undefined \def \blpage #1{#1}\fi
+\ifx \burl  \undefined \def \burl#1{\textsf{#1}}\fi
+\ifx \doiurl  \undefined \def \doiurl#1{\url{https://doi.org/#1}}\fi
+\ifx \betal  \undefined \def \betal{\textit{et al.}}\fi
+\ifx \binstitute  \undefined \def \binstitute#1{#1}\fi
+\ifx \binstitutionaled  \undefined \def \binstitutionaled#1{#1}\fi
+\ifx \bctitle  \undefined \def \bctitle#1{#1}\fi
+\ifx \beditor  \undefined \def \beditor#1{#1}\fi
+\ifx \bpublisher  \undefined \def \bpublisher#1{#1}\fi
+\ifx \bbtitle  \undefined \def \bbtitle#1{#1}\fi
+\ifx \bedition  \undefined \def \bedition#1{#1}\fi
+\ifx \bseriesno  \undefined \def \bseriesno#1{#1}\fi
+\ifx \blocation  \undefined \def \blocation#1{#1}\fi
+\ifx \bsertitle  \undefined \def \bsertitle#1{#1}\fi
+\ifx \bsnm \undefined \def \bsnm#1{#1}\fi
+\ifx \bsuffix \undefined \def \bsuffix#1{#1}\fi
+\ifx \bparticle \undefined \def \bparticle#1{#1}\fi
+\ifx \barticle \undefined \def \barticle#1{#1}\fi
+\bibcommenthead
+\ifx \bconfdate \undefined \def \bconfdate #1{#1}\fi
+\ifx \botherref \undefined \def \botherref #1{#1}\fi
+\ifx \url \undefined \def \url#1{\textsf{#1}}\fi
+\ifx \bchapter \undefined \def \bchapter#1{#1}\fi
+\ifx \bbook \undefined \def \bbook#1{#1}\fi
+\ifx \bcomment \undefined \def \bcomment#1{#1}\fi
+\ifx \oauthor \undefined \def \oauthor#1{#1}\fi
+\ifx \citeauthoryear \undefined \def \citeauthoryear#1{#1}\fi
+\ifx \endbibitem  \undefined \def \endbibitem {}\fi
+\ifx \bconflocation  \undefined \def \bconflocation#1{#1}\fi
+\ifx \arxivurl  \undefined \def \arxivurl#1{\textsf{#1}}\fi
+\csname PreBibitemsHook\endcsname
+
+%%% 1
+\bibitem[\protect\citeauthoryear{Verma et~al.}{2021}]{Verma2021-sj}
+\begin{botherref}
+\oauthor{\bsnm{Verma}, \binits{A.}},
+\oauthor{\bsnm{Jena}, \binits{S.G.}},
+\oauthor{\bsnm{Isakov}, \binits{D.R.}},
+\oauthor{\bsnm{Aoki}, \binits{K.}},
+\oauthor{\bsnm{Toettcher}, \binits{J.E.}},
+\oauthor{\bsnm{Engelhardt}, \binits{B.E.}}:
+A self-exciting point process to study multicellular spatial signaling
+  patterns.
+Proc. Natl. Acad. Sci. U. S. A.
+\textbf{118}(32)
+(2021)
+\end{botherref}
+\endbibitem
+
+%%% 2
+\bibitem[\protect\citeauthoryear{Moses and Pachter}{2022}]{Moses2022-sw}
+\begin{barticle}
+\bauthor{\bsnm{Moses}, \binits{L.}},
+\bauthor{\bsnm{Pachter}, \binits{L.}}:
+\batitle{Museum of spatial transcriptomics}.
+\bjtitle{Nat. Methods}
+\bvolume{19}(\bissue{5}),
+\bfpage{534}--\blpage{546}
+(\byear{2022})
+\end{barticle}
+\endbibitem
+
+%%% 3
+\bibitem[\protect\citeauthoryear{Sun et~al.}{2019}]{Sun2019-kj}
+\begin{barticle}
+\bauthor{\bsnm{Sun}, \binits{S.}},
+\bauthor{\bsnm{Zhu}, \binits{J.}},
+\bauthor{\bsnm{Ma}, \binits{Y.}},
+\bauthor{\bsnm{Zhou}, \binits{X.}}:
+\batitle{Accuracy, robustness and scalability of dimensionality reduction
+  methods for single-cell {RNA-seq} analysis}.
+\bjtitle{Genome Biol.}
+\bvolume{20}(\bissue{1}),
+\bfpage{269}
+(\byear{2019})
+\end{barticle}
+\endbibitem
+
+%%% 4
+\bibitem[\protect\citeauthoryear{Wolf et~al.}{2018}]{Wolf2018-sz}
+\begin{barticle}
+\bauthor{\bsnm{Wolf}, \binits{F.A.}},
+\bauthor{\bsnm{Angerer}, \binits{P.}},
+\bauthor{\bsnm{Theis}, \binits{F.J.}}:
+\batitle{{SCANPY}: large-scale single-cell gene expression data analysis}.
+\bjtitle{Genome Biol.}
+\bvolume{19}(\bissue{1}),
+\bfpage{15}
+(\byear{2018})
+\end{barticle}
+\endbibitem
+
+%%% 5
+\bibitem[\protect\citeauthoryear{Butler et~al.}{2018}]{Butler2018-ej}
+\begin{barticle}
+\bauthor{\bsnm{Butler}, \binits{A.}},
+\bauthor{\bsnm{Hoffman}, \binits{P.}},
+\bauthor{\bsnm{Smibert}, \binits{P.}},
+\bauthor{\bsnm{Papalexi}, \binits{E.}},
+\bauthor{\bsnm{Satija}, \binits{R.}}:
+\batitle{Integrating single-cell transcriptomic data across different
+  conditions, technologies, and species}.
+\bjtitle{Nat. Biotechnol.}
+\bvolume{36}(\bissue{5}),
+\bfpage{411}--\blpage{420}
+(\byear{2018})
+\end{barticle}
+\endbibitem
+
+%%% 6
+\bibitem[\protect\citeauthoryear{Velten et~al.}{2022}]{Velten2022-ci}
+\begin{barticle}
+\bauthor{\bsnm{Velten}, \binits{B.}},
+\bauthor{\bsnm{Braunger}, \binits{J.M.}},
+\bauthor{\bsnm{Argelaguet}, \binits{R.}},
+\bauthor{\bsnm{Arnol}, \binits{D.}},
+\bauthor{\bsnm{Wirbel}, \binits{J.}},
+\bauthor{\bsnm{Bredikhin}, \binits{D.}},
+\bauthor{\bsnm{Zeller}, \binits{G.}},
+\bauthor{\bsnm{Stegle}, \binits{O.}}:
+\batitle{Identifying temporal and spatial patterns of variation from multimodal
+  data using {MEFISTO}}.
+\bjtitle{Nat. Methods}
+\bvolume{19}(\bissue{2}),
+\bfpage{179}--\blpage{186}
+(\byear{2022})
+\end{barticle}
+\endbibitem
+
+%%% 7
+\bibitem[\protect\citeauthoryear{Townes and Engelhardt}{2023}]{Townes2023-it}
+\begin{barticle}
+\bauthor{\bsnm{Townes}, \binits{F.W.}},
+\bauthor{\bsnm{Engelhardt}, \binits{B.E.}}:
+\batitle{Nonnegative spatial factorization applied to spatial genomics}.
+\bjtitle{Nat. Methods}
+\bvolume{20}(\bissue{2}),
+\bfpage{229}--\blpage{238}
+(\byear{2023})
+\end{barticle}
+\endbibitem
+
+%%% 8
+\bibitem[\protect\citeauthoryear{Seeger}{2004}]{Seeger2004-gw}
+\begin{barticle}
+\bauthor{\bsnm{Seeger}, \binits{M.W.}}:
+\batitle{Gaussian processes for machine learning}.
+\bjtitle{Int. J. Neural Syst.}
+\bvolume{14}(\bissue{2}),
+\bfpage{69}--\blpage{106}
+(\byear{2004})
+\end{barticle}
+\endbibitem
+
+%%% 9
+\bibitem[\protect\citeauthoryear{Bartholomew et~al.}{2011}]{Bartholomew2011-vg}
+\begin{bbook}
+\bauthor{\bsnm{Bartholomew}, \binits{D.J.}},
+\bauthor{\bsnm{Knott}, \binits{M.}},
+\bauthor{\bsnm{Moustaki}, \binits{I.}}:
+\bbtitle{Latent Variable Models and Factor Analysis: A Unified Approach}.
+\bpublisher{John Wiley \& Sons}, \blocation{???}
+(\byear{2011})
+\end{bbook}
+\endbibitem
+
+%%% 10
+\bibitem[\protect\citeauthoryear{Lee and Seung}{1999}]{Lee1999-au}
+\begin{barticle}
+\bauthor{\bsnm{Lee}, \binits{D.D.}},
+\bauthor{\bsnm{Seung}, \binits{H.S.}}:
+\batitle{Learning the parts of objects by non-negative matrix factorization}.
+\bjtitle{Nature}
+\bvolume{401}(\bissue{6755}),
+\bfpage{788}--\blpage{791}
+(\byear{1999})
+\end{barticle}
+\endbibitem
+
+%%% 11
+\bibitem[\protect\citeauthoryear{Cable et~al.}{2022}]{Cable2022-cv}
+\begin{barticle}
+\bauthor{\bsnm{Cable}, \binits{D.M.}},
+\bauthor{\bsnm{Murray}, \binits{E.}},
+\bauthor{\bsnm{Zou}, \binits{L.S.}},
+\bauthor{\bsnm{Goeva}, \binits{A.}},
+\bauthor{\bsnm{Macosko}, \binits{E.Z.}},
+\bauthor{\bsnm{Chen}, \binits{F.}},
+\bauthor{\bsnm{Irizarry}, \binits{R.A.}}:
+\batitle{Robust decomposition of cell type mixtures in spatial
+  transcriptomics}.
+\bjtitle{Nat. Biotechnol.}
+\bvolume{40}(\bissue{4}),
+\bfpage{517}--\blpage{526}
+(\byear{2022})
+\end{barticle}
+\endbibitem
+
+%%% 12
+\bibitem[\protect\citeauthoryear{Li et~al.}{2021}]{Li2021-fv}
+\begin{botherref}
+\oauthor{\bsnm{Li}, \binits{D.}},
+\oauthor{\bsnm{Jones}, \binits{A.}},
+\oauthor{\bsnm{Banerjee}, \binits{S.}},
+\oauthor{\bsnm{Engelhardt}, \binits{B.E.}}:
+Multi-group gaussian processes
+(2021)
+{\href{https://arxiv.org/abs/2110.08411}{{arXiv:2110.08411}}}
+{[stat.ME]}
+\end{botherref}
+\endbibitem
+
+%%% 13
+\bibitem[\protect\citeauthoryear{Bonilla et~al.}{2007}]{Bonilla2007-gw}
+\begin{botherref}
+\oauthor{\bsnm{Bonilla}, \binits{E.V.}},
+\oauthor{\bsnm{Chai}, \binits{K.}},
+\oauthor{\bsnm{Williams}, \binits{C.}}:
+Multi-task gaussian process prediction.
+Advances in neural information processing systems
+(2007)
+\end{botherref}
+\endbibitem
+
+%%% 14
+\bibitem[\protect\citeauthoryear{Stein}{2005}]{Stein2005-af}
+\begin{barticle}
+\bauthor{\bsnm{Stein}, \binits{M.L.}}:
+\batitle{{Space--Time} covariance functions}.
+\bjtitle{J. Am. Stat. Assoc.}
+\bvolume{100}(\bissue{469}),
+\bfpage{310}--\blpage{321}
+(\byear{2005})
+\end{barticle}
+\endbibitem
+
+%%% 15
+\bibitem[\protect\citeauthoryear{Blei et~al.}{2017}]{Blei2017-ed}
+\begin{barticle}
+\bauthor{\bsnm{Blei}, \binits{D.M.}},
+\bauthor{\bsnm{Kucukelbir}, \binits{A.}},
+\bauthor{\bsnm{McAuliffe}, \binits{J.D.}}:
+\batitle{Variational inference: A review for statisticians}.
+\bjtitle{J. Am. Stat. Assoc.}
+\bvolume{112}(\bissue{518}),
+\bfpage{859}--\blpage{877}
+(\byear{2017})
+\end{barticle}
+\endbibitem
+
+%%% 16
+\bibitem[\protect\citeauthoryear{Stickels et~al.}{2021}]{Stickels2021-go}
+\begin{barticle}
+\bauthor{\bsnm{Stickels}, \binits{R.R.}},
+\bauthor{\bsnm{Murray}, \binits{E.}},
+\bauthor{\bsnm{Kumar}, \binits{P.}},
+\bauthor{\bsnm{Li}, \binits{J.}},
+\bauthor{\bsnm{Marshall}, \binits{J.L.}},
+\bauthor{\bsnm{Di~Bella}, \binits{D.J.}},
+\bauthor{\bsnm{Arlotta}, \binits{P.}},
+\bauthor{\bsnm{Macosko}, \binits{E.Z.}},
+\bauthor{\bsnm{Chen}, \binits{F.}}:
+\batitle{Highly sensitive spatial transcriptomics at near-cellular resolution
+  with {Slide-seqV2}}.
+\bjtitle{Nat. Biotechnol.}
+\bvolume{39}(\bissue{3}),
+\bfpage{313}--\blpage{319}
+(\byear{2021})
+\end{barticle}
+\endbibitem
+
+%%% 17
+\bibitem[\protect\citeauthoryear{Palla et~al.}{2022}]{Palla2022-xf}
+\begin{barticle}
+\bauthor{\bsnm{Palla}, \binits{G.}},
+\bauthor{\bsnm{Spitzer}, \binits{H.}},
+\bauthor{\bsnm{Klein}, \binits{M.}},
+\bauthor{\bsnm{Fischer}, \binits{D.}},
+\bauthor{\bsnm{Schaar}, \binits{A.C.}},
+\bauthor{\bsnm{Kuemmerle}, \binits{L.B.}},
+\bauthor{\bsnm{Rybakov}, \binits{S.}},
+\bauthor{\bsnm{Ibarra}, \binits{I.L.}},
+\bauthor{\bsnm{Holmberg}, \binits{O.}},
+\bauthor{\bsnm{Virshup}, \binits{I.}},
+\bauthor{\bsnm{Lotfollahi}, \binits{M.}},
+\bauthor{\bsnm{Richter}, \binits{S.}},
+\bauthor{\bsnm{Theis}, \binits{F.J.}}:
+\batitle{Squidpy: a scalable framework for spatial omics analysis}.
+\bjtitle{Nat. Methods}
+\bvolume{19}(\bissue{2}),
+\bfpage{171}--\blpage{178}
+(\byear{2022})
+\end{barticle}
+\endbibitem
+
+%%% 18
+\bibitem[\protect\citeauthoryear{Hensman et~al.}{2013}]{Hensman2013-xr}
+\begin{botherref}
+\oauthor{\bsnm{Hensman}, \binits{J.}},
+\oauthor{\bsnm{Fusi}, \binits{N.}},
+\oauthor{\bsnm{Lawrence}, \binits{N.D.}}:
+Gaussian processes for big data
+(2013)
+{\href{https://arxiv.org/abs/1309.6835}{{arXiv:1309.6835}}}
+{[cs.LG]}
+\end{botherref}
+\endbibitem
+
+%%% 19
+\bibitem[\protect\citeauthoryear{Salimbeni and
+  Deisenroth}{2017}]{Salimbeni2017-ds}
+\begin{botherref}
+\oauthor{\bsnm{Salimbeni}, \binits{H.}},
+\oauthor{\bsnm{Deisenroth}, \binits{M.}}:
+Doubly stochastic variational inference for deep gaussian processes.
+Adv. Neural Inf. Process. Syst.
+\textbf{30}
+(2017)
+\end{botherref}
+\endbibitem
+
+%%% 20
+\bibitem[\protect\citeauthoryear{Matthews}{2017}]{Matthews2017-hy}
+\begin{botherref}
+\oauthor{\bsnm{Matthews}, \binits{A.G.d.G.}}:
+Scalable gaussian process inference using variational methods
+(2017)
+\end{botherref}
+\endbibitem
+
+%%% 21
+\bibitem[\protect\citeauthoryear{Damianou}{2015}]{Damianou2015-dy}
+\begin{botherref}
+\oauthor{\bsnm{Damianou}, \binits{A.}}:
+Deep gaussian processes and variational propagation of uncertainty.
+PhD thesis,
+University of Sheffield
+(July 2015)
+\end{botherref}
+\endbibitem
+
+\end{thebibliography}

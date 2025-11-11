@@ -1,0 +1,104 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb}
+\usepackage{bm}
+\usepackage{graphicx}
+
+\title{Scaling Multigroup Gaussian Processes with Variational Nearest Neighbors GP}
+\author{Luis F. Chumpitaz Diaz}
+\date{September 2025}
+
+\begin{document}
+\maketitle
+
+% ---------------------------------------------
+% NOTE TO SELF:
+% This chapter is a drop-in for the thesis (separate Overleaf project).
+% Keep it lean: no abstracts; references will be added later.
+% ---------------------------------------------
+
+
+\section{Naive VNNGP attempt and outcome}
+
+We first tried a naive implementation, used the derived VNNGP from the original paper, and the model did not work. It did not learn the factors properly: the learned factors were very noisy and did not learn any variance per factor, even across various values of \(K\).
+
+\paragraph{Summary of why it failed (two main reasons).}
+\begin{itemize}
+  \item \textbf{(Reason 1) Sparse Precision approximation interpretation breaks for MGGPs.}
+  \item \textbf{(Reason 2) Diagonal variational posterior \(q(u)\) is too restrictive.}
+\end{itemize}
+
+\section{Precision approximations are ill-suited for MGGPs}
+\paragraph{Sparsity mismatch.}
+The near-diagonal approximation of the precision matrix works well for regular kernels over 1D or 2D inputs (see Figure~\ref{fig:precision-sparsity-regular}) but not for MGGPs, where there are non-diagonal covariance blocks. This yields precision matrices that are not as sparse as regular GP precisions (see Figure~\ref{fig:precision-sparsity-mggp}).
+
+\paragraph{Nearest-neighbor masking interpretation and ridges.}
+In general, the interpretation of \(K_{ij}=0\) if \(i\) and \(j\) are not nearest neighbors creates multiple numerical instabilities. This is equivalent to
+\begin{align*}
+  K(x_i,x_j) \;=\; K(x_i, x_j)\, K^*(x_i, x_j),
+\end{align*}
+
+Where:
+\[
+K^\ast(x_i,x_j)=
+\begin{cases}
+0, & \text{if } x_j \notin \mathcal{N}(x_i),\\[2pt]
+1, & \text{if } x_j \in \mathcal{N}(x_i),
+\end{cases}
+\]
+This behavior is explored in the original MGGP paper as ``separate MGGPs,'' leading to ``ridges'' or discontinuities (\emph{cite MGGP}).
+
+\paragraph{Why this interpretation fails in SVGP.}
+This interpretation is not necessarily true in SVGP. In general, the learned GP variance relies heavily on the learned \(S\) from \(q(u)\). In particular, if \(X=Z\), then the variance alone is just \(S\). Training each \(\mathrm{inv}(S_{n(i)\,n(i)})\) individually does \emph{not} imply \(S_{ij}=0\) when \(i\) and \(j\) are not in the same neighborhood.
+
+\begin{figure}[t]
+  \centering
+  \fbox{\rule{0pt}{1.25in}\rule{0.9\linewidth}{0pt}}
+  \caption{(Placeholder) Precision sparsity for regular kernels (1D/2D): diagonal/near-diagonal structure that supports diagonal approximations.}
+  \label{fig:precision-sparsity-regular}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \fbox{\rule{0pt}{1.25in}\rule{0.9\linewidth}{0pt}}
+  \caption{(Placeholder) Precision structure under MGGPs: non-diagonal block patterns that invalidate diagonal precision assumptions.}
+  \label{fig:precision-sparsity-mggp}
+\end{figure}
+
+\section{Diagonal \(q(u)\) collapses variance and harms learning}
+
+
+The diagonal approximation of \(q(u)=\prod_i q(u_i)\), where \(q(u_i)=\mathcal{N}(m_{u_i}, s_{u_i})\), in VNNGP is very restrictive. When \(X=Z\), this is equivalent to approximating the VNNGP with an SVGP having diagonal \(S_u\).
+
+\begin{align*}
+  q(u) \;=\; \prod_{i} \mathcal{N}\!\big(u_i \,;\, m_{u_i},\, s_{u_i}\big)
+  \qquad\Longrightarrow\qquad
+  S_u \text{ is diagonal (SVGP view when } X=Z\text{).}
+\end{align*}
+
+\paragraph{Consequence: underestimated posterior variance.}
+SVGP with a diagonal \(S_u\) underestimates GP confidence and drives the variance toward (near) zero. This effect on the predictive posterior under different GP approximations has been widely studied, and these approximations usually underestimate the posterior variance in benchmarks (\emph{cite} \emph{Understanding Probabilistic Sparse Gaussian Process Approximations}, \emph{A Unifying View of Sparse Approximate Gaussian Process Regression}).
+
+We analytically proved that, under the simplest model of variational free-energy GPs and any general non-Gaussian likelihood, the learned variance goes to near-zero values if \(S_u\) is set diagonally only (see Supplement~\S\,[placeholder]).
+
+\paragraph{Practical implication for non-Gaussian SVGP.}
+In general non-Gaussian likelihood SVGPs, the first term of the bound is computed via posterior sampling. Forcing the variance to zero makes learning overly restrictive and leads the mean to fit noise, producing non-continuous behavior that defeats the purpose of using a GP prior.
+
+\section{Stabilized approach: local precisions via embedded $Lu$}
+
+Instead of a global diagonal precision, we approximate the full-rank VNNGP precision \(\mathrm{inv}(S)\) by training smaller neighborhood precisions \(\mathrm{inv}(S_{n(i)\,n(i)})\) using an embedded factor \(L_u\in\mathbb{R}^{M\times K}\). For neighborhood \(n(i)\),
+\begin{align*}
+  \mathrm{inv}\big(S_{n(i)\,n(i)}\big) \;\approx\; \mathrm{inv}\!\big(L_{n(i)}\,L_{n(i)}^{\top}\big).
+\end{align*}
+
+\paragraph{Variational structure.}
+This changes the variational strategy to
+\begin{align*}
+  q(u) \;=\; \prod_i q\big(u_i \mid u_{n(i)}\big),
+  \qquad
+  q\big(u_{n(i)}\big) \;=\; \mathcal{N}\!\big(m_{u_{n(i)}},\, L_{u_{n(i)}}\,L_{u_{n(i)}}^{\top}\big).
+\end{align*}
+
+Using these, we derived a more stable ELBO (see Methods), yielding a fully expressive yet computationally tractable framework.
+
+
+\end{document}

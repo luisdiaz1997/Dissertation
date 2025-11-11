@@ -1,0 +1,131 @@
+\documentclass{article}
+
+% Recommended, but optional, packages for figures and better typesetting:
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{booktabs} % for professional tables
+
+% hyperref makes hyperlinks in the resulting PDF.
+\usepackage{hyperref}
+
+% Attempt to make hyperref and algorithmic work together better:
+\newcommand{\theHalgorithm}{\arabic{algorithm}}
+
+% Use the following line for the initial blind version submitted for review:
+% \usepackage{icml2025}
+
+% If accepted, instead use the following line for the camera-ready submission:
+\usepackage[accepted]{icml2025}
+
+% For theorems and such
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+
+% if you use cleveref..
+\usepackage[capitalize,noabbrev]{cleveref}
+
+\icmltitlerunning{Modeling Epigenomic Covariance via 3D Genome Folding and Integrated Gaussian Forces}
+
+\begin{document}
+
+\twocolumn[
+\icmltitle{Modeling Epigenomic Covariance via 3D Genome Folding and Integrated Gaussian Forces}
+
+\icmlsetsymbol{equal}{*}
+
+\begin{icmlauthorlist}
+\icmlauthor{Anonymous Author(s)}{equal}
+\end{icmlauthorlist}
+
+\icmlaffiliation{equal}{Affiliations withheld for double-blind review}
+
+\icmlcorrespondingauthor{Anonymous}{anonymous@icml.cc}
+
+\icmlkeywords{Machine Learning, Gaussian Processes, Genomics, ICML}
+
+\vskip 0.3in
+]
+
+\printAffiliationsAndNotice{\icmlEqualContribution}
+
+\begin{abstract}
+We present a probabilistic framework for modeling statistical dependencies between epigenomic signals using the 3D conformation of the genome. Inspired by Hi-C experiments, we propose a generative model where the latent 3D spatial positions of genomic loci arise from integrated Gaussian process force fields. This model captures both polymer physics principles and interpretable biological mechanisms such as chromatin loops and compartments.
+\end{abstract}
+
+\section{Introduction}
+
+The 3D organization of chromatin plays a central role in gene regulation, with loci that are spatially proximal often showing coordinated epigenomic activity. Hi-C experiments reveal that the genome folds non-randomly, leading to structured spatial contacts between genomic regions. Here, we aim to model the covariance between epigenomic signals as induced by an underlying 3D conformation, inferred from a Gaussian process over latent force fields.
+
+\section{Problem Setup}
+
+Let $s_i, s_j$ denote two epigenomic signals indexed by the genomic coordinate $x_i, x_j$. We posit that their covariance arises from their 3D proximity in space:
+
+\[
+\operatorname{Cov}(s_i, s_j) = k(\mathbf{z}_i, \mathbf{z}_j)
+\]
+
+where $\mathbf{z}_i$ is the 3D position of locus $x_i$, and $k$ is a kernel over 3D Euclidean space (e.g., an RBF kernel).
+
+\section{Latent Force Model for 3D Structure}
+
+We model $\mathbf{z}(x)$ as an integral of a latent force field:
+
+\[
+\mathbf{z}(x) = \int_0^x \mathbf{f}(t) dt
+\]
+
+Here, $\mathbf{f}(x)$ is a vector-valued Gaussian process that encodes the net spatial force acting along the genome. The resulting $\mathbf{z}(x)$ represents accumulated displacement in 3D space.
+
+\subsection{Brownian Motion as a Special Case}
+
+If $\mathbf{f}(x)$ is white noise, i.e., $\mathbf{f}(x) \sim \mathcal{GP}(0, \delta(x - x'))$, then $\mathbf{z}(x)$ becomes Brownian motion, with:
+
+\[
+\operatorname{Cov}(\mathbf{z}(x), \mathbf{z}(x')) = \min(x, x') \cdot I_3
+\]
+
+In discrete terms, this corresponds to a random walk:
+
+\[
+\mathbf{z}_{i+1} = \mathbf{z}_i + \epsilon_i, \quad \epsilon_i \sim \mathcal{N}(0, \sigma^2 I_3)
+\]
+
+As $\Delta x \to 0$, the discrete walk converges to Brownian motion.
+
+\section{Additive Latent Forces}
+
+To model multiple sources of structural constraint (e.g., loop extrusion, compartmentalization, elasticity), we define the force field as a sum of independent components:
+
+\[
+\mathbf{f}(x) = \sum_{l=1}^L \mathbf{f}_l(x), \quad \mathbf{f}_l \sim \mathcal{GP}(0, k_l(x, x'))
+\]
+
+Then:
+
+\[
+\mathbf{z}(x) = \sum_l \int_0^x \mathbf{f}_l(t) dt
+\]
+
+Each $\mathbf{f}_l$ captures a latent biophysical effect, and their contributions to $\mathbf{z}(x)$ are additive.
+
+\section{Covariance of Epigenomic Signals}
+
+With $\mathbf{z}(x)$ constructed as above, we define the spatial kernel:
+
+\[
+k(\mathbf{z}_i, \mathbf{z}_j) = \exp\left( -\frac{\|\mathbf{z}_i - \mathbf{z}_j\|^2}{2\ell^2} \right)
+\]
+
+which aligns with Hi-C observations that contact frequency decays with spatial distance.
+
+\section{Conclusion}
+
+We propose a framework for explaining epigenomic signal covariance using a latent 3D genome structure derived from integrated Gaussian process forces. By combining additive GPs and biologically informed kernels, this model bridges statistical genomics with polymer physics.
+
+\bibliography{example_paper}
+\bibliographystyle{icml2025}
+
+\end{document}

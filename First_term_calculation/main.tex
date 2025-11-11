@@ -1,0 +1,142 @@
+\documentclass{article}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{Expectation Term Calculation}
+\date{September 2025}
+
+\begin{document}
+
+\maketitle
+
+\section{Expansion of Expected Log Likelihood}
+
+
+We begin with the expected log-likelihood term
+\[
+\mathcal{L}_1
+= \sum_{j=1}^D \sum_{i=1}^N
+\mathbb{E}_{q(F_{i\cdot})} \!\left[ \log p(Y_{ij} \mid F_{i\cdot}) \right],
+\]
+
+For a Poisson observation model:
+
+\[
+p(Y \mid \nu \lambda) = \frac{\nu\lambda^Y e^{-\nu\lambda}}{Y!}
+\]
+
+The log-likelihood is:
+
+\begin{align*}
+\log p(Y_{ij} \mid \nu_i\lambda_{ij}) &= Y_{ij} \log \nu_{i} \lambda_{ij} - \nu_{i}\lambda_{ij} - \log (Y_{ij}!)\\
+&= Y_{ij} \log  \lambda_{ij} - \nu_{i}\lambda_{ij} + Y_{ij} \log \nu_{i} - \log (Y_{ij}!)
+\end{align*}
+
+
+In the NSF parameterization we set
+\[
+\lambda_{ij} \;=\; \sum_{\ell} W_{j\ell} e^{F_{i\ell}},\qquad W_{j\ell}\ge 0.
+\]
+
+Then the expected log-likelihood becomes:
+
+\begin{align*}
+\mathbb{E}_{q(F_{i\cdot})}\!\left[\log p(Y_{ij}\mid F_{i\cdot})\right]
+&= Y_{ij}\, \mathbb{E}_{q(F_{i\cdot})}\!\left[ \log \sum_{\ell} W_{j\ell} e^{F_{i\ell}} \right]
+\;-\; \nu_{i}\mathbb{E}_{q(F_{i\cdot})}\!\left[\sum_{\ell} W_{j\ell} e^{F_{i\ell}} \right]
+\;-\; \log(Y_{ij}!) + Y_{ij} \log \nu_{i}\\
+&= Y_{ij}\, \mathbb{E}_{q(F_{i\cdot})}\!\left[ \log \sum_{\ell} W_{j\ell} e^{F_{i\ell}} \right]
+\;-\; \nu_{i}\sum_{\ell} W_{j\ell}\, \mathbb{E}_{q(F_{i\ell})}\!\left[ e^{F_{i\ell}} \right]
+\;-\; \log(Y_{ij}!)+ Y_{ij} \log \nu_{i} .
+\end{align*}
+
+
+Since \( F_{i\ell} \sim \mathcal{N}(\mu_{i\ell}, \sigma_{i\ell}^2) \), we use the moment-generating function of the Gaussian to evaluate:
+
+\[
+\mathbb{E}_{q(F_{i\ell})} \left[ e^{F_{i\ell}} \right]
+= \exp\left( \mu_{i\ell} + \frac{1}{2} \sigma_{i\ell}^2 \right)
+\]
+
+This becomes:
+
+\[
+\mathbb{E}_{q(F_{i \cdot})} \left[ \log p(Y_{ij} \mid F_{i \cdot}) \right]
+= Y_{ij} \, \mathbb{E}_{q(F_{i \cdot})} \left[ \log \sum_\ell W_{j\ell} e^{F_{i\ell}} \right]
+- \nu_{i} \sum_\ell W_{j\ell} \, \exp\left( \mu_{i\ell} + \frac{1}{2} \sigma_{i\ell}^2 \right)
+- \log (Y_{ij}!)+ Y_{ij} \log \nu_{i}
+\]
+
+
+\section{Bounds for the expectation of the log-sum-exp term}
+
+Assume a mean-field variational posterior across factors,
+\(
+q(F_{i\cdot})=\prod_{\ell} q(F_{i\ell}).
+\)
+
+% \paragraph{Iterated expectation (nesting).}
+% Fix an index \(\ell\). Conditioning on \(F_{i,\setminus \ell}\) and integrating over \(F_{i\ell}\) gives
+% \begin{align*}
+% \mathbb{E}_{q(F_{i\cdot})}\!\left[ \log \sum_{m} W_{jm} e^{F_{im}} \right]
+% &= \mathbb{E}_{q(F_{i,\setminus \ell})}\!\left[
+%   \mathbb{E}_{q(F_{i\ell})}\!\left[
+%     \log\!\Big(W_{j\ell}e^{F_{i\ell}} + \!\!\sum_{m\neq \ell} W_{jm} e^{F_{im}}\Big)
+%     \,\Big|\, F_{i,\setminus \ell}
+%   \right]
+% \right].
+% \end{align*}
+% Define the (random, but \emph{fixed} inside the inner expectation) offset
+% \[
+% \eta_{ij}^{(\ell)}(F_{i,\setminus \ell})
+% \;:=\;
+% \sum_{m\neq \ell} W_{jm} e^{F_{im}} \;>\; 0.
+% \]
+% Then
+% \begin{align*}
+% \mathbb{E}_{q(F_{i\ell})}\!\left[
+%     \log \big( W_{j\ell}e^{F_{i\ell}} + \eta_{ij}^{(\ell)} \big)
+%   \,\Big|\, F_{i,\setminus \ell}
+% \right]
+% &= \log \eta_{ij}^{(\ell)} \;+\;
+% \mathbb{E}_{q(F_{i\ell})}\!\left[
+%     \log \Big( 1 + e^{\,F_{i\ell} + \log W_{j\ell} - \log \eta_{ij}^{(\ell)}} \Big)
+%   \right] \\
+% &= \log \eta_{ij}^{(\ell)} \;+\;
+% \mathbb{E}_{q(F_{i\ell})}\!\left[
+%     \mathrm{softplus}\!\Big( F_{i\ell} + \log W_{j\ell} - \log \eta_{ij}^{(\ell)} \Big)
+%   \right].
+% \end{align*}
+
+\paragraph{Jensen sandwich bounds.}
+Let \(g(z)=\log\!\sum_{m} W_{jm} e^{z_m}\) (convex) and \(S=\sum_m W_{jm} e^{F_{im}}>0\).
+Then
+\[
+\boxed{~
+\log \sum_{m} W_{jm}\, e^{\,\mathbb{E}[F_{im}]}
+\;\le\;
+\mathbb{E}\!\left[\log \sum_{m} W_{jm} e^{F_{im}}\right]
+\;\le\;
+\log \sum_{m} W_{jm}\, \mathbb{E}\!\left[e^{F_{im}}\right]
+~}
+\]
+(the left inequality uses convexity of \(g\), the right uses concavity of \(\log\): \(\mathbb{E}[\log S]\le \log\mathbb{E}[S]\)).
+For Gaussian marginals this becomes
+\[
+\log \sum_{m} W_{jm}\, e^{\mu_{im}}
+\;\le\;
+\mathbb{E}\!\left[\log \sum_{m} W_{jm} e^{F_{im}}\right]
+\;\le\;
+\log \sum_{m} W_{jm}\, \exp\!\big(\mu_{im}+\tfrac12\sigma_{im}^2\big).
+\]
+
+\section{Approximating this term}
+
+
+
+
+
+\end{document}
+
+

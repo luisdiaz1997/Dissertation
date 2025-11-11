@@ -1,0 +1,241 @@
+% Stanford University PhD thesis style -- modifications to the report style
+% This is unofficial so you should always double check against the
+% Registrar's office rules
+% See http://library.stanford.edu/research/bibliography-management/latex-and-bibtex
+% 
+% Example of use below
+% See the suthesis-2e.sty file for documentation
+%
+\documentclass{report}
+\usepackage{suthesis-2e}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\dept{BioPhysics}
+
+\begin{document}
+\title{Gaussian Processes\\
+            for Spatial Genomics}
+\author{Luis Fernando Chumpitaz Diaz}
+\principaladviser{Barbara Engelhardt}
+\firstreader{Barbara Engelhardt}
+\secondreader{Julia Palacios}
+\thirdreader{Scott W Linderman} %if needed
+\fourthreader{Trevor Hastie} %if needed
+ 
+\beforepreface
+\prefacesection{Preface}
+This thesis tells you all you need to know about...
+\prefacesection{Acknowledgments}
+I would like to thank...
+\afterpreface
+
+\chapter{Introduction}
+An overview of the motivation for leveraging Gaussian Processes in spatial genomics, highlighting the common thread between the three research thrusts developed in this dissertation.
+
+\chapter{Background on Gaussian Processes}
+\section{Standard Gaussian Processes}
+Gaussian Processes (GPs) define distributions over latent functions $f : \mathcal{X}\rightarrow \mathbb{R}$ such that any finite collection of function values follows a multivariate normal distribution. A GP prior is characterized by a mean function $m(x)$ and covariance kernel $k(x, x')$ that encode smoothness, symmetries, and expected variability. Kernels such as the squared-exponential produce infinitely differentiable functions, whereas Matérn kernels allow controlled roughness and sharper spatial transitions that better match tissue boundaries. Conditioning on observed data yields closed-form posterior means and covariances, enabling principled interpolation with calibrated uncertainty. The cubic complexity of exact GP inference ($\mathcal{O}(N^{3})$ factorization and $\mathcal{O}(N^{2})$ storage) becomes prohibitive for the hundreds of thousands of observations that are routine in spatial genomics, motivating approximate but scalable methods.
+
+\section{Variational Gaussian Processes and Sparse Approximations}
+Scalable GP inference introduces inducing variables $U$ at inducing inputs $Z$ to summarize the latent function while keeping $|Z| = M \ll N$. Variational sparse GPs posit a tractable posterior $q(U)$ and optimize an evidence lower bound (ELBO) that balances data fit with a KL divergence to the GP prior, enabling stochastic updates and $\mathcal{O}(NM^{2})$ complexity \cite{Hensman2013-xr}. Variational Nearest-Neighbor GPs (VNNGPs) push this idea further by conditioning each point on a local neighborhood, reducing costs to near-linear in $N$ while preserving excellent accuracy for single-group spatial data. However, VNNGPs still rely exclusively on spatial proximity when deciding conditional dependencies and therefore ignore structured relationships between biological groups, a deficiency addressed in Chapter~\ref{chap:variational-mggp}.
+
+\section{Multi-Group Gaussian Processes}
+Spatial genomics experiments capture multiple related groups (cell types, tissue regions, disease states), requiring latent functions $f(x, c)$ that depend on spatial coordinates $x$ and group index $c$. Classical multi-group GP (MGGP) models employ separable kernels $k\big((x, c), (x', c')\big) = k_{\text{space}}(x, x')\,k_{\text{group}}(c, c')$, often choosing RBF kernels for both factors. Separable RBF kernels share the same spatial correlation envelope across groups, which oversmooths sharp group-specific boundaries and fails to capture heterogeneous spatial roughness. Spatial transcriptomics demands finer control over smoothness; Matérn kernels provide explicit parameters for roughness ($\nu$) and length scales ($\ell$), motivating the non-separable Matérn MGGP kernel introduced in Chapter~\ref{chap:variational-mggp}. That kernel decouples spatial smoothness from cross-group similarity, enabling credible uncertainty estimates even when groups exhibit distinct spatial signatures.
+
+\chapter{Variational Inference for Multi-Group Gaussian Processes}\label{chap:variational-mggp}
+
+\section{Stochastic Variational Multigroup Gaussian Processes}
+
+In order to perform inference using Multigroup Gaussian Processes, we first need to build a variational strategy for such Gaussian Processes for any non-gaussian likelihood.
+We follow similar strategies of previous stochastic variational Gaussian processes methods (SVGP) \cite{Hensman2013-xr,Salimbeni2017-ds,Townes2023-it}.
+
+We start by defining the Gaussian Process distribution over $F$ with inputs $X$ and groups $C_X$.
+\[p(F |X, C_{X}; \theta) = \mathcal{MGGP}(F \mid 0, K((X, C_{X}), (X, C_{X}))) \]
+
+And the distribution over data $Y$ as the marginal over distribution $F$.
+\[p(Y|X, C_{X}; \theta) = \int{p(Y|F) p(F|X, C_{X}; \theta) dF} \]
+
+We can define this Gaussian Process as the marginalization over the inducing point distribution of $U$.
+\[p(F|X, C_{X}; \theta) = \int{p(F|U, X, C_{X}, Z, C_{z}; \theta) p(U|Z, C_{z};\theta) dU}\]
+
+This distribution over $U$ is also a Multigroup Gaussian Process, with inducing inputs $Z$ and inducing groups $C_Z$. 
+For our implementation, we chose inducing points $Z$ from the distribution of inputs in a given group.
+
+\[ p(U|Z, C_{Z};\theta) = \mathcal{MGGP}(U \mid 0, K((Z, C_{Z}), (Z, C_{Z})))\]
+
+The log marginal then becomes the following:
+
+\[p(Y|X, C_{X}; \theta) = \int{p(Y|F) p(F|U, X, C_{X}, Z, C_{Z}; \theta) p(U|Z, C_{Z};\theta) dU  dF}\]
+
+We add variational distributions $q(F, U)$.
+\[\log p(Y|X, C_{X}; \theta) = \log \int{ \frac{p(Y|F) p(F|U, X, C_{X}, Z, C_{Z}; \theta) p(U|Z, C_{Z};\theta)}{q(F, U)} q(F, U) dU  dF}\]
+
+Apply Jensen's Inequality and we obtain the Evidence Lower Bound (ELBO).
+
+\[\log p(Y|X, C_{X}; \theta) \ge  \int{ \log \frac{p(Y|F) p(F|U, X, C_{X}, Z, C_{Z}; \theta) p(U|Z, C_{Z};\theta)}{q(F, U)} q(F, U) dU  dF}\]
+
+We set $q(F|U)=p(F|U)$ \cite{Hensman2013-xr}.
+
+\[q(F, U) = p(F|U, X, C_{X}, Z, C_{Z}; \theta) q(U) \]
+
+This simplifies the ELBO.
+
+\[\log p(Y|X, C_{X}; \theta) \ge  \int{ \log \frac{p(Y|F) p(U|Z, C_{Z};\theta)}{q(U)} q(F, U) dU  dF}\]
+
+\[\log p(Y|X, C_{X}; \theta) \ge  \int{ \log p(Y|F) q(F)} - KL(q(U) ||p(U|Z, C_{Z};\theta))\]
+
+The first Expectation term can be approximated using Monte Carlo sampling if the likelihood is non-Gaussian.
+
+\[\int{\log{p(Y|F)} q(F)dF} \approx \frac{1}{S} \sum^{S}_{s}[\log{p(Y|F_s)}]\]
+
+Where:
+
+\[F_s \sim q(F)\]
+
+Since the variational posterior depend only on the correspoding inputs $(X_i, C_i)$ \cite{Salimbeni2017-ds}.
+
+It allow us to perform inference of $q(F)$ over new combinations of $X$ and $C_X$.
+
+\[q(F| X, C_{X}; \theta) = \int p(F|U, X, C_{X}, Z, C_{Z}; \theta) q(U) dU \]
+\[q(F| X_{new}, C_{X_{new}}; \theta) = \int p(F|U, X_{new}, C_{X_{new}}, Z, C_{Z}; \theta) q(U) dU \]
+
+\section{Limitations of Existing Approaches}
+Classical sparse variational GP formulations frequently assume diagonal or block-diagonal forms for $q(U)$, discarding cross-group correlations even when the prior couples groups strongly. Variational nearest-neighbor GPs (VNNGPs) lower computational cost by conditioning on spatial neighborhoods, yet they encode dependence solely through Euclidean distance and therefore fail to leverage biological relationships such as developmental trajectories or treatment/control pairings. Separable MGGP kernels exacerbate the problem by forcing every group to share an identical spatial correlation envelope, leading to oversmoothed posteriors and poor handling of sharp group-specific differences. These limitations motivate the new kernel and inference techniques developed below.
+
+\section{Derivation of the Non-Separable Matérn MGGP Kernel}
+We embed group relationships directly into the spatial covariance through a kernel of the form
+\[
+k\big((x, c), (x', c')\big) = k_{\text{Matérn}}\big(x, x'; \nu_c, \ell_c, \sigma_c\big)\,\Gamma_{cc'},
+\]
+where the Matérn parameters $(\nu_c, \ell_c, \sigma_c)$ may vary across groups and $\Gamma$ is a positive-definite group covariance matrix derived from similarity graphs or estimated jointly with $\theta$. This non-separable construction allows each group to control its own spatial roughness and length scales while sharing information via $\Gamma$. Positive definiteness follows from the complete monotonicity of the Matérn kernel together with the constraint $\Gamma \succeq 0$; Appendix~\ref{app:kernel-proof} provides the proof. When $\nu_c \rightarrow \infty$ and $\Gamma$ is rank one the kernel reduces to the separable RBF formulation, showing that it strictly generalizes prior MGGP kernels.
+
+\section{Locally Conditioned KL Approximation}\label{subsec:lc-kl}
+Even with inducing variables, modeling dense covariances for $q(U)$ incurs cubic costs in $M$. We therefore decompose the KL term through locally conditioned neighborhoods: each inducing point $j$ interacts only with $\mathcal{N}(j)$, a set of nearby inducing points (potentially across groups) selected via spatial ball trees or group-aware k-nearest neighbors. Approximating the GP prior by $\prod_j p(u_j \mid U_{\mathcal{N}(j)})$ yields a block-sparse precision matrix, and the KL divergence reduces to localized solves that preserve cross-group structure whenever neighborhoods include cross-group edges. This approximation maintains the interpretability of shared latent structure while ensuring linear-time evaluation in the number of neighborhood edges.
+
+\section{Scalable Variational MGGPs}\label{subsec41}
+Combining the non-separable Matérn kernel with the locally conditioned KL approximation leads to the following algorithm:
+\begin{enumerate}
+    \item Initialize inducing points for each group via k-means++ over spatial coordinates and construct a hybrid spatial/group neighborhood graph.
+    \item Optimize the ELBO with stochastic gradients, forming mini-batches from spatial patches that include multiple groups to expose cross-group interactions.
+    \item Evaluate the localized KL divergence by traversing neighborhoods $\mathcal{N}(j)$, using sparse Cholesky updates derived from conditional covariance factors.
+    \item Update Matérn hyperparameters $(\nu_c, \ell_c, \sigma_c)$ and the group covariance $\Gamma$ jointly under a low-rank parameterization that enforces $\Gamma \succeq 0$.
+\end{enumerate}
+Efficient neighborhood search (ball trees, cover trees, or LSH) keeps neighbor selection sub-quadratic, and whitening of the inducing variables improves numerical stability. The resulting method scales to hundreds of thousands of spatial locations per group while preserving cross-group fidelity, enabling seamless integration with the spatial factorization models in Chapter~\ref{chap:spatial-factorization}.
+
+\section{Discussion}
+The proposed inference scheme balances flexibility and scalability: the kernel supports heterogeneous spatial roughness and interpretable cross-group couplings, the locally conditioned KL objective preserves informative dependencies without dense-matrix penalties, and stochastic optimization integrates naturally with downstream hierarchical models. Limitations remain when inter-group dependencies are global rather than local or when certain groups contain few observations, in which case neighborhood graphs must be augmented with global factors. Nevertheless, this framework lays the foundation for the application chapters, namely Chapter~\ref{chap:spatial-factorization} on spatial factorization and Chapter~\ref{chap:chromatin} on 3D chromatin modeling.
+
+\chapter{Spatial Factorization Methods}\label{chap:spatial-factorization}
+\section{Dimensionality Reduction for Spatial Data}
+Context on PCA, NMF, and related techniques before introducing Nonnegative Spatial Factorization (NSF) with GP priors.
+\section{Multi-Group Extensions of Spatial Factorization}
+
+
+Description of the MGGP-aware NSF extension and its coupling with the proposed variational inference framework.
+
+\subsection{Nonnegative Multigroup Spatial Factorization Inference}\label{subsec42}
+
+Given the variational strategy for variational MGGPs (refer Section~\ref{subsec41}), we need to define $q(U)$, $p(U)$, $q(F)$ and the likelihood term $p(Y|F)$ in order to train the model.
+
+\subsubsection{Evidence Lower Bound (ELBO) Expectation term}\label{subsubsec621}
+
+In order to compute the variational posterior $q(F)$, we need to first define the variational inducing point distribution $q(U)$ in order to perform marginalization over $U$.
+We use the mean-field variational strategy for each of the inducing variational distributions:
+\[ q(U) = \prod_{l}^L q(u^{l}) \]
+
+\[ q(u^{l}) = \mathcal{N}(u^{l} | m_{u}^{l},  L_{u}^{l}L_{u}^{l^{T}}) \]
+
+Similarly, the posterior distribution becomes a product of posterior factors:
+
+\[ q(F|X, C_{x}; \theta) = \prod_{l}^L q(f^l|X, C_{x}; \theta^l) \]
+
+\[ q(f^l|X, C_{x}; \theta^l) =  \int q(f^{l} | u^{l}, X, C_{x}, Z, C_{z}; \theta^l) q(u^{l}) \, du^{l} \]
+
+\subsubsection{Gaussian Marginalization Identities}\label{subsecA1}
+For computational efficiency and numerical stability, we use the whitening strategy for Gaussian Processes \cite{Matthews2017-hy}, which involves performing change of variables of $u^l$ to a variable $g^l$. Where \( u^{l} = L^{l}g^{l} \), and \( L^{l} \) satisfies \( L^{l}L^{l^{T}} = K_{zz}^{l} \):
+
+\[ q(u^{l}) = q(g^{l}) \left| \frac{\partial g^{l}}{\partial u^{l}} \right| \]
+
+where:
+
+\[ q(g^{l}) = \mathcal{N}(g^{l} | m_{g}^{l}, L_{g}^{l}L_{g}^{l^{T}}) \]
+
+and 
+
+\[ \left| \frac{\partial g^{l}}{\partial u^{l}} \right| = |L^{l^{-1}}| \]
+
+This leads to marginalize over \( g^{l} \) instead of \( u^{l} \):
+
+\[ \int q(f^{l} | L^{l}g^{l}) q(g^{l}) \left| \frac{\partial g^{l}}{\partial u^{l}} \right| du^{l} =  \int q(f^{l} | L^{l}g^{l}) q(g^{l}) dg^{l} \]
+
+This adds an extra \( L^{l} \) term to the mean:
+
+\[  q(f^l|X, C_{x}; \theta^l) = \int \mathcal{N}(f^{l} | \alpha^{l} L^{l} g^{l}, Q_{f}^{l}) \mathcal{N}(g^{l} | m_{g}^{l}, L_{g}^{l}L_{g}^{l^{T}}) dg^{l}  \]
+
+where:
+\[\alpha^{l} = K_{xz}^{l} K_{zz}^{l^{-1}} \]
+\[Q_{f}^{l} = K_{xx}^{l} - K_{xz}^{l} K_{zz}^{l^{-1}}K_{zx}^{l} \]
+
+We solve for the marginalized mean and covariance using Gaussian marginalization.
+\[ q(f^l|X, C_{x}; \theta^l) = \mathcal{N}(m_{f}^{l}, S_{f}^{l}) \]
+
+
+\[ m_{f}^{l} = \alpha^{l} L^{l} m_{g}^{l} \]
+
+\[ S_{f}^{l} = Q_{f}^{l} + \alpha^{l} L^{l} L_{g}^{l} L_{g}^{l^{T}} L^{l^{T}} \alpha^{l^{T}} \]
+
+\[ \alpha^{l} L^{l} = K_{xz}^{l} K_{zz}^{l^{-1}} L^{l} \]
+
+We can define this as follows:
+
+\[ \hat{\alpha}^{l} = K_{xz}^{l} L^{l^{-T}} \]
+
+which can be computed using forward substitution for lower triangular matrices:
+
+\[ \hat{\alpha}^{l^{T}} = L^{l} \backslash K_{zx}^{l} \]
+
+\[ S_{f}^{l} = K_{xx}^{l} - \hat{\alpha}^{l} \hat{\alpha}^{l^{T}} + \alpha^{l} L_{g}^{l} L_{g}^{l^{T}} \alpha^{l^{T}} \]
+
+We can also define:
+
+\[ \hat{L}_{g}^{l} = \alpha^{l} L_{g}^{l} \]
+
+Since we only need the diagonal covariance for the posterior, we can compute the covariance using properties of diagonal matrix products:
+
+\[ \text{diag}(S_{f}^{l}) = \text{diag}(K_{xx}^{l}) - \sum_{j} (\hat{\alpha}^{l}_{[:, j]})^{2} + \sum_{j} (\hat{L}_{g}^{l_{[:, j]}})^{2} \]
+
+Making the posterior to be independent of inputs and components:
+
+\[ q(F) = \prod_{l}^L \prod_{i}^N q(f_{il}) \]
+
+For the hybrid model also define variational distribution over $H$.
+
+\[ q(H) = \prod_{t}^T \prod_{i}^N q(h_{it}) \]
+
+We sample from these distributions.
+
+\[f^{s}_{il} \sim q(f_{il})\]
+\[h^{s}_{it} \sim q(h_{it})\]
+
+And construct the rate of the Poisson distribution.
+
+\[\lambda^{s}_{ij} = \sum_{l=1}^L w_{jl} e^{f^{s}_{il}} + \sum_{t=1}^T v_{jt} e^{h^{s}_{it}}\]
+
+We construct the log probability of the Poisson distribution. And construct the approximation of the expectaction term. We can drop the factorial terms containing $y_ij$ since they don't contribute to the gradient calculation.
+\[ \int{\log{p(Y|F)} q(F)dF} \approx \frac{1}{S} \sum^{S}_{s}[y_{ij} \log \nu_i \lambda^{s}_{ij} - \nu_i \lambda^{s}_{ij}] \]
+
+
+\chapter{Applications to Chromatin and 3D Genomics}\label{chap:chromatin}
+\section{Modeling 3D Chromatin Structure}
+Application of Deep GP ideas to infer 3D chromatin conformations from linear genomic measurements and Hi-C correlations.
+\section{Flexible Likelihoods and Deep Gaussian Processes}
+Demonstration of flexible likelihoods, kernels, and group structures enabled by the unified framework for large-scale genomic datasets.
+
+\chapter{Conclusions}
+Summary of contributions across theory, methodology, and applications, along with open questions for spatial genomics and MGGP research.
+\appendix
+\chapter{A Long Proof}\label{app:kernel-proof}
+...
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}

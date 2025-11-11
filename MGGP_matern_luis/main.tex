@@ -1,0 +1,128 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, bm}
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{Multigroup Matérn Kernel}
+\author{luisfcd2013 }
+\date{October 2025}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+We define the multigroup Gaussian process (MGGP) kernel as an extension of the Matérn covariance function, 
+incorporating both spatial and inter-group distances. Our proposed MGGP Matérn kernel takes the form:
+
+\begin{align}
+K\!\left((x, c_i), (x', c_j)\right)
+&=
+\frac{\sigma^2}{\big(a^2 d_{ij}^2 + 1\big)^{\,\nu+\frac{p}{2}}}
+\nonumber\\
+&\quad\times
+\frac{2^{\,1-\nu}}{\Gamma(\nu)}
+\left(
+\frac{\sqrt{2\nu}\, \|x - x'\|}{\ell\,\sqrt{a^2 d_{ij}^2 + 1}}
+\right)^{\!\nu}
+K_{\nu}\!\left(
+\frac{\sqrt{2\nu}\, \|x - x'\|}{\ell\,\sqrt{a^2 d_{ij}^2 + 1}}
+\right),
+\label{eq:mggp_matern_internal_tc_full}
+\end{align}
+
+
+\section{Reduction to the standard Matérn}
+
+When \(a = 0\) (i.e., within the same group), 
+the kernel reduces to the canonical Matérn:
+\begin{equation}
+K((x, c_i), (x', c_i)) 
+= \sigma^2 \frac{2^{1-\nu}}{\Gamma(\nu)}
+\left(\frac{\sqrt{2\nu}\, \|x - x'\|}{\ell}\right)^{\!\nu}
+K_{\nu}\!\left(\frac{\sqrt{2\nu}\, \|x - x'\|}{\ell}\right).
+\end{equation}
+
+\section{Closed-form special cases ($\nu=\tfrac12,\tfrac32,\tfrac52$)}
+
+Let \( r = \|x - x'\| \). The MGGP Matérn in Eq.~\eqref{eq:mggp_matern_internal_tc_full} simplifies to:
+
+\subsection*{$\nu=\tfrac12$ }
+\[
+K\!\left((x,c_i),(x',c_j)\right)
+=
+\sigma^{2}\,
+\frac{1}{\big(1 + a^{2} d_{ij}^{2}\big)^{\frac{1}{2}+\frac{p}{2}}}
+\exp\!\left(
+-\,\frac{r}{\ell\,\sqrt{\,1 + a^{2} d_{ij}^{2}\,}}
+\right).
+\]
+
+\subsection*{$\nu=\tfrac32$}
+\[
+K\!\left((x,c_i),(x',c_j)\right)
+=
+\sigma^{2}\,
+\frac{1}{\big(1 + a^{2} d_{ij}^{2}\big)^{\frac{3}{2}+\frac{p}{2}}}
+\left(
+1 + \frac{\sqrt{3}\, r}{\ell\,\sqrt{\,1 + a^{2} d_{ij}^{2}\,}}
+\right)
+\exp\!\left(
+-\,\frac{\sqrt{3}\, r}{\ell\,\sqrt{\,1 + a^{2} d_{ij}^{2}\,}}
+\right).
+\]
+
+\subsection*{$\nu=\tfrac52$}
+\[
+K\!\left((x,c_i),(x',c_j)\right)
+=
+\sigma^{2}\,
+\frac{1}{\big(1 + a^{2} d_{ij}^{2}\big)^{\frac{5}{2}+\frac{p}{2}}}
+\left(
+1 + \frac{\sqrt{5}\, r}{\ell\,\sqrt{\,1 + a^{2} d_{ij}^{2}\,}}
++ \frac{5\, r^{2}}{3\,\ell^{2}\,\big(1 + a^{2} d_{ij}^{2}\big)}
+\right)
+\exp\!\left(
+-\,\frac{\sqrt{5}\, r}{\ell\,\sqrt{\,1 + a^{2} d_{ij}^{2}\,}}
+\right).
+\]
+
+
+\section{Positive definiteness }
+
+Let $r=\|x-x'\|$, $\alpha=\nu+\tfrac{p}{2}$, and $\lambda=\sqrt{2\nu}/\ell$.
+By Bochner’s theorem, a stationary kernel in $x$ is PD iff it admits
+\[
+K\!\left((x,c_i),(x',c_j)\right)
+=\int_{\mathbb{R}^p} e^{i\omega^\top(x-x')}\,S_{ij}(\omega)\,d\omega,
+\]
+with spectral matrices $S(\omega)=[S_{ij}(\omega)]$ that are PSD for all $\omega$.
+For Eq.~\eqref{eq:mggp_matern_internal_tc_full} the spectral matrix is
+\[
+S_{ij}(\omega)
+= \sigma^2 C_{\nu,p}\;
+\underbrace{(1+a^2 d_{ij}^2)^{-\alpha}
+\Big(\,\|\omega\|^2+\frac{\lambda^2}{1+a^2 d_{ij}^2}\Big)^{-\alpha}}_{=:~\Phi_\omega(a^2 d_{ij}^2)}.
+\]
+
+Thus it suffices to show that, for each fixed $\omega$, the matrix
+$[\Phi_\omega(a^2 d_{ij}^2)]_{ij}$ is PSD. This follows from Schoenberg’s
+theorem once we verify that $t\mapsto \Phi_\omega(t)$ is \emph{completely monotone} on $[0,\infty)$:
+
+Observe the identity
+\[
+(1+t)^{-\alpha}\Big(\|\omega\|^2+\frac{\lambda^2}{1+t}\Big)^{-\alpha}
+=\big(\|\omega\|^2(1+t)+\lambda^2\big)^{-\alpha}.
+\]
+Since $x\mapsto x^{-\alpha}$ is completely monotone on $(0,\infty)$ for $\alpha>0$
+and $t\mapsto \|\omega\|^2(1+t)+\lambda^2$ is a positive affine map, their composition
+is completely monotone in $t$. Hence $\Phi_\omega(t)$ is CM. By Schoenberg, 
+$[\Phi_\omega(a^2 d_{ij}^2)]_{ij}$ is PSD; by Bochner, $K$ is PD.
+
+
+
+\end{document}
+
+
+

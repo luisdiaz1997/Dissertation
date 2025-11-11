@@ -1,0 +1,658 @@
+\documentclass{beamer}
+
+% Packages
+\usepackage{amsmath, amssymb, graphicx, tikz, bm}
+\usepackage{physics}
+\usepackage{booktabs}
+\usepackage{mathtools}
+
+% Title info
+\title{Exploring Posteriors of Variational Gaussian Processes}
+\author{Luis Chumpitaz Diaz\\{\sffamily\small Engelhardt Lab}}
+\institute{Stanford University}
+\date{April 22, 2025}
+
+\begin{document}
+
+% Title slide
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Table of contents
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+%========================================
+% PART 1: MAP and VI similarity
+%========================================
+\section{MAP and Variational Inference}
+
+\begin{frame}{Part 1: MAP and Variational Inference}
+  \begin{itemize}
+    \item Overview of MAP and Variational approaches for latent GPs.
+    \item How they differ, when they fail, and where they align.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{1.1a Data and Latent Structure}
+  \begin{itemize}
+    \item Observed data:
+    \begin{itemize}
+      \item $Y \in \mathbb{R}^{N \times J}$: observed outputs (e.g., gene counts, Hi-C contacts, expression levels)
+      \item $X \in \mathbb{R}^{N \times \ell}$: input features (e.g., spatial coordinates, time, genomic position)
+    \end{itemize}
+    \item Latent representation:
+    \begin{itemize}
+      \item $Z \in \mathbb{R}^{N \times L}$: latent variables with GP prior
+      \item Each element $Z^{\ell}_i$ is modeled as:
+      \[ Z^{\ell}_i \sim \mathcal{GP}(0, K(X, x_i)), \quad i = 1, \dots, N \]
+    \end{itemize}
+    \item The GP prior imposes structure and smoothness across $X$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{1.1b Why MAP? (Part 1)}
+  \begin{itemize}
+    \item \textbf{MAP = Maximum A Posteriori estimation}
+    \item Our ultimate goal is to maximize the marginal likelihood
+        \[ \theta^* = \arg\max_{\theta} P(Y \mid X; \theta) \]
+    \[ P(Y \mid X; \theta) = \int P(Y \mid Z; \theta) P(Z \mid X; \theta) \, dZ \]
+    \item Here, $\theta$ represents all model parameters (e.g., weights, kernel hyperparameters).
+    \item But the integral over $Z$ is intractable in general.
+    \item MAP offers a tractable approximation by replacing the integration with optimization.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{1.1c Why MAP? (Part 2)}
+  \begin{itemize}
+    \item Rather than maximizing the result of the integral in $P(Y \mid X; \theta)$, MAP maximizes the integrand $P(Y, Z \mid X ; \theta)$ directly.
+    \item In other words, MAP directly optimizes the joint posterior.
+    \item The goal is to find:
+    \[ Z^*, \theta^* = \arg\max_{Z, \theta}  P(Y, Z \mid X; \theta)  \]
+    \item This highlights that MAP jointly estimates both the latent variables $Z$ and the model parameters $\theta$.
+    \item In practice, MAP is easy to implement and scales well.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{1.1d GP Prior and Log Form}
+  \begin{itemize}
+    \item In MAP, we typically optimize the log of the joint posterior:
+    \[
+\log P(Y, Z \mid X; \theta) =
+\underset{\textcolor{red}{\text{log-likelihood / model}}}{\log P(Y \mid Z; \theta)} +
+\underset{\textcolor{red}{\text{log-prior / regularizer}}}{\log P(Z \mid X; \theta)}
+\]
+
+    \item Here, the first term is called the log-likelihood, and the second term is the log-prior.
+    \item The second term in the MAP objective is the GP prior over $Z$:
+    \[ P(Z \mid X) = \prod_{\ell=1}^{L} \mathcal{N}(Z^{\ell} \mid 0, K(X, X)) \]
+    \item This prior encourages smoothness across the input domain.
+    \item Each latent dimension is independently drawn from a GP with the same kernel.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{1.1e Example Likelihood Models for $P(Y \mid Z)$}
+  \begin{itemize}
+    \item \textbf{Non-negative Spatial Factorization (NSF):}
+    \[ Y_{ij} \sim \text{Poisson}(\eta_i \lambda_{ij}) \]
+    \[ \lambda_{ij} = \sum_{\ell=1}^L W_{j\ell} \exp(Z^{\ell}_i) \]
+    \item \textbf{Deep GP:}
+    \[ Y_{ij} \sim \mathcal{GP}(y_j \mid 0, K(Z, z_i)) \]
+    \item \textbf{Multiclass Softmax (for classification):}
+    \[ P(Y_i = c) = \frac{\exp(W_c^\top Z_i)}{\sum_{c'} \exp(W_{c'}^\top Z_i)} \]
+    \item These likelihoods define different generative models over $Y$ conditioned on $Z$.
+  \end{itemize}
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}{1.2 Overfitting in MAP (1)}
+  \begin{itemize}
+    \item GP prior is not enough to prevent overfitting to noise in $Y$.
+    \item This happens especially when the model learns high-frequency noise patterns.
+    \item Deep GP on Hi-C, MAP version:
+  \end{itemize}
+  \begin{center}
+    \includegraphics[width=1.1\linewidth]{ChromGP_MAP_no_noise.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{1.2 Overfitting in MAP (2)}
+  \begin{center}
+    \includegraphics[width=0.4\linewidth]{ChromGP_3D_MAP_no_noise.png} \\
+    \vspace{0.3cm}
+    \includegraphics[width=0.9\linewidth]{ChromGP_no_noise_1D.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{1.3 Fixing MAP via Injected Noise (1)}
+  \begin{itemize}
+    \item Add noise post-GP: $Z_{\text{noisy}} = Z + \epsilon$, Where: $\epsilon \sim \mathcal{N}(0, \sigma^2)$.
+    \item Use in likelihood $\log P(Y \mid Z_{\text{noisy}})$.
+    \item Prior $\log P(Z \mid X)$ remains the same.
+    \item Can visually smooth inferred $Z$.
+  \end{itemize}
+  \begin{center}
+    \includegraphics[width=1.1\linewidth]{ChromGP_MAP_noise.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{1.3 Fixing MAP via Injected Noise (2)}
+  \begin{center}
+    \includegraphics[width=0.4\linewidth]{ChromGP_3D_MAP_noise.png} \\
+    \vspace{0.3cm}
+    \includegraphics[width=0.9\linewidth]{ChromGP_noise_1D.png}
+  \end{center}
+    \begin{itemize}
+      \item Warning: learning $\sigma$ can lead to instability (we will come back here later).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{1.4 Simple Variational Inference (1)}
+  \begin{itemize}
+    \item Variational inference (VI) approximates the marginal likelihood:
+    \[ \log P(Y \mid X) = \log \int P(Y \mid Z) P(Z \mid X) \, dZ \]
+    \item Introduce a tractable variational distribution $q(Z)$:
+    \[ \log P(Y \mid X) = \log \int q(Z) \frac{P(Y \mid Z) P(Z \mid X)}{q(Z)} \, dZ \]
+    \item This turns the intractable integral into an expectation over $q(Z)$:
+    \[ \log P(Y \mid X) = \log \mathbb{E}_{q(Z)}\left[ \frac{P(Y \mid Z) P(Z \mid X)}{q(Z)} \right] \]
+    \item This prepares us to apply Jensen's inequality.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{1.4 Variational Inference (2)}
+  \begin{itemize}
+    \item Apply Jensen’s inequality to the log of the expectation:
+    \[ \log \mathbb{E}_{q(Z)}\left[ \frac{P(Y \mid Z) P(Z \mid X)}{q(Z)} \right] \geq \mathbb{E}_{q(Z)} \left[ \log \frac{P(Y \mid Z) P(Z \mid X)}{q(Z)} \right] \]
+    \item This gives us the Evidence Lower Bound (ELBO):
+    \[ \log P(Y \mid X) \geq  \mathbb{E}_{q(Z)}[\log P(Y \mid Z)] - KL(q(Z) \Vert P(Z \mid X)) \]
+    \item Maximizing the ELBO approximates the true posterior and improves model fit.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{1.4 Simple Variational Inference (3)}
+  \begin{itemize}
+    \item Choose a simple, factorized Gaussian approximation:
+    \[ q(Z) = \prod_{\ell=1}^L q(Z^{\ell}), \quad q(Z^{\ell}) = \mathcal{N}(m_{Z^{\ell}}, S) \]
+    \item Here, $m_{Z^{\ell}}$ is the mean and $S$ is typically diagonal or isotropic.
+    \item This enables reparameterization:
+    \[ Z = m_Z + S^{1/2} \cdot \epsilon, \quad \epsilon \sim \mathcal{N}(0, I) \]
+    \item The expectation $\mathbb{E}_{q(Z)}[\log P(Y \mid Z)]$ can be approximated via Monte Carlo:
+    \[ \mathbb{E}_{q(Z)}[\log P(Y \mid Z)] \approx \frac{1}{K} \sum_{k=1}^K \log P(Y \mid Z^{(k)}) \quad \text{where } Z^{(k)} \sim q(Z) \]
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{1.5 ELBO vs MAP (1): Side-by-Side Comparison}
+  \scriptsize
+  \begin{columns}
+    \column{0.5\textwidth}
+    \textbf{MAP Objective:}
+    \[ \log P(Y \mid Z) + \log P(Z \mid X) \]
+    \column{0.5\textwidth}
+    \textbf{ELBO:}
+    \[ \mathbb{E}_{q(Z)}[\log P(Y \mid Z)] - KL(q(Z) \Vert P(Z \mid X)) \]
+  \end{columns}
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item Both objectives include a data term and a prior term.
+    \item They look suspiciously similar — but ELBO adds sampling and KL regularization.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{1.5 ELBO vs MAP (2): First Term — Likelihood}
+  \begin{itemize}
+    \item In MAP:
+    \[ \log P(Y \mid Z^*) \quad \text{(optimized directly)} \]
+    \item In VI:
+    \[ \mathbb{E}_{q(Z)}[\log P(Y \mid Z)] \quad \text{(sample-averaged)} \]
+    \item With 1 sample and small variance, VI matches MAP likelihood with noise added to $Z$.
+    \item This explains why VI often behaves like MAP — but smoother.
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{1.5 ELBO vs MAP (3): Second Term — Regularizer}
+  \scriptsize
+  \begin{itemize}
+    \item GP prior log-probability used in MAP:
+    \[ \log P(Z \mid X) = -\frac{1}{2} \left[ \underset{\textcolor{red}{\text{regularizer}}}{\text{tr}(Z^\top K(X,X)^{-1}Z)} + L \log |K(X,X)| + NL \log(2\pi) \right] \]
+    \item KL term in VI (for $S = \sigma^2 I$):
+    \[ =\frac{1}{2} \left[ L \log |K(X,X)| + \text{tr}(K(X,X)^{-1}(\sigma^2 I)) + \underset{\textcolor{red}{\text{regularizer}}}{\text{tr}(m_Z^\top K(X,X)^{-1} m_Z)} - NL \log \sigma^2 - NL \right] \]
+    \item \textbf{Observation:} $\log P(Z \mid X)$ reappears as a term in the KL.
+    \item These regularizer terms are analogous to an $\ell_2$ norm penalty when $K(X,X)$ is the identity matrix.
+    \item \textbf{As $\sigma \to 0$, VI becomes MAP.}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{1.6 VI in Practice (1)}
+  \begin{itemize}
+    \item Variational inference in latent GP models provides smoother posteriors.
+    \item Similar to noise-injected MAP, but with learned noise and better regularization.
+    \item Below: Deep GP on Hi-C, VI version:
+  \end{itemize}
+  \begin{center}
+    \includegraphics[width=1.1\linewidth]{ChromGP_VI.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{1.6 VI in Practice (2)}
+  \begin{center}
+    \includegraphics[width=0.4\linewidth]{ChromGP_3D_VI.png} \\
+    \vspace{0.3cm}
+    \includegraphics[width=0.9\linewidth]{ChromGP_VI_1D.png}
+  \end{center}
+\end{frame}
+
+
+
+
+
+
+%========================================
+% PART 2: Whitened GPs
+%========================================
+\section{Whitened Gaussian Processes}
+
+\begin{frame}{Part 2: Whitened Gaussian Processes}
+  \begin{itemize}
+    \item Whitening transformation offers robustness and better interpretability.
+    \item Useful for both optimization and inference in GP models.
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{2.1 A Different View: What is the Regularizer Doing? (1)}
+  \begin{itemize}
+    \item Recall the regularizer from MAP and VI:
+    \[ \text{tr}(Z^\top K(X,X)^{-1} Z) \]
+    \item This term enforces structure across $Z$ based on the GP prior.
+    \item To understand its behavior, we use the Cholesky decomposition:
+    \[ K(X,X) = LL^\top \quad \text{(with } L \text{ lower triangular)} \]
+    \item Define a new variable $v$ in the whitened space:
+    \[ Z = Lv \quad \Rightarrow \quad v = L^{-1}Z \]
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{2.1 A Different View: What is the Regularizer Doing? (2)}
+  \begin{itemize}
+    \item Substitute into the regularizer:
+    \[ Z^\top K(X,X)^{-1} Z = Z^\top (LL^\top)^{-1} Z = Z^\top L^{-\top} L^{-1} Z \]
+    \item Group terms:
+    \[ = (L^{-1} Z)^\top (L^{-1} Z) = v^\top v \]
+    \item The regularizer becomes:
+    \[ \text{tr}(v^\top v) = \|v\|^2 \]
+    \item In whitened space, this is simply an $\ell_2$ norm penalty.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{2.1 A Different View: Interpretation}
+  \begin{itemize}
+    \item Whitening reparameterizes $Z$ in terms of $v \sim \mathcal{N}(0, I)$.
+    \item Each column of $L$ acts as a basis function or spatial pattern.
+    \item $Z = Lv$ becomes a sum of weighted basis vectors:
+    \[ Z_i = \sum_j L_{ij} v_j \]
+    \item This explains why GPs can look like smooth sums of Gaussians.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{2.1 A Different View: Visualization (1)}
+  \begin{itemize}
+    \item Heatmap of the Cholesky factor $L$.
+    \item Visualizes smooth basis structures implied by the GP prior.
+    \item Each column of $L$ corresponds to a Gaussian-like spatial basis.
+  \end{itemize}
+  \begin{center}
+    \includegraphics[width=0.7\linewidth]{cholesky_heatmap.png} 
+  \end{center}
+\end{frame}
+
+\begin{frame}{2.1 A Different View: Visualization (2)}
+  \begin{itemize}
+    \item Top: Columns of $L$ (smooth basis vectors).
+    \item Middle: Random vector $v \sim \mathcal{N}(0, I)$ (weights).
+    \item Bottom: Final $Z = Lv$ (sum of weighted Gaussians).
+  \end{itemize}
+  \begin{center}
+    \includegraphics[width=0.8\linewidth]{cholesky_columns_combination.png} 
+  \end{center}
+\end{frame}
+
+\begin{frame}{2.1 A Different View: Visualization (3)}
+  \begin{itemize}
+    \item Computing Z using all columns.
+  \end{itemize}
+  \begin{center}
+    \includegraphics[width=0.8\linewidth]{real_scenario.png} 
+  \end{center}
+\end{frame}
+
+
+\begin{frame}{2.2 Lengthscale Behavior (1)}
+  \begin{itemize}
+    \item The GP kernel lengthscale $\ell$ controls how far information propagates.
+    \item For the RBF kernel:
+    \[ k(x,x') = \sigma^2 \exp\left(-\frac{\|x - x'\|^2}{2\ell^2}\right) \]
+    \item \textbf{Smaller $\ell$}: captures fine detail, sharp local changes.
+    \item \textbf{Larger $\ell$}: enforces smoothness, risks underfitting.
+    \item \textbf{Smaller $\ell$ is often favored by optimizers}: more flexible fit — but can distort global structure.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{2.2 Lengthscale Behavior (2)}
+  \begin{itemize}
+    \item Example: GPs with three different lengthscales $\ell$.
+    \item Large $\ell$: smooth trend, poor local fit.
+    \item Moderate $\ell$: balances detail and smoothness.
+    \item Small $\ell$: captures noise.
+    
+  \end{itemize}
+  \begin{center}
+    \includegraphics[width=0.6\linewidth]{lengthscales.png}
+  \end{center}
+\end{frame}
+
+
+
+\begin{frame}{2.3 Whitening: Invariance of the first ELBO Term}
+  \scriptsize
+  \begin{itemize}
+    \item Consider the ELBO expectation term:
+    \[
+    \mathbb{E}_{q(Z)}[\log P(Y \mid Z)] = \int q(Z) \log P(Y \mid Z) \, dZ
+    \]
+    \item Apply the change of variables: \( Z = Lv \) with \( L L^\top = K(X, X) \)
+    \[
+    q(Z) = q(v) |L^{-1}|, \quad dZ = |L| dv
+    \]
+    \item ELBO term becomes:
+    \[
+    \int q(v) |L^{-1}| \log P(Y \mid Lv) \cdot |L| \, dv
+    \]
+    \item Since \( |L^{-1}| \cdot |L| = 1 \), we have:
+    \[
+    \mathbb{E}_{q(Z)}[\log P(Y \mid Z)] = \int q(v) \log P(Y \mid Lv) \, dv
+    \]
+    \item \textbf{Conclusion:} the first ELBO term remains unchanged under whitening.  
+    The mean now becomes: \( m_Z = L m_v \), so only the parametrization changes.
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{2.3 Whitening: KL Invariance — Full Derivation}
+  \scriptsize
+  \begin{itemize}
+    \item KL divergence before whitening:
+    \[
+    KL[q(Z) \| p(Z)] = \int q(Z) \log \frac{q(Z)}{p(Z)} dZ
+    \]
+    \item With \( Z = L v \), and \( L L^\top = K(X, X) \), change of variables:
+    \[
+    q(Z) = q(v) |L^{-1}|, \quad p(Z) = p(v) |L^{-1}|, \quad dZ = |L| dv
+    \]
+    \item Plug into KL:
+    \[
+    \int q(v) |L^{-1}| \log \left( \frac{q(v)|L^{-1}|}{p(v)|L^{-1}|} \right) |L| dv
+    \]
+    \item Cancel Jacobian terms:
+    \[
+    |L^{-1}| \cdot |L| = 1, \quad \Rightarrow KL[q(Z) \| p(Z)] = KL[q(v) \| p(v)]
+    \]
+    \item Since \( p(v) = \mathcal{N}(0, I) \), KL becomes:
+    \[
+    KL[q(v) \| \mathcal{N}(0, I)] = \frac{1}{2} \left[ \text{tr}(S_v) + \|m_v\|^2 - \log |S_v| - d \right]
+    \]
+    \item \textbf{Conclusion:} KL is invariant to whitening. Only the reparameterization changes, not the objective.
+  \end{itemize}
+\end{frame}
+
+
+% \begin{frame}{2.3 Whitening: Robustness to Lengthscale Changes}
+%   \begin{itemize}
+%     \item Whitened mean transforms as:
+%     \[ \mathbb{E}[Z] = L m_v \Rightarrow m_Z = L m_v \]
+%     \item Gradient steps in whitened coordinates are well-conditioned:
+%     \[ \text{no ill-conditioning from } K(X, X) \text{ or } \ell \]
+%     \item \textbf{Improves convergence and stability during optimization.}
+%     \item Commonly used in SVGP, MGGP, and deep GPs.
+%   \end{itemize}
+% \end{frame}
+
+\begin{frame}{2.3 Whitening: Predictive Mean}
+  \scriptsize
+  \begin{itemize}
+    \item In SVGP, predictive mean at test locations:
+    \[
+    \mu(X_*) = K_{*u} K_{uu}^{-1} m_Z
+    \]
+    \item Whitening transforms the prior:
+    \[
+    K_{uu} = L L^\top \Rightarrow K_{uu}^{-1} = L^{-\top} L^{-1}
+    \]
+    \item Variational mean is reparameterized as:
+    \[
+    m_Z = L m_v
+    \]
+    \item Plug into predictive mean:
+    \[
+    \mu(X_*) = K_{*u} K_{uu}^{-1} m_Z = K_{*u} L^{-\top} L^{-1} L m_v = K_{*u} L^{-\top} m_v
+    \]
+    \item This avoids direct inversion of \( K_{uu} \), improving numerical stability and optimization.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{2.3 Whitening: Sensitivity to Lengthscale}
+  \scriptsize
+  \begin{itemize}
+    \item Final whitened predictive mean:
+    \[
+    \mu(X_*) = K_{*u} L^{-\top} m_v
+    \]
+    \item Key point: the Cholesky factor \( L \) depends on the kernel, especially the lengthscale \( \ell \)
+    \item Therefore, \( L^{-\top} \) changes sharply with \( \ell \), even for small variations
+    \item \textbf{Implication:} 
+    \begin{itemize}
+      \item Small changes in \( \ell \) → large changes in \( L^{-\top} \)
+      \item Large changes in \( L^{-\top} \) → abrupt shifts in the predictive mean
+    \end{itemize}
+    \item Whitening highlights this sensitivity, which is often hidden in non-whitened SVGP.
+    \item \textbf{Takeaway:} Whitening improves numerical conditioning but also makes the model more sensitive to \( \ell \).  
+    \item As a result, the optimizer becomes more cautious: changes in \( \ell \) result in changes in \( m_v \) accordingly, discouraging overfitting to overly small lengthscales.
+  \end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{2.4 Whitening is Under-discussed (1)}
+  \begin{itemize}
+    \item Whitening is widely used in practice (e.g., GPflow, Gpytorch, Pyro), but not deeply discussed in academic literature.
+    \item One of the only formal derivations appears in a PhD thesis:
+    \begin{itemize}
+      \item \textit{Scalable Gaussian Process Inference using Variational Methods}, Alexander G. de G. Matthews (2017)
+    \end{itemize}
+    \item No peer-reviewed paper, tutorial, or survey seems to fully explain the whitening transformation for GPs.
+    \item This lack of formal discussion leaves a gap in the theoretical understanding of a widely adopted method.
+  \end{itemize}
+  \begin{center}
+    \includegraphics[width=0.5\linewidth]{thesis.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{2.4 Whitening is Under-discussed (2)}
+  \begin{itemize}
+    \item The KL invariance under whitening is often used without proof.
+    \item Many references cite a StackExchange answer.
+    \item No "formal" paper for this result exists in the GP literature.
+  \end{itemize}
+  \begin{center}
+    \includegraphics[width=0.9\linewidth]{forum.png}
+  \end{center}
+\end{frame}
+
+%========================================
+% PART 3: Sampling in GPs
+%========================================
+\section{Sampling in Gaussian Processes}
+
+\begin{frame}{Part 3: Sampling in Gaussian Processes}
+  \begin{itemize}
+    \item Sampling is critical in GPs to reflect uncertainty.
+    \item We'll cover how sampling works, its challenges, and how it's used in latent GP models.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{3.1 Importance of Sampling in Latent GPs}
+  \begin{itemize}
+    \item Sampling is crucial in latent GP modeling.
+    \item Used in the first ELBO term:
+    \[
+    \mathbb{E}_{q(Z)}[\log P(Y \mid Z)] \approx \frac{1}{S} \sum_{s=1}^{S} \log P(Y \mid Z^{(s)}), \quad Z^{(s)} \sim q(Z)
+    \]
+    \item Enables estimation of expectations under intractable posteriors.
+    \item Helps capture uncertainty and visualize variability in generative models.
+    \item Commonly performed using the reparameterization trick.
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{3.2 How GP Sampling Works}
+  \begin{itemize}
+    \item To sample from \( \mathcal{N}(\mu, K(X, X)) \), use Cholesky reparameterization:
+    \[
+    K(X, X) = LL^\top
+    \]
+    \item Draw standard normal vector: \( \epsilon \sim \mathcal{N}(0, I) \)
+    \item Construct sample: \( Z = \mu + L \epsilon \)
+    \item Allows fast sampling using matrix multiplication
+  \end{itemize}
+  \vspace{0.3cm}
+  \begin{center}
+    \includegraphics[width=0.4\linewidth]{samples_1D.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{3.2 How GP Sampling Works (2D)}
+  \begin{itemize}
+    \item The same idea extends to multiple input dimensions and multiple outputs.
+    \item \textbf{In 2D:} samples look like smooth surfaces.
+  \end{itemize}
+  \vspace{0.3cm}
+  \begin{center}
+    \includegraphics[width=0.6\linewidth]{samples2D.png}
+  \end{center}
+\end{frame}
+
+
+
+
+\begin{frame}{3.3 Multigroup GP Sampling (2D)}
+  \begin{itemize}
+    \item Multigroup covariance functions.
+    \item Sampling reveals inter-group variation depending on group differences.
+  \end{itemize}
+
+    \vspace{0.3cm}
+  \begin{center}
+    \includegraphics[width=0.6\linewidth]{samples2D_mggp.png}
+  \end{center}
+\end{frame}
+
+
+\begin{frame}{3.4 Variational Approximations and Limitations (1)}
+  \begin{itemize}
+    \item In variational inference, we approximate:
+    \[
+    q(Z) = \mathcal{N}(\mu, \text{diag}(S))
+    \]
+    \item Even when using inducing points, we sample only from the diagonal of:
+    \[
+    \text{diag}(K_{xx} + K_{xu} K_{uu}^{-1} (S - K_{uu}) K_{uu}^{-1} K_{ux})
+    \]
+    \item The full GP structure is ignored — no off-diagonal correlation between points.
+    \item \textbf{Implication:} Samples lack realistic smoothness and spatial coherence.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{3.4 Variational Approximations and Limitations (2)}
+  \begin{itemize}
+    \item While the first ELBO term is computed with diagonal-only information...
+    \item The KL divergence is left to preserve structure — but it bears all the burden.
+    \item \textbf{Visual Summary:}
+  \end{itemize}
+  \begin{center}
+    \includegraphics[width=0.6\linewidth]{meme.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{3.4 Variational Approximations and Limitations (3)}
+  \begin{itemize}
+    \item Variational KNN improves scalability by using only the nearest inducing points.
+    \item But it still targets the diagonal of the posterior covariance:
+    \[
+    K_{ii} + K_{i, \mathcal{N}(i)} K_{\mathcal{N}(i), \mathcal{N}(i)}^{-1}
+    (S_{\mathcal{N}(i), \mathcal{N}(i)} - K_{\mathcal{N}(i), \mathcal{N}(i)}) 
+    K_{\mathcal{N}(i), \mathcal{N}(i)}^{-1} K_{\mathcal{N}(i), i}
+    \]
+    \item Where \( \mathcal{N}(i) \) = nearest inducing points to \( x_i \).
+    \item This enables fast computation of the variational diagonal, but still diagonal
+  \end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{3.5 Toward Better Variational GP Sampling Approximations}
+  \begin{itemize}
+    \item More work needed on approximating correlated GP samples in VI.
+    \item Possible directions:
+    \begin{itemize}
+      \item Low-rank + structured covariance, similar to KNN but should not reduce to a diagonal, near-diagonal would still be better.
+      \item Compute sparse choleskys (currently not supported by pytorch)
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Conclusion}
+  \begin{itemize}
+    \item \textbf{MAP and VI offer complementary views} of latent Gaussian processes.
+    \begin{itemize}
+      \item MAP is simple and deterministic, but prone to overfitting.
+      \item VI introduces uncertainty via sampling and KL regularization.
+    \end{itemize}
+    
+    \vspace{0.3em}
+    \item \textbf{Whitening} improves optimization and interpretability:
+    \begin{itemize}
+      \item Reveals structure of the GP prior.
+      \item Makes ELBO gradients well-conditioned.
+      \item TODO: lack of literature and formal proofs of why is so robust.
+    \end{itemize}
+
+    \vspace{0.3em}
+    \item \textbf{Sampling is essential} for capturing GP uncertainty:
+    \begin{itemize}
+      \item Enables Monte Carlo approximation of likelihood terms.
+      \item Variational approximations often ignore correlations.
+      \item Open question: how to fully sample GPs faithfully at scale?
+    \end{itemize}
+
+    \vspace{0.3em}
+    \item \textbf{Takeaway:} Understanding these posteriors—via MAP, VI, and whitening—lets us design better posterior GP-based models in both theory and practice.
+  \end{itemize}
+\end{frame}
+
+
+% End
+\begin{frame}
+  \center{\Huge Thank You!}
+\end{frame}
+
+\end{document}
