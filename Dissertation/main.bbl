@@ -1,9 +1,25 @@
 \begin{thebibliography}{1}
 
+\bibitem{Damianou2015-dy}
+Andreas Damianou.
+\newblock {\em Deep Gaussian Processes and Variational Propagation of
+  Uncertainty}.
+\newblock PhD thesis, University of Sheffield, July 2015.
+
 \bibitem{Hensman2013-xr}
 James Hensman, Nicolo Fusi, and Neil~D Lawrence.
 \newblock Gaussian processes for big data.
 \newblock {\em arXiv [cs.LG]}, September 2013.
+
+\bibitem{Holt2023-yf}
+William Holt and Duy Nguyen.
+\newblock Essential aspects of bayesian data imputation.
+\newblock June 2023.
+
+\bibitem{Li2021-mu}
+Didong Li, Andrew Jones, Sudipto Banerjee, and Barbara~E Engelhardt.
+\newblock Multi-group gaussian processes.
+\newblock {\em arXiv [stat.ME]}, October 2021.
 
 \bibitem{Matthews2017-hy}
 Alexander Graeme de~Garis Matthews.
@@ -19,5 +35,13 @@ Hugh Salimbeni and Marc Deisenroth.
 F~William Townes and Barbara~E Engelhardt.
 \newblock Nonnegative spatial factorization applied to spatial genomics.
 \newblock {\em Nat. Methods}, 20(2):229--238, February 2023.
+
+\bibitem{Wu2022-fd}
+Luhuan Wu, Geoff Pleiss, and John~P Cunningham.
+\newblock Variational nearest neighbor gaussian process.
+\newblock In Kamalika Chaudhuri, Stefanie Jegelka, Le~Song, Csaba Szepesvari,
+  Gang Niu, and Sivan Sabato, editors, {\em Proceedings of the 39th
+  International Conference on Machine Learning}, volume 162 of {\em Proceedings
+  of Machine Learning Research}, pages 24114--24130. PMLR, 2022.
 
 \end{thebibliography}
