@@ -37,74 +37,16 @@ An overview of the motivation for leveraging Gaussian Processes in spatial genom
 Gaussian Processes (GPs) define distributions over latent functions $f : \mathcal{X}\rightarrow \mathbb{R}$ such that any finite collection of function values follows a multivariate normal distribution. A GP prior is characterized by a mean function $m(x)$ and covariance kernel $k(x, x')$ that encode smoothness, symmetries, and expected variability. Kernels such as the squared-exponential produce infinitely differentiable functions, whereas Matérn kernels allow controlled roughness and sharper spatial transitions that better match tissue boundaries. Conditioning on observed data yields closed-form posterior means and covariances, enabling principled interpolation with calibrated uncertainty. The cubic complexity of exact GP inference ($\mathcal{O}(N^{3})$ factorization and $\mathcal{O}(N^{2})$ storage) becomes prohibitive for the hundreds of thousands of observations that are routine in spatial genomics, motivating approximate but scalable methods.
 
 \section{Variational Gaussian Processes and Sparse Approximations}
-Scalable GP inference introduces inducing variables $U$ at inducing inputs $Z$ to summarize the latent function while keeping $|Z| = M \ll N$. Variational sparse GPs posit a tractable posterior $q(U)$ and optimize an evidence lower bound (ELBO) that balances data fit with a KL divergence to the GP prior, enabling stochastic updates and $\mathcal{O}(NM^{2})$ complexity \cite{Hensman2013-xr}. Variational Nearest-Neighbor GPs (VNNGPs) push this idea further by conditioning each point on a local neighborhood, reducing costs to near-linear in $N$ while preserving excellent accuracy for single-group spatial data. However, VNNGPs still rely exclusively on spatial proximity when deciding conditional dependencies and therefore ignore structured relationships between biological groups, a deficiency addressed in Chapter~\ref{chap:variational-mggp}.
 
-\section{Multi-Group Gaussian Processes}
-Spatial genomics experiments capture multiple related groups (cell types, tissue regions, disease states), requiring latent functions $f(x, c)$ that depend on spatial coordinates $x$ and group index $c$. Classical multi-group GP (MGGP) models employ separable kernels $k\big((x, c), (x', c')\big) = k_{\text{space}}(x, x')\,k_{\text{group}}(c, c')$, often choosing RBF kernels for both factors. Separable RBF kernels share the same spatial correlation envelope across groups, which oversmooths sharp group-specific boundaries and fails to capture heterogeneous spatial roughness. Spatial transcriptomics demands finer control over smoothness; Matérn kernels provide explicit parameters for roughness ($\nu$) and length scales ($\ell$), motivating the non-separable Matérn MGGP kernel introduced in Chapter~\ref{chap:variational-mggp}. That kernel decouples spatial smoothness from cross-group similarity, enabling credible uncertainty estimates even when groups exhibit distinct spatial signatures.
 
-\chapter{Variational Inference for Multi-Group Gaussian Processes}\label{chap:variational-mggp}
+\subsection{Variational Gaussian Processes and Inducing Points} 
+(SVGPs) \cite{Hensman2013-xr} introduce a set of $M$ inducing variables $U$ at inducing inputs $Z$ to summarize the latent function, reducing complexity to $\mathcal{O}(NM^{2})$. A variational distribution $q(U)$ is optimized to maximize an evidence lower bound (ELBO) that balances data fit with a KL divergence to the GP prior. This framework enables stochastic optimization and mini-batching, making it suitable for large datasets. However, SVGPs typically assume a Gaussian variational family with diagonal covariance, which can underestimate posterior uncertainty when the true posterior exhibits strong correlations. 
 
-\section{Stochastic Variational Multigroup Gaussian Processes}
-
-In order to perform inference using Multigroup Gaussian Processes, we first need to build a variational strategy for such Gaussian Processes for any non-gaussian likelihood.
-We follow similar strategies of previous stochastic variational Gaussian processes methods (SVGP) \cite{Hensman2013-xr,Salimbeni2017-ds,Townes2023-it}.
-
-We start by defining the Gaussian Process distribution over $F$ with inputs $X$ and groups $C_X$.
-\[p(F |X, C_{X}; \theta) = \mathcal{MGGP}(F \mid 0, K((X, C_{X}), (X, C_{X}))) \]
-
-And the distribution over data $Y$ as the marginal over distribution $F$.
-\[p(Y|X, C_{X}; \theta) = \int{p(Y|F) p(F|X, C_{X}; \theta) dF} \]
-
-We can define this Gaussian Process as the marginalization over the inducing point distribution of $U$.
-\[p(F|X, C_{X}; \theta) = \int{p(F|U, X, C_{X}, Z, C_{z}; \theta) p(U|Z, C_{z};\theta) dU}\]
-
-This distribution over $U$ is also a Multigroup Gaussian Process, with inducing inputs $Z$ and inducing groups $C_Z$. 
-For our implementation, we chose inducing points $Z$ from the distribution of inputs in a given group.
-
-\[ p(U|Z, C_{Z};\theta) = \mathcal{MGGP}(U \mid 0, K((Z, C_{Z}), (Z, C_{Z})))\]
-
-The log marginal then becomes the following:
-
-\[p(Y|X, C_{X}; \theta) = \int{p(Y|F) p(F|U, X, C_{X}, Z, C_{Z}; \theta) p(U|Z, C_{Z};\theta) dU  dF}\]
-
-We add variational distributions $q(F, U)$.
-\[\log p(Y|X, C_{X}; \theta) = \log \int{ \frac{p(Y|F) p(F|U, X, C_{X}, Z, C_{Z}; \theta) p(U|Z, C_{Z};\theta)}{q(F, U)} q(F, U) dU  dF}\]
-
-Apply Jensen's Inequality and we obtain the Evidence Lower Bound (ELBO).
-
-\[\log p(Y|X, C_{X}; \theta) \ge  \int{ \log \frac{p(Y|F) p(F|U, X, C_{X}, Z, C_{Z}; \theta) p(U|Z, C_{Z};\theta)}{q(F, U)} q(F, U) dU  dF}\]
-
-We set $q(F|U)=p(F|U)$ \cite{Hensman2013-xr}.
-
-\[q(F, U) = p(F|U, X, C_{X}, Z, C_{Z}; \theta) q(U) \]
-
-This simplifies the ELBO.
-
-\[\log p(Y|X, C_{X}; \theta) \ge  \int{ \log \frac{p(Y|F) p(U|Z, C_{Z};\theta)}{q(U)} q(F, U) dU  dF}\]
-
-\[\log p(Y|X, C_{X}; \theta) \ge  \int{ \log p(Y|F) q(F)} - KL(q(U) ||p(U|Z, C_{Z};\theta))\]
-
-The first Expectation term can be approximated using Monte Carlo sampling if the likelihood is non-Gaussian.
-
-\[\int{\log{p(Y|F)} q(F)dF} \approx \frac{1}{S} \sum^{S}_{s}[\log{p(Y|F_s)}]\]
-
-Where:
-
-\[F_s \sim q(F)\]
-
-Since the variational posterior depend only on the correspoding inputs $(X_i, C_i)$ \cite{Salimbeni2017-ds}.
-
-It allow us to perform inference of $q(F)$ over new combinations of $X$ and $C_X$.
-
-\[q(F| X, C_{X}; \theta) = \int p(F|U, X, C_{X}, Z, C_{Z}; \theta) q(U) dU \]
-\[q(F| X_{new}, C_{X_{new}}; \theta) = \int p(F|U, X_{new}, C_{X_{new}}, Z, C_{Z}; \theta) q(U) dU \]
-
-\section{Limitations of Existing Approaches}
-Classical sparse variational GP formulations frequently assume diagonal or block-diagonal forms for $q(U)$, discarding cross-group correlations even when the prior couples groups strongly. Variational nearest-neighbor GPs (VNNGPs) lower computational cost by conditioning on spatial neighborhoods, yet they encode dependence solely through Euclidean distance and therefore fail to leverage biological relationships such as developmental trajectories or treatment/control pairings. Separable MGGP kernels exacerbate the problem by forcing every group to share an identical spatial correlation envelope, leading to oversmoothed posteriors and poor handling of sharp group-specific differences. These limitations motivate the new kernel and inference techniques developed below.
-
+\subsection{Variational Free Energy Gaussian Processes}
+\label{sec:vfe-background}
+Classical sparse variational GP formulations frequently assume diagonal or block-diagonal forms for $q(U)$, discarding cross-group correlations even when the prior couples groups strongly. Variational nearest-neighbor GPs (VNNGPs) lower computational cost by conditioning on spatial neighborhoods, yet they encode dependence solely through Euclidean distance and therefore fail to leverage biological relationships such as developmental trajectories or treatment/control pairings. Separable MGGP kernels exacerbate the problem by forcing every group to share an identical spatial correlation envelope, leading to oversmoothed posteriors and poor handling of sharp group-specific differences. These limitations motivate the kernel and inference techniques developed in Chapter~\ref{chap:variational-mggp}, so here we summarize the variational free-energy machinery that underpins those methods.
 
 \subsubsection{Scaling Variational MGGPs}
-
 While the MGGP variational framework enables stable training for our NSF model, in practice we are constrained by memory and can only use on the order of \(M{=}3{,}000\) inducing points during training—similar to the original NSF memory profile \cite{Townes2023-it}. 
 
 \subsubsection*{Variational Nearest Neighbor Gaussian Processes}
@@ -202,6 +144,80 @@ With \(q(u)=\mathcal{N}(m_u,S_u)\) and the GP prior \(p(u)=\mathcal{N}(0,K_{uu})
 \end{align}
 where $M=\dim(u)$.
 This term is exact and independent of the data \(y\).
+
+\subsection{Stochastic Variational Gaussian Processes}
+
+VFE-GPs provide a tractable solution to the ELBO in Gaussian Processes when the likelihood is also Gaussian. The ELBO can be computed in closed form, allowing for efficient optimization of the variational parameters. However, when the likelihood is non-Gaussian, the expected log-likelihood term in the ELBO becomes intractable. 
+
+
+\subsection{Variational Nearest Neighbor Gaussian Prcesses}
+Variational Nearest-Neighbor GPs (VNNGPs) \cite{Wu2022-fd} further reduce complexity by conditioning each point on a local neighborhood of $K$ nearest neighbors, achieving near-linear scaling in $N$. VNNGPs preserve excellent accuracy for single-group spatial data but rely exclusively on spatial proximity to define dependencies, ignoring structured relationships between biological groups. This motivates the development of new kernels and inference techniques that can capture both spatial and group-level structure, as described in Chapter~\ref{chap:variational-mggp}.
+Scalable GP inference introduces inducing variables $U$ at inducing inputs $Z$ to summarize the latent function while keeping $|Z| = M \ll N$. Variational sparse GPs posit a tractable posterior $q(U)$ and optimize an evidence lower bound (ELBO) that balances data fit with a KL divergence to the GP prior, enabling stochastic updates and $\mathcal{O}(NM^{2})$ complexity \cite{Hensman2013-xr}. Variational Nearest-Neighbor GPs (VNNGPs) push this idea further by conditioning each point on a local neighborhood, reducing costs to near-linear in $N$ while preserving excellent accuracy for single-group spatial data. However, VNNGPs still rely exclusively on spatial proximity when deciding conditional dependencies and therefore ignore structured relationships between biological groups, a deficiency addressed in Chapter~\ref{chap:variational-mggp}.
+
+\section{Multi-Group Gaussian Processes}
+Spatial genomics experiments capture multiple related groups (cell types, tissue regions, disease states), requiring latent functions $f(x, c)$ that depend on spatial coordinates $x$ and group index $c$. Classical multi-group GP (MGGP) models employ separable kernels $k\big((x, c), (x', c')\big) = k_{\text{space}}(x, x')\,k_{\text{group}}(c, c')$, often choosing RBF kernels for both factors. Separable RBF kernels share the same spatial correlation envelope across groups, which oversmooths sharp group-specific boundaries and fails to capture heterogeneous spatial roughness. Spatial transcriptomics demands finer control over smoothness; Matérn kernels provide explicit parameters for roughness ($\nu$) and length scales ($\ell$), motivating the non-separable Matérn MGGP kernel introduced in Chapter~\ref{chap:variational-mggp}. That kernel decouples spatial smoothness from cross-group similarity, enabling credible uncertainty estimates even when groups exhibit distinct spatial signatures.
+
+\chapter{Variational Inference for Multi-Group Gaussian Processes}\label{chap:variational-mggp}
+
+\section{Stochastic Variational Multigroup Gaussian Processes}
+
+In order to perform inference using Multigroup Gaussian Processes, we first need to build a variational strategy for such Gaussian Processes for any non-gaussian likelihood.
+We follow similar strategies of previous stochastic variational Gaussian processes methods (SVGP) \cite{Hensman2013-xr,Salimbeni2017-ds,Townes2023-it}.
+
+We start by defining the Gaussian Process distribution over $F$ with inputs $X$ and groups $C_X$.
+\[p(F |X, C_{X}; \theta) = \mathcal{MGGP}(F \mid 0, K((X, C_{X}), (X, C_{X}))) \]
+
+And the distribution over data $Y$ as the marginal over distribution $F$.
+\[p(Y|X, C_{X}; \theta) = \int{p(Y|F) p(F|X, C_{X}; \theta) dF} \]
+
+We can define this Gaussian Process as the marginalization over the inducing point distribution of $U$.
+\[p(F|X, C_{X}; \theta) = \int{p(F|U, X, C_{X}, Z, C_{z}; \theta) p(U|Z, C_{z};\theta) dU}\]
+
+This distribution over $U$ is also a Multigroup Gaussian Process, with inducing inputs $Z$ and inducing groups $C_Z$. 
+For our implementation, we chose inducing points $Z$ from the distribution of inputs in a given group.
+
+\[ p(U|Z, C_{Z};\theta) = \mathcal{MGGP}(U \mid 0, K((Z, C_{Z}), (Z, C_{Z})))\]
+
+The log marginal then becomes the following:
+
+\[p(Y|X, C_{X}; \theta) = \int{p(Y|F) p(F|U, X, C_{X}, Z, C_{Z}; \theta) p(U|Z, C_{Z};\theta) dU  dF}\]
+
+We add variational distributions $q(F, U)$.
+\[\log p(Y|X, C_{X}; \theta) = \log \int{ \frac{p(Y|F) p(F|U, X, C_{X}, Z, C_{Z}; \theta) p(U|Z, C_{Z};\theta)}{q(F, U)} q(F, U) dU  dF}\]
+
+Apply Jensen's Inequality and we obtain the Evidence Lower Bound (ELBO).
+
+\[\log p(Y|X, C_{X}; \theta) \ge  \int{ \log \frac{p(Y|F) p(F|U, X, C_{X}, Z, C_{Z}; \theta) p(U|Z, C_{Z};\theta)}{q(F, U)} q(F, U) dU  dF}\]
+
+We set $q(F|U)=p(F|U)$ \cite{Hensman2013-xr}.
+
+\[q(F, U) = p(F|U, X, C_{X}, Z, C_{Z}; \theta) q(U) \]
+
+This simplifies the ELBO.
+
+\[\log p(Y|X, C_{X}; \theta) \ge  \int{ \log \frac{p(Y|F) p(U|Z, C_{Z};\theta)}{q(U)} q(F, U) dU  dF}\]
+
+\[\log p(Y|X, C_{X}; \theta) \ge  \int{ \log p(Y|F) q(F)} - KL(q(U) ||p(U|Z, C_{Z};\theta))\]
+
+The first Expectation term can be approximated using Monte Carlo sampling if the likelihood is non-Gaussian.
+
+\[\int{\log{p(Y|F)} q(F)dF} \approx \frac{1}{S} \sum^{S}_{s}[\log{p(Y|F_s)}]\]
+
+Where:
+
+\[F_s \sim q(F)\]
+
+Since the variational posterior depend only on the correspoding inputs $(X_i, C_i)$ \cite{Salimbeni2017-ds}.
+
+It allow us to perform inference of $q(F)$ over new combinations of $X$ and $C_X$.
+
+\[q(F| X, C_{X}; \theta) = \int p(F|U, X, C_{X}, Z, C_{Z}; \theta) q(U) dU \]
+\[q(F| X_{new}, C_{X_{new}}; \theta) = \int p(F|U, X_{new}, C_{X_{new}}, Z, C_{Z}; \theta) q(U) dU \]
+
+\section{Limitations of Existing Approaches}
+Section~\ref{sec:vfe-background} establishes the SVGP evidence lower bound, the closed-form moment expressions, and the VNNGP precision approximation that we build upon in this chapter. We now focus on how those ingredients behave in multi-group models under the simplifying choice $X=Z$, which allows the ELBO to be written entirely in terms of the variational parameters.
+
+Taking $X=Z$ foregrounds the tension between the trace penalties in the likelihood term and the structural assumptions placed on $S_u$ (e.g., diagonal vs.\ full-rank covariances). The following analysis recalls the expressions from Section~\ref{sec:vfe-background} and uses them to diagnose where diagonal variational forms and jittered kernels collapse uncertainty in MGGP settings.
 
 \subsubsection{Effect of $X=Z$ and diagonal vs.\ full $S_u$ on the ELBO}
 
@@ -340,11 +356,90 @@ This works well for standard kernels on 1D inputs (near-banded precisions; Fig.~
 Their variational strategy, reduces to an SVGP with diagonal \(S_u\), leading to underestimated posterior variances  (see Appendix). For our method, it is important to also approximate the non-diagonal variance of the inducing distribution, which pertains to "cell-to-cell" variance, and for MGGP it also captures "group-to-group" variance. 
 
 \section{Derivation of the Non-Separable Matérn MGGP Kernel}
-We embed group relationships directly into the spatial covariance through a kernel of the form
+We embed group relationships directly into the spatial covariance with a Matérn form that depends jointly on spatial and inter-group distances. Let $x,x'\in\mathbb{R}^p$ denote spatial coordinates, $c_i,c_j$ group labels, $d_{ij}$ a graph-based group distance, and $a\ge 0$ a scale governing how strongly group separation modulates spatial smoothness. The multigroup Matérn kernel is
+\begin{align}
+K\!\left((x, c_i), (x', c_j)\right)
+&=
+\frac{\sigma^2}{\big(a^2 d_{ij}^2 + 1\big)^{\,\nu+\frac{p}{2}}}
+\times
+\frac{2^{\,1-\nu}}{\Gamma(\nu)}
+\times
+\left(
+\frac{\sqrt{2\nu}\, \|x - x'\|}{\ell\,\sqrt{a^2 d_{ij}^2 + 1}}
+\right)^{\!\nu}
+K_{\nu}\!\left(
+\frac{\sqrt{2\nu}\, \|x - x'\|}{\ell\,\sqrt{a^2 d_{ij}^2 + 1}}
+\right),
+\label{eq:mggp_matern_kernel}
+\end{align}
+where $\ell$ and $\sigma^2$ are the base spatial length scale and marginal variance, $\nu$ controls smoothness, and $K_\nu(\cdot)$ is a modified Bessel function of the second kind. The denominator penalizes cross-group pairs in proportion to $d_{ij}$, shrinking both the signal variance and the effective length scale when groups differ. Setting $a=0$ (all groups identical) recovers the usual Matérn kernel, whereas increasing $a$ enlarges cross-group distances and attenuates correlation between dissimilar groups.
+
+\subsection{Reduction to the Standard Matérn}
+When $a = 0$ the $(1+a^2 d_{ij}^2)$ factors equal $1$ for all $i,j$, yielding
+\begin{equation}
+K((x, c_i), (x', c_i)) 
+= \sigma^2 \frac{2^{1-\nu}}{\Gamma(\nu)}
+\left(\frac{\sqrt{2\nu}\, \|x - x'\|}{\ell}\right)^{\!\nu}
+K_{\nu}\!\left(\frac{\sqrt{2\nu}\, \|x - x'\|}{\ell}\right),
+\end{equation}
+the canonical Matérn kernel with global parameters $(\sigma^2,\ell,\nu)$. Thus the MGGP construction is a strict generalization that defaults to the single-group Matérn when inter-group structure is absent.
+
+\subsection{Closed-Form Special Cases}
+Let $r=\|x-x'\|$. For the commonly used half-integer smoothness values the Bessel term simplifies to polynomials in $r$ times exponentials, giving:
+\subsubsection*{$\nu=\tfrac12$}
 \[
-k\big((x, c), (x', c')\big) = k_{\text{Matérn}}\big(x, x'; \nu_c, \ell_c, \sigma_c\big)\,\Gamma_{cc'},
+K\!\left((x,c_i),(x',c_j)\right)
+=
+\sigma^{2}\,
+\frac{1}{\big(1 + a^{2} d_{ij}^{2}\big)^{\frac{1}{2}+\frac{p}{2}}}
+\exp\!\left(
+-\,\frac{r}{\ell\,\sqrt{\,1 + a^{2} d_{ij}^{2}\,}}
+\right).
 \]
-where the Matérn parameters $(\nu_c, \ell_c, \sigma_c)$ may vary across groups and $\Gamma$ is a positive-definite group covariance matrix derived from similarity graphs or estimated jointly with $\theta$. This non-separable construction allows each group to control its own spatial roughness and length scales while sharing information via $\Gamma$. Positive definiteness follows from the complete monotonicity of the Matérn kernel together with the constraint $\Gamma \succeq 0$; Appendix~\ref{app:kernel-proof} provides the proof. When $\nu_c \rightarrow \infty$ and $\Gamma$ is rank one the kernel reduces to the separable RBF formulation, showing that it strictly generalizes prior MGGP kernels.
+\subsubsection*{$\nu=\tfrac32$}
+\[
+K\!\left((x,c_i),(x',c_j)\right)
+=
+\sigma^{2}\,
+\frac{1}{\big(1 + a^{2} d_{ij}^{2}\big)^{\frac{3}{2}+\frac{p}{2}}}
+\left(
+1 + \frac{\sqrt{3}\, r}{\ell\,\sqrt{\,1 + a^{2} d_{ij}^{2}\,}}
+\right)
+\exp\!\left(
+-\,\frac{\sqrt{3}\, r}{\ell\,\sqrt{\,1 + a^{2} d_{ij}^{2}\,}}
+\right).
+\]
+\subsubsection*{$\nu=\tfrac52$}
+\[
+K\!\left((x,c_i),(x',c_j)\right)
+=
+\sigma^{2}\,
+\frac{1}{\big(1 + a^{2} d_{ij}^{2}\big)^{\frac{5}{2}+\frac{p}{2}}}
+\left(
+1 + \frac{\sqrt{5}\, r}{\ell\,\sqrt{\,1 + a^{2} d_{ij}^{2}\,}}
++ \frac{5\, r^{2}}{3\,\ell^{2}\,\big(1 + a^{2} d_{ij}^{2}\big)}
+\right)
+\exp\!\left(
+-\,\frac{\sqrt{5}\, r}{\ell\,\sqrt{\,1 + a^{2} d_{ij}^{2}\,}}
+\right).
+\]
+These closed forms make it straightforward to evaluate gradients of $\ell$, $\sigma$, $a$, or $\nu$ without resorting to special-function libraries.
+
+\subsection{Positive Definiteness}
+Let $\alpha=\nu+\tfrac{p}{2}$, $\lambda=\sqrt{2\nu}/\ell$, and write the kernel spectrum via Bochner’s theorem as $K\big((x,c_i),(x',c_j)\big)=\int_{\mathbb{R}^p} e^{i\omega^\top(x-x')}\,S_{ij}(\omega)\,d\omega$. Equation~\eqref{eq:mggp_matern_kernel} yields spectral matrices of the form
+\[
+S_{ij}(\omega)
+= \sigma^2 C_{\nu,p}\;
+(1+a^2 d_{ij}^2)^{-\alpha}
+\Big(\,\|\omega\|^2+\frac{\lambda^2}{1+a^2 d_{ij}^2}\Big)^{-\alpha}
+=:~\Phi_\omega(a^2 d_{ij}^2),
+\]
+with $C_{\nu,p}$ collecting constants independent of $i,j$. For each fixed $\omega$, it suffices to show that the matrix $[\Phi_\omega(a^2 d_{ij}^2)]_{ij}$ is positive semidefinite. Noting the identity
+\[
+(1+t)^{-\alpha}\Big(\|\omega\|^2+\frac{\lambda^2}{1+t}\Big)^{-\alpha}
+=\big(\|\omega\|^2(1+t)+\lambda^2\big)^{-\alpha},
+\]
+and the fact that $x\mapsto x^{-\alpha}$ is completely monotone on $(0,\infty)$ for $\alpha>0$, we see that $\Phi_\omega(t)$ is completely monotone on $[0,\infty)$. Schoenberg’s theorem then implies $[\Phi_\omega(a^2 d_{ij}^2)]_{ij}\succeq 0$ for every $\omega$, and Bochner’s theorem guarantees that the spatial kernel in Eq.~\eqref{eq:mggp_matern_kernel} is positive definite for any nonnegative group distance matrix $[d_{ij}]$. When $\nu\rightarrow\infty$ and $a=0$ the kernel collapses to the separable RBF form, demonstrating that this MGGP Matérn strictly generalizes prior constructions while retaining probabilistic validity.
 
 \section{Locally Conditioned KL Approximation}\label{subsec:lc-kl}
 
@@ -791,11 +886,11 @@ K_{xx} + K_{xz}K_{zz}^{-1}(S-K_{zz})K_{zz}^{-1}K_{zx}
 \end{align}
 Setting \(S=K_{zz}\) and \(m_u=\mu_u\) recovers the original prior \(p(f)=\mathcal{N}(f\mid \mu_f, K_{xx})\), confirming consistency.
 
-These identities underpin the localized VNNGP conditionals used throughout Chapter~\ref{<your-chapter-label>}.
 
 
 
-These identities underpin the localized VNNGP conditionals used throughout Chapter~\ref{chap:variational-mggp}.
+
+
 \bibliographystyle{plain}
 \bibliography{references}
 \end{document}
